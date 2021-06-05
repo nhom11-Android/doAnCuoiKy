@@ -26,7 +26,7 @@
             android:padding="5dp">
 
             <TextView
-                android:id="@+id/tv_timer"
+                android:id="@+id/tvTimer_Player"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -44,15 +44,15 @@
                 android:indeterminateDrawable="@drawable/progressbar_time" />
 
             <ImageView
-                android:id="@+id/iv_money"
+                android:id="@+id/ivMoney"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/tv_money"
+                android:layout_toLeftOf="@+id/tvMoney"
                 android:src="@drawable/img_money" />
 
             <TextView
-                android:id="@+id/tv_money"
+                android:id="@+id/tvMoney"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -64,7 +64,7 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/iv_player"
+                android:id="@+id/ivPlayer_Player"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@drawable/ic_no_avatar"
@@ -80,31 +80,35 @@
             android:gravity="center">
 
             <ImageButton
-                android:id="@+id/btn_stop"
+                android:id="@+id/imbtnStop_Player"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="16dp"
                 android:layout_weight="1"
-                android:background="@drawable/btn_stop_bg" />
+                android:background="@drawable/btn_stop_bg"
+                android:onClick="stopGame"/>
 
             <ImageButton
-                android:id="@+id/btn_change"
+                android:id="@+id/imbtnChange_Player"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="16dp"
                 android:layout_weight="1"
-                android:background="@drawable/btn_change_bg" />
+                android:background="@drawable/btn_change_bg"
+                android:onClick="doiCauHoi"
+                />
 
             <ImageButton
-                android:id="@+id/btn_5050"
+                android:id="@+id/imbtn5050_Player"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="16dp"
                 android:layout_weight="1"
-                android:background="@drawable/btn_5050_bg" />
+                android:background="@drawable/btn_5050_bg"
+                android:onClick=""/>
 
             <ImageButton
-                android:id="@+id/btn_audience"
+                android:id="@+id/imbtnAudience_Player"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="16dp"
@@ -112,7 +116,7 @@
                 android:background="@drawable/btn_audience_bg" />
 
             <ImageButton
-                android:id="@+id/btn_call"
+                android:id="@+id/imbtnCall_Player"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="16dp"
@@ -120,47 +124,56 @@
                 android:background="@drawable/btn_call_bg" />
         </TableRow>
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3">
+            android:layout_height="230dp"
+            android:orientation="vertical"
+            android:background="@drawable/player_question_background">
 
             <TextView
-                android:id="@+id/tv_question"
-                android:layout_width="match_parent"
-                android:layout_height="182dp"
-                android:background="@drawable/player_question_background"
-                android:gravity="center"
-                android:padding="20dp"
-                android:text="Hôm nay là thứ mấy ?"
-                android:textColor="@android:color/holo_orange_light"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_level"
+                android:id="@+id/tvLevel_Player"
                 android:layout_width="240dp"
                 android:layout_height="36dp"
                 android:layout_gravity="center|top"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/player_order_question"
                 android:gravity="center"
                 android:text="Câu 1"
                 android:textColor="#9C27B0"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-        </FrameLayout>
 
-        <LinearLayout
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="30dp">
+                <TextView
+                    android:id="@+id/tvQuestion_Player"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@android:color/holo_orange_light"
+                    android:textSize="17dp"
+                    android:textStyle="bold" />
+            </ScrollView>
+        </LinearLayout>
+
+        <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="4"
             android:gravity="center"
             android:orientation="vertical"
+            android:layout_marginTop="30dp"
             android:paddingBottom="72dp"
             android:paddingLeft="32dp"
             android:paddingRight="32dp">
 
-            <TextView
-                android:id="@+id/tv_case_a"
+            <RadioButton
+                android:id="@+id/tvCaseA_Player"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -168,10 +181,11 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="58dp"
                 android:text="A: Thứ hai"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:button="@null"/>
 
-            <TextView
-                android:id="@+id/tv_case_b"
+            <RadioButton
+                android:id="@+id/tvCaseB_Player"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -179,10 +193,11 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="58dp"
                 android:text="B: Thứ sáu"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:button="@null"/>
 
-            <TextView
-                android:id="@+id/tv_case_c"
+            <RadioButton
+                android:id="@+id/tvCaseC_Player"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -190,10 +205,11 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="58dp"
                 android:text="C: Thứ tư"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:button="@null" />
 
-            <TextView
-                android:id="@+id/tv_case_d"
+            <RadioButton
+                android:id="@+id/tvCaseD_Player"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -201,8 +217,9 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="58dp"
                 android:text="D: Thứ ba"
-                android:textColor="#ffffff" />
-        </LinearLayout>
+                android:textColor="#ffffff"
+                android:button="@null"/>
+        </RadioGroup>
 
     </LinearLayout>
     <include layout="@layout/activity_player_layout_money"
