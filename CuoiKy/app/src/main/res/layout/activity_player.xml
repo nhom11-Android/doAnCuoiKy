@@ -173,7 +173,7 @@
             android:paddingRight="32dp">
 
             <RadioButton
-                android:id="@+id/tvCaseA_Player"
+                android:id="@+id/rbCaseA_Player"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -185,7 +185,7 @@
                 android:button="@null"/>
 
             <RadioButton
-                android:id="@+id/tvCaseB_Player"
+                android:id="@+id/rbCaseB_Player"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -197,7 +197,7 @@
                 android:button="@null"/>
 
             <RadioButton
-                android:id="@+id/tvCaseC_Player"
+                android:id="@+id/rbCaseC_Player"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -209,7 +209,7 @@
                 android:button="@null" />
 
             <RadioButton
-                android:id="@+id/tvCaseD_Player"
+                android:id="@+id/rbCaseD_Player"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"

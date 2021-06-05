@@ -5,25 +5,25 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import CSDL_bean.CauHoi;
 
 public class Player extends AppCompatActivity {
     ImageButton stopImbtn, changeImbtn, namMuoiImbtn, audienceImbtn, callImbtn;
     TextView timerTv, questionTv, levelTv;
+    RadioButton caseARb, caseBRb, caseCRb, caseDRb;
     ArrayList<CauHoi> danhSachCauHoi;
     int index;
     CountDownTimer cTimer = null;
@@ -37,7 +37,7 @@ public class Player extends AppCompatActivity {
     }
 
     private void setControl() {
-        // cài đặt tiêu đề cho action bar
+        // ẩn action bar
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
@@ -49,6 +49,10 @@ public class Player extends AppCompatActivity {
         timerTv = findViewById(R.id.tvTimer_Player);
         questionTv = findViewById(R.id.tvQuestion_Player);
         levelTv = findViewById(R.id.tvLevel_Player);
+        caseARb = findViewById(R.id.rbCaseA_Player);
+        caseBRb = findViewById(R.id.rbCaseB_Player);
+        caseCRb = findViewById(R.id.rbCaseC_Player);
+        caseDRb = findViewById(R.id.rbCaseD_Player);
 
         danhSachCauHoi = new ArrayList<>();
         database = new CSDLAilatrieuphu(this);
@@ -96,9 +100,48 @@ public class Player extends AppCompatActivity {
                 startTimer();
             }
         });
+
+        namMuoiImbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // lấy đáp án đúng và một câu hỏi bất kỳ
+                CauHoi c = danhSachCauHoi.get(index);
+//                int dapAnDung = -1;
+                int dapAnDung = 1;
+//                String tmp = c.getDapAnDung();
+//                if (tmp.equals("A")){
+//                    dapAnDung = 0;
+//                }
+//                else if(tmp.equals("B")){
+//                    dapAnDung = 1;
+//                }
+//                else if(tmp.equals("C")){
+//                    dapAnDung = 2;
+//                }
+//                else {
+//                    dapAnDung = 3;
+//                }
+
+                int random = -1;
+                Random rand = new Random();
+                do {
+                    random = rand.nextInt(4);
+
+                }while(random == dapAnDung);
+
+                //Hiển thị đáp án đúng và 1 đáp án ngẫu nhiên.
+                namMuoiImbtn.setVisibility(View.INVISIBLE);
+                caseARb.setVisibility(View.INVISIBLE);
+                caseBRb.setVisibility(View.INVISIBLE);
+                caseCRb.setVisibility(View.INVISIBLE);
+                caseDRb.setVisibility(View.INVISIBLE);
+                troGiupDapAn(dapAnDung);
+                troGiupDapAn(random);
+            }
+        });
+
 //        getQuestions();
 //        hienThiCauHoi(index);
-
     }
 
     private void getQuestions() {
@@ -112,15 +155,29 @@ public class Player extends AppCompatActivity {
 
     }
 
-    private void hienThiCauHoi(int index) {
-        // lấy câu hỏi tại vị trí index
-        CauHoi c = danhSachCauHoi.get(index);
-        questionTv.setText(c.getNoiDung());
-        String[] dapAn = c.getDapAn();
-//        caseATv.setText(dapAn[0]);
-//        caseBTv.setText(dapAn[1]);
-//        caseCTv.setText(dapAn[2]);
-//        caseDTv.setText(dapAn[3]);
+    private int hienThiCauHoi(int index) {
+        /**
+         * hiển thị câu hỏi và các đáp án tại vị trí index
+         *
+         * @return 0 nếu không có lỗi.
+         */
+        try {
+            CauHoi c = danhSachCauHoi.get(index);
+            questionTv.setText(c.getNoiDung());
+            String[] dapAn = c.getDapAn();
+//            caseATv.setText(dapAn[0]);
+//            caseBTv.setText(dapAn[1]);
+//            caseCTv.setText(dapAn[2]);
+//            caseDTv.setText(dapAn[3]);
+            caseARb.setVisibility(View.VISIBLE);
+            caseBRb.setVisibility(View.VISIBLE);
+            caseCRb.setVisibility(View.VISIBLE);
+            caseDRb.setVisibility(View.VISIBLE);
+            return 0;
+        }
+        catch (Exception e){
+            return -1;
+        }
     }
 
     //start timer function
@@ -172,7 +229,6 @@ public class Player extends AppCompatActivity {
     private int ketThucLuotChoi(){
         /**
          * kết thức lượt chơi hiện tại. Hiển thị dialog, thông báo số câu trả lời đúng.
-         *
          */
         try{
             LayoutInflater layoutInflater = LayoutInflater.from(this);
@@ -206,6 +262,32 @@ public class Player extends AppCompatActivity {
             AlertDialog alertDialog = alertDialogBuilder.create(); // tạo dialog từ dialog builder
             alertDialog.show();//show diaglo
             return 0;
+        }
+        catch (Exception e){
+            return -1;
+        }
+    }
+
+    private int troGiupDapAn(int pos){
+        /**
+         *  Hiển thị đáp án A,B,C, D tương ứng với giá trị 0, 1, 2, 3
+         */
+        try{
+            switch (pos){
+                case 0:
+                    caseARb.setVisibility(View.VISIBLE);
+                    break;
+                case 1:
+                    caseBRb.setVisibility(View.VISIBLE);
+                    break;
+                case 2:
+                    caseCRb.setVisibility(View.VISIBLE);
+                    break;
+                case 3:
+                    caseDRb.setVisibility(View.VISIBLE);
+                    break;
+            }
+            return  0;
         }
         catch (Exception e){
             return -1;
