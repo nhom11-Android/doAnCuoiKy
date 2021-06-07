@@ -1,5 +1,11 @@
 package CSDL_bean;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
+import java.util.Objects;
+
 public class CauHoi {
     int id;
     String noiDung;
@@ -74,4 +80,17 @@ public class CauHoi {
     public void setDoKho(int doKho) {
         this.doKho = doKho;
     }
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (!(o instanceof CauHoi)) return false;
+//        CauHoi cauHoi = (CauHoi) o;
+//        return getId() == cauHoi.getId();
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(getId());
+//    }
 }
