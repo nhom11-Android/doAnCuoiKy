@@ -28,4 +28,8 @@ public class CauHoiDAO {
         if (newRowId == -1) return -1;
         return 0;
     }
+    public static CauHoi layCauHoi(int doKho){
+        String sql = "select * from "+ CauHoi.tenBang + " where " +CauHoi.cotDoKho+ "="+ String.valueOf(doKho)+" order by random() limit 1;";
+
+    }
 }
