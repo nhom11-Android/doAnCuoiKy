@@ -56,8 +56,8 @@ public class CauHoiDAO {
         for(int i=0;i<6;i++){
             CauHoi cauHoi = layCauHoi(1, dbHelper);
             if(cauHoi!=null){
-                for(CauHoi c:dsCauHoi){
-                    if(c.getId() != cauHoi.getId()){
+                for(int m_idx=0;m_idx<6;m_idx++){
+                    if(dsCauHoi.get(m_idx).getId() != cauHoi.getId()){
                         dsCauHoi.add(cauHoi);
                     }
                 }
@@ -67,8 +67,8 @@ public class CauHoiDAO {
         for(int i=0;i<6;i++){
             CauHoi cauHoi = layCauHoi(2, dbHelper);
             if(cauHoi!=null){
-                for(CauHoi c:dsCauHoi){
-                    if(c.getId() != cauHoi.getId()){
+                for(int m_idx=6;m_idx<12;m_idx++){
+                    if(dsCauHoi.get(m_idx).getId() != cauHoi.getId()){
                         dsCauHoi.add(cauHoi);
                     }
                 }
@@ -78,8 +78,8 @@ public class CauHoiDAO {
         for(int i=0;i<6;i++){
             CauHoi cauHoi = layCauHoi(3,dbHelper);
             if(cauHoi!=null){
-                for(CauHoi c:dsCauHoi){
-                    if(c.getId() != cauHoi.getId()){
+                for(int m_idx=12;m_idx<18;m_idx++){
+                    if(dsCauHoi.get(m_idx).getId() != cauHoi.getId()){
                         dsCauHoi.add(cauHoi);
                     }
                 }
