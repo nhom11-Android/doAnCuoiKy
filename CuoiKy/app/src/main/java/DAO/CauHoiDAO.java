@@ -12,7 +12,7 @@ import CSDL_bean.User;
 
 public class CauHoiDAO {
     /**
-     * @param cauHoi : đối tượng câu hỏi mới
+     * @param cauHoi   : đối tượng câu hỏi mới
      * @param dbHelper : đối tượng CSDLAilatrieuphu
      * @return -1 nếu thất bại, 0 nếu thành công
      */
@@ -31,12 +31,13 @@ public class CauHoiDAO {
         if (newRowId == -1) return -1;
         return 0;
     }
-    public static CauHoi layCauHoi(int doKho, SQLiteOpenHelper dbHelper){
-        CauHoi cauHoi=null;
-        String sql = "select * from "+ CauHoi.tenBang + " where " +CauHoi.cotDoKho+ "="+ String.valueOf(doKho)+" order by random() limit 1;";
+
+    public static CauHoi layCauHoi(int doKho, SQLiteOpenHelper dbHelper) {
+        CauHoi cauHoi = null;
+        String sql = "select * from " + CauHoi.tenBang + " where " + CauHoi.cotDoKho + "=" + String.valueOf(doKho) + " order by random() limit 1;";
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
-        if(cursor.moveToNext()){
+        if (cursor.moveToNext()) {
             int id = cursor.getInt(cursor.getColumnIndex(CauHoi.cotId));
             String noidung = cursor.getString(cursor.getColumnIndex(CauHoi.cotNoiDung));
             String dapana = cursor.getString(cursor.getColumnIndex(CauHoi.cotDapAnA));
@@ -45,45 +46,71 @@ public class CauHoiDAO {
             String dapand = cursor.getString(cursor.getColumnIndex(CauHoi.cotDapAnD));
             String dapandung = cursor.getString(cursor.getColumnIndex(CauHoi.cotDapAnDung));
             String chuyennganh = cursor.getString(cursor.getColumnIndex(CauHoi.cotChuyenNganh));
-            cauHoi = new CauHoi(noidung, new String[]{dapana, dapanb, dapanc, dapand},dapandung,chuyennganh,doKho);
+            cauHoi = new CauHoi(noidung, new String[]{dapana, dapanb, dapanc, dapand}, dapandung, chuyennganh, doKho);
             cauHoi.setId(id);
         }
         return cauHoi;
     }
-    public static ArrayList<CauHoi> layBoCauHoi(SQLiteOpenHelper dbHelper){
+
+    public static ArrayList<CauHoi> layBoCauHoi(SQLiteOpenHelper dbHelper) {
         ArrayList<CauHoi> dsCauHoi = new ArrayList<>();
         //6 cau de
-        for(int i=0;i<6;i++){
+        int count = 0;
+        while (count <= 5) { // lấy 6 câu đầu
             CauHoi cauHoi = layCauHoi(1, dbHelper);
-            if(cauHoi!=null){
-                for(int m_idx=0;m_idx<6;m_idx++){
-                    if(dsCauHoi.get(m_idx).getId() != cauHoi.getId()){
-                        dsCauHoi.add(cauHoi);
+            if (cauHoi != null) { // nếu null count không tăng
+                boolean check = true;
+                for (CauHoi i : dsCauHoi) {
+                    if (i.getId() == cauHoi.getId()) {
+                        check = false;
+                        break;
                     }
                 }
+                if (check == true) {
+                    // count chỉ tăng TH id không trùng
+                    dsCauHoi.add(cauHoi);
+                    count++;
+                }
             }
+            // chỉ thoát vòng lặp khi count đủ
         }
-        //6 cau trung binh
-        for(int i=0;i<6;i++){
+        //6 cau trung binh , count hiện tại = 5
+        while (count <= 11) {
             CauHoi cauHoi = layCauHoi(2, dbHelper);
-            if(cauHoi!=null){
-                for(int m_idx=6;m_idx<12;m_idx++){
-                    if(dsCauHoi.get(m_idx).getId() != cauHoi.getId()){
-                        dsCauHoi.add(cauHoi);
+            if (cauHoi != null) { // nếu null count không tăng
+                boolean check = true;
+                for (CauHoi i : dsCauHoi) {
+                    if (i.getId() == cauHoi.getId()) {
+                        check = false;
+                        break;
                     }
                 }
+                if (check == true) {
+                    // count chỉ tăng TH id không trùng
+                    dsCauHoi.add(cauHoi);
+                    count++;
+                }
             }
+            // chỉ thoát vòng lặp khi count đủ
         }
         //6 cau kho
-        for(int i=0;i<6;i++){
-            CauHoi cauHoi = layCauHoi(3,dbHelper);
-            if(cauHoi!=null){
-                for(int m_idx=12;m_idx<18;m_idx++){
-                    if(dsCauHoi.get(m_idx).getId() != cauHoi.getId()){
-                        dsCauHoi.add(cauHoi);
+        while (count <= 17) {
+            CauHoi cauHoi = layCauHoi(3, dbHelper);
+            if (cauHoi != null) { // nếu null count không tăng
+                boolean check = true;
+                for (CauHoi i : dsCauHoi) {
+                    if (i.getId() == cauHoi.getId()) {
+                        check = false;
+                        break;
                     }
                 }
+                if (check == true) {
+                    // count chỉ tăng TH id không trùng
+                    dsCauHoi.add(cauHoi);
+                    count++;
+                }
             }
+            // chỉ thoát vòng lặp khi count đủ
         }
         return dsCauHoi;
     }
