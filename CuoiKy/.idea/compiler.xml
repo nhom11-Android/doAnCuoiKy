@@ -2,10 +2,14 @@
 <project version="4">
   <component name="CompilerConfiguration">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <bytecodeTargetLevel target="1.8" />
 <!--    <bytecodeTargetLevel target="14" />-->
 =======
     <bytecodeTargetLevel target="11" />
+>>>>>>> main
+=======
+    <bytecodeTargetLevel target="14" />
 >>>>>>> main
   </component>
 </project>
