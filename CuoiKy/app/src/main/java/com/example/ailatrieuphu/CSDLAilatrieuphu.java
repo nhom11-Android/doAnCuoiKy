@@ -35,7 +35,6 @@ public class CSDLAilatrieuphu extends SQLiteOpenHelper {
                         "%s TEXT," +
                         "%s TEXT," +
                         "%s TEXT," +
-                        "%s TEXT," +
                         "%s integer)",
                 CauHoi.tenBang,
                 CauHoi.cotId,
