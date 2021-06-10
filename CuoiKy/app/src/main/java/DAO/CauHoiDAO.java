@@ -49,6 +49,7 @@ public class CauHoiDAO {
             cauHoi = new CauHoi(noidung, new String[]{dapana, dapanb, dapanc, dapand}, dapandung, chuyennganh, doKho);
             cauHoi.setId(id);
         }
+        cursor.close();
         return cauHoi;
     }
 
@@ -74,7 +75,7 @@ public class CauHoiDAO {
             }
             // chỉ thoát vòng lặp khi count đủ
         }
-        //6 cau trung binh , count hiện tại = 5
+        //6 cau trung binh , count hiện tại = 6
         while (count <= 11) {
             CauHoi cauHoi = layCauHoi(2, dbHelper);
             if (cauHoi != null) { // nếu null count không tăng
