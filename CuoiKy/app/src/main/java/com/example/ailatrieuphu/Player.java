@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -15,22 +16,28 @@ import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
+import CSDL_bean.BangXepHang;
 import CSDL_bean.CauHoi;
+import DAO.BangXepHangDAO;
 import DAO.CauHoiDAO;
 
 public class Player extends AppCompatActivity {
     ImageButton stopImbtn, changeImbtn, namMuoiImbtn, audienceImbtn, callImbtn;
-    TextView timerTv, questionTv, levelTv;
+    TextView timerTv, questionTv, levelTv, diemTv;
     RadioButton caseARb, caseBRb, caseCRb, caseDRb;
     RadioGroup danhSachDapAn;
     ArrayList<CauHoi> danhSachCauHoi;
-    int index, level = 1;
+    int index = 0, level = 1, diem = 0, diemTroGiup = 20;
+
     CountDownTimer cTimer = null;
     AlertDialog dialogA = null;
     long currentTime;
@@ -41,6 +48,7 @@ public class Player extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
         setControl();
+        setEvent();
     }
 
     @Override
@@ -65,6 +73,7 @@ public class Player extends AppCompatActivity {
         timerTv = findViewById(R.id.tvTimer_Player);
         questionTv = findViewById(R.id.tvQuestion_Player);
         levelTv = findViewById(R.id.tvLevel_Player);
+        diemTv = findViewById(R.id.tvDiem_Player);
         caseARb = findViewById(R.id.rbCaseA_Player);
         caseBRb = findViewById(R.id.rbCaseB_Player);
         caseCRb = findViewById(R.id.rbCaseC_Player);
@@ -73,8 +82,9 @@ public class Player extends AppCompatActivity {
 
         danhSachCauHoi = new ArrayList<>();
         database = new CSDLAilatrieuphu(this);
-        System.out.println("Tạo csdl");
+    }
 
+    private void setEvent() {
         stopImbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,6 +123,7 @@ public class Player extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 changeImbtn.setVisibility(View.INVISIBLE);
+                diemTroGiup -= 5;
                 index++;
                 hienThiCauHoi();
                 cancelTimer();
@@ -150,6 +161,7 @@ public class Player extends AppCompatActivity {
 
                 //Hiển thị đáp án đúng và 1 đáp án ngẫu nhiên.
                 namMuoiImbtn.setVisibility(View.INVISIBLE);
+                diemTroGiup -= 5;
                 caseARb.setVisibility(View.INVISIBLE);
                 caseBRb.setVisibility(View.INVISIBLE);
                 caseCRb.setVisibility(View.INVISIBLE);
@@ -159,9 +171,32 @@ public class Player extends AppCompatActivity {
             }
         });
 
+        audienceImbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                audienceImbtn.setVisibility(View.INVISIBLE);
+                diemTroGiup -= 5;
+                Intent intent = new Intent(Player.this, AudienceLayout.class);
+                intent.putExtra("idCauHoi", danhSachCauHoi.get(index).getId());
+                startActivity(intent);
+            }
+        });
+
+        callImbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callImbtn.setVisibility(View.INVISIBLE);
+                diemTroGiup -= 5;
+                Intent intent = new Intent(Player.this, AudienceLayout.class);
+                intent.putExtra("idCauHoi", danhSachCauHoi.get(index).getId());
+                startActivity(intent);
+            }
+        });
+
 //        getQuestions();
         try {
             Thread.sleep(1000);
+            diemTv.setText(String.valueOf(diem));
             hienThiCauHoi();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -186,7 +221,7 @@ public class Player extends AppCompatActivity {
         try {
             if (level <= 15) {
                 levelTv.setText(String.valueOf(level));
-//                CauHoi c = danhSachCauHoi.get(pos);
+//                CauHoi c = danhSachCauHoi.get(index);
 //                questionTv.setText(c.getNoiDung());
 //                String[] dapAn = c.getDapAn();
 //                caseATv.setText(dapAn[0]);
@@ -349,17 +384,20 @@ public class Player extends AppCompatActivity {
     private int kiemTraDapAn(RadioButton dapAnChon){
         /**
          *  Kiểm tra đáp án đã chọn có đúng không.
-         *  Nếu đúng, tăng index lên 1, gọi hàm hienThiCauHoi()
+         *  Nếu đúng, tăng level lên 1, kiểm tra level và chọn độ khó (index) phù hợp -> gọi hàm hienThiCauHoi()
          *  Ngược lại, kết thức lượt chơi, gọi hàm ketThucLuotChoi()
          *
          */
         cancelTimer();
+        int diem = Integer.parseInt(diemTv.getText().toString());
         try {
 //            CauHoi c = danhSachCauHoi.get(index);
 //            RadioButton dapAnDung = getDapAnDung(c.getDapAnDung());
             RadioButton dapAnDung = caseBRb;
             dapAnDung.setBackgroundResource(R.drawable.player_answer_background_true);
             if(dapAnChon.getId() == dapAnDung.getId()){
+//                diem += c.getDoKho();
+                diemTv.setText(String.valueOf(diem));
                 level++;
                 if(level == 6){
                     index = 6;
@@ -408,17 +446,25 @@ public class Player extends AppCompatActivity {
             alertDialogBuilder.setView(stopGameDialog); // set view tìm được cho dialog
             TextView tenCanhBao = stopGameDialog.findViewById(R.id.tieuDeTv_StopGameDialog); // lấy control các trường đã tạo trên dialog
             TextView noiDungCanhBao = stopGameDialog.findViewById(R.id.noiDungTv_StopGameDialog);
+            String msg = "";
+            diem += diemTroGiup;
             if (index <= 10){
                 tenCanhBao.setText("Cố gắng hơn nhé !!");
-                noiDungCanhBao.setText("Bạn trả lời đúng " + (index) +" câu.");
+                msg += "Bạn trả lời đúng " + (level - 1) +" câu.\n"
+                        + " Điểm " + diem;
+                noiDungCanhBao.setText(msg);
             }
             else if (index < 15){
                 tenCanhBao.setText("Xuất sắc !!");
-                noiDungCanhBao.setText("Bạn trả lời đúng " + (index) +" câu.");
+                msg += "Bạn trả lời đúng " + (level - 1) +" câu.\n"
+                        + " Điểm " + diem;
+                noiDungCanhBao.setText(msg);
             }
             else{
                 tenCanhBao.setText("Tuyệt vời !!!");
-                noiDungCanhBao.setText("Bạn trả lời đúng tất cả 15 câu.");
+                msg += "Bạn trả lời đúng tất cả 15 câu.\n"
+                        + " Điểm " + diem;
+                noiDungCanhBao.setText(msg);
             }
             alertDialogBuilder
                     .setCancelable(false)
@@ -426,6 +472,13 @@ public class Player extends AppCompatActivity {
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    SimpleDateFormat simpleDate =  new SimpleDateFormat("dd/MM/yyyy");
+                                    Date date = new Date();
+                                    String ngay = simpleDate.format(date);
+                                    BangXepHang bangXepHang = new BangXepHang(ngay, diem);
+                                    int check = BangXepHangDAO.themKyLuc(bangXepHang, database);
+                                    if (check != 0)
+                                        Toast.makeText(Player.this, "Thêm kỷ lục thất bại !", Toast.LENGTH_SHORT).show();
                                     finish();
                                 }
                             });

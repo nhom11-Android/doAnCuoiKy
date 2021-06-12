@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+
 import CSDL_bean.BangXepHang;
 import CSDL_bean.User;
 
@@ -16,5 +18,12 @@ public class BangXepHangDAO {
         long newRowId = db.insert(BangXepHang.tenBang, null, values);
         if (newRowId == -1) return -1;
         return 0;
+    }
+
+    public static ArrayList layBangXepHang(SQLiteOpenHelper dbHelper){
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        ArrayList<BangXepHang> list = new ArrayList<>();
+
+        return list;
     }
 }

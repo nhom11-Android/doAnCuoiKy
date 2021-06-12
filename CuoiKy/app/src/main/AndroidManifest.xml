@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.ailatrieuphu">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -18,31 +19,24 @@
         <activity android:name=".TaoTaiKhoan" />
         <activity android:name=".CallDialog" />
         <activity android:name=".AudienceLayout" />
-        <activity android:name=".Setting" />
+        <activity android:name=".Setting" >
+            
+        </activity>
         <activity android:name=".HighScore" />
         <activity android:name=".AboutDialog" />
-<<<<<<< HEAD
         <activity android:name=".PlayerLayoutMoney">
 
         </activity>
         <activity android:name=".Player">
 
         </activity>
-        <activity android:name=".MainMenu">
-=======
-        <activity android:name=".PlayerLayoutMoney" />
-        <activity android:name=".Player" />
-        <activity android:name=".MainMenu" />
+        <activity android:name=".MainMenu"/>
         <activity android:name=".MainActivity">
->>>>>>> main
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".MainActivity">
-
         </activity>
     </application>
 
