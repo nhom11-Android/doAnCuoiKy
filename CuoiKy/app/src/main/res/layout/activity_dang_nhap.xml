@@ -24,36 +24,39 @@
         android:orientation="vertical"
         android:layout_marginHorizontal="20sp"
         >
-        <TextView
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tên đăng nhập"
-            android:textColor="@color/white"
-            android:textSize="30sp"
-            />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:background="@drawable/input_tao_tai_khoan_edt"
-            android:textSize="30sp"
-            android:layout_marginBottom="30dp"
-            />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Mật khẩu"
-            android:textColor="@color/white"
-            android:textSize="30sp"
+            android:layout_marginBottom="20dp"
+            app:errorEnabled="true"
+            app:hintEnabled="true">
 
-            />
-        <EditText
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tenDangNhapEdt_DN"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_tao_tai_khoan_edt"
+                android:hint="Tên đăng nhập"
+                android:textSize="25sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:background="@drawable/input_tao_tai_khoan_edt"
-            android:textSize="30dp"
-            />
+            app:errorEnabled="true"
+            app:hintEnabled="true"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/matKhauEdt_DN"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_tao_tai_khoan_edt"
+                android:hint="Mật khẩu"
+                android:inputType="textPassword"
+                android:textSize="25sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
     </LinearLayout>
     <androidx.appcompat.widget.AppCompatButton
         android:layout_marginTop="40dp"
