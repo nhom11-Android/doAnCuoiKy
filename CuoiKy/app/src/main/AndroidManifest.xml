@@ -14,29 +14,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AiLaTrieuPhu">
-        <activity android:name=".XacThucTaiKhoan"></activity>
-        <activity android:name=".DangNhap" />
-        <activity android:name=".TaoTaiKhoan" />
-        <activity android:name=".CallDialog" />
-        <activity android:name=".AudienceLayout" />
-        <activity android:name=".Setting" >
-            
-        </activity>
-        <activity android:name=".HighScore" />
-        <activity android:name=".AboutDialog" />
-        <activity android:name=".PlayerLayoutMoney">
-
-        </activity>
-        <activity android:name=".Player">
-
-        </activity>
-        <activity android:name=".MainMenu"/>
-        <activity android:name=".MainActivity">
+        <activity android:name=".XacThucTaiKhoan" />
+        <activity android:name=".DangNhap">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity android:name=".TaoTaiKhoan" />
+        <activity android:name=".CallDialog" />
+        <activity android:name=".AudienceLayout" />
+        <activity android:name=".Setting" >
+        </activity>
+        <activity android:name=".HighScore" />
+        <activity android:name=".AboutDialog" />
+
+        <activity android:name=".PlayerLayoutMoney" />
+        <activity android:name=".Player" />
+        <activity android:name=".MainMenu" />
+        <activity android:name=".MainActivity">
         </activity>
     </application>
 
