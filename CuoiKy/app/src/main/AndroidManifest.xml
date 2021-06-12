@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ailatrieuphu">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,22 +13,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AiLaTrieuPhu">
-        <activity android:name=".CallDialog"></activity>
+        <activity android:name=".XacThucTaiKhoan"></activity>
+        <activity android:name=".DangNhap" />
+        <activity android:name=".TaoTaiKhoan" />
+        <activity android:name=".CallDialog" />
         <activity android:name=".AudienceLayout" />
         <activity android:name=".Setting" />
-        <activity android:name=".HighScore">
-
-        </activity>
+        <activity android:name=".HighScore" />
         <activity android:name=".AboutDialog" />
-        <activity android:name=".PlayerLayoutMoney">
-
-        </activity>
-        <activity android:name=".Player">
-
-        </activity>
-        <activity android:name=".MainMenu">
-
-        </activity>
+        <activity android:name=".PlayerLayoutMoney" />
+        <activity android:name=".Player" />
+        <activity android:name=".MainMenu" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
