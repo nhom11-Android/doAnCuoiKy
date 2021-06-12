@@ -19,11 +19,10 @@ public class CSDLAilatrieuphu extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String user = String.format("CREATE TABLE %s(%s integer primary key autoincrement,%s TEXT, %s TEXT,%s TEXT,%s TEXT)",
+        String user = String.format("CREATE TABLE %s(%s integer primary key autoincrement,%s TEXT, %s TEXT,%s TEXT);",
                 User.tenBang,
                 User.cotId, //autoincre integer
                 User.cotEmail, // text
-                User.cotMaXacThuc, // text
                 User.cotTenDangNhap, // text
                 User.cotMatKhau); // text
         String cauhoi = String.format("CREATE TABLE %s(" +
@@ -47,7 +46,7 @@ public class CSDLAilatrieuphu extends SQLiteOpenHelper {
                 CauHoi.cotChuyenNganh,
                 CauHoi.cotDoKho
                 );
-        String bxh = String.format("CREATE TABLE %s(%s TEXT, %s TEXT)",
+        String bxh = String.format("CREATE TABLE %s(%s TEXT, %s TEXT);",
                 BangXepHang.tenBang,
                 BangXepHang.cotNgay,
                 BangXepHang.cotDiem);

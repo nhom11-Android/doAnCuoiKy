@@ -5,13 +5,11 @@ public class User {
     int ID;
     String tenDangNhap;
     String matKhau;
-    String maXacThuc;
     String email;
 
     public static final String tenBang = "USER";
     public static final String cotId = "ID";
     public static final String cotTenDangNhap = "tenDangNhap";
-    public static final String cotMaXacThuc = "maXacThuc";
     public static final String cotEmail = "email";
     public static final String cotMatKhau = "matKhau";
 
@@ -39,14 +37,6 @@ public class User {
         this.matKhau = matKhau;
     }
 
-    public String getMaXacThuc() {
-        return maXacThuc;
-    }
-
-    public void setMaXacThuc(String maXacThuc) {
-        this.maXacThuc = maXacThuc;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -59,7 +49,6 @@ public class User {
         this.ID = ID;
         this.tenDangNhap = tenDangNhap;
         this.matKhau = matKhau;
-        this.maXacThuc = maXacThuc;
         this.email = email;
 
     }
@@ -67,7 +56,6 @@ public class User {
     public User(String tenDangNhap, String matKhau, String email) {
         this.tenDangNhap = tenDangNhap;
         this.matKhau = matKhau;
-        this.maXacThuc = "";
         this.email = email;
     }
 }

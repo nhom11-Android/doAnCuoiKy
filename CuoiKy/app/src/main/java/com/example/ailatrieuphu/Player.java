@@ -73,6 +73,7 @@ public class Player extends AppCompatActivity {
 
         danhSachCauHoi = new ArrayList<>();
         database = new CSDLAilatrieuphu(this);
+        System.out.println("Tạo csdl");
 
         stopImbtn.setOnClickListener(new View.OnClickListener() {
             @Override
