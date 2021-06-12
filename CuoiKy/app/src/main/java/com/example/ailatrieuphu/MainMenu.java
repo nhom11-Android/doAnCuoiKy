@@ -18,7 +18,7 @@ public class MainMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-<<<<<<< HEAD
+        CSDLAilatrieuphu csdlAilatrieuphu = new CSDLAilatrieuphu(this);
         setControl();
         dialogInfo();
         dialogExit();
@@ -94,8 +94,5 @@ public class MainMenu extends AppCompatActivity {
         btn_high_score= findViewById(R.id.btn_high_score);
         btn_setting= findViewById(R.id.btn_setting);
         btn_close= findViewById(R.id.btn_close);
-=======
-        CSDLAilatrieuphu csdlAilatrieuphu = new CSDLAilatrieuphu(this);
->>>>>>> main
     }
 }
