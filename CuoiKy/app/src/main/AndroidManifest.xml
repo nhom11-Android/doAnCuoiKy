@@ -21,15 +21,28 @@
         <activity android:name=".Setting" />
         <activity android:name=".HighScore" />
         <activity android:name=".AboutDialog" />
+<<<<<<< HEAD
+        <activity android:name=".PlayerLayoutMoney">
+
+        </activity>
+        <activity android:name=".Player">
+
+        </activity>
+        <activity android:name=".MainMenu">
+=======
         <activity android:name=".PlayerLayoutMoney" />
         <activity android:name=".Player" />
         <activity android:name=".MainMenu" />
         <activity android:name=".MainActivity">
+>>>>>>> main
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity">
+
         </activity>
     </application>
 
