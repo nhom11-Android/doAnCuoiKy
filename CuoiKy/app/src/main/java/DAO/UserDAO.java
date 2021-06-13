@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import CSDL_bean.CauHoi;
 import CSDL_bean.User;
 
 public class UserDAO {
@@ -64,4 +65,6 @@ public class UserDAO {
         cursor.close();
         return 0;
     }
+
+
 }
