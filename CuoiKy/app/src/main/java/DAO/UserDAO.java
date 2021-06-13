@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.ailatrieuphu.CSDLAilatrieuphu;
+
 import CSDL_bean.CauHoi;
 import CSDL_bean.User;
 
@@ -67,4 +69,42 @@ public class UserDAO {
     }
 
 
+    public static User getUserByTenDangNhap(String tenDangNhap, CSDLAilatrieuphu dbHelper) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        User leakUser =null;
+        String[] projection = {
+                User.cotTenDangNhap,
+                User.cotEmail,
+                User.cotMatKhau
+        };
+        String selection = User.cotTenDangNhap + " = ?";
+        String[] selectionArgs = {tenDangNhap};
+        Cursor cursor = db.query(User.tenBang, projection, selection, selectionArgs, null, null, null);
+        if (cursor.moveToNext()) {
+            leakUser = new User(
+                    cursor.getString(cursor.getColumnIndex(User.cotTenDangNhap)),
+                    cursor.getString(cursor.getColumnIndex(User.cotMatKhau)),
+                    cursor.getString(cursor.getColumnIndex(User.cotEmail))
+            );
+        }
+        cursor.close();
+        return leakUser;
+    }
+    public static int deleteUserByMail(String mail, CSDLAilatrieuphu dbHelper){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String selection = User.cotEmail + "LIKE ?";
+        String[] selectionArgs = {mail};
+        int rows = db.delete(User.tenBang, selection, selectionArgs);
+        return rows;
+    }
+
+    public static int updateUser(String old,String tenDangNhap, String matKhau, CSDLAilatrieuphu dbHelper) {
+        ContentValues values = new ContentValues();
+        values.put(User.cotTenDangNhap,tenDangNhap);
+        values.put(User.cotMatKhau,matKhau);
+        String seletion = User.cotTenDangNhap + " LIKE ?";
+        String[] selectionArgs = {old};
+        int count = dbHelper.getWritableDatabase().update(User.tenBang,values,seletion,selectionArgs);
+        return count;
+    }
 }
