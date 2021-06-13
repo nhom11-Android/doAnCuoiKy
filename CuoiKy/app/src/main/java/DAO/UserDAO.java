@@ -41,7 +41,21 @@ public class UserDAO {
         };
         String selection = User.cotEmail + " = ?";
         String[] selectionArgs = {mail};
-        ContentValues values = new ContentValues();
+        Cursor cursor = db.query(User.tenBang, projection, selection, selectionArgs, null, null, null);
+        if (cursor.moveToNext()) {
+            cursor.close();
+            return 1;
+        }
+        cursor.close();
+        return 0;
+    }
+    public static int kiemTraDangNhap(String tenDangNhap, String matKhau, SQLiteOpenHelper dbHelper){
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String[] projection = {
+                User.cotTenDangNhap
+        };
+        String selection = User.cotTenDangNhap + " = ? AND " + User.cotMatKhau + " = ? ";
+        String[] selectionArgs = {tenDangNhap,matKhau};
         Cursor cursor = db.query(User.tenBang, projection, selection, selectionArgs, null, null, null);
         if (cursor.moveToNext()) {
             cursor.close();

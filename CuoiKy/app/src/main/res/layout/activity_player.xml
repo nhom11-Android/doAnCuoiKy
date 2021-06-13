@@ -44,21 +44,21 @@
                 android:indeterminateDrawable="@drawable/progressbar_time" />
 
             <ImageView
-                android:id="@+id/ivMoney"
+                android:id="@+id/ivDiem_Player"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/tvMoney"
+                android:layout_toLeftOf="@+id/tvDiem_Player"
                 android:src="@drawable/img_money" />
 
             <TextView
-                android:id="@+id/tvMoney"
+                android:id="@+id/tvDiem_Player"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
-                android:text="150,000,000"
+                android:text="150"
                 android:textColor="#ffffff"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -70,7 +70,8 @@
                 android:src="@drawable/ic_no_avatar"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:visibility="invisible"/>
         </RelativeLayout>
 
         <TableRow
