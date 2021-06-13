@@ -43,6 +43,10 @@ public class Player extends AppCompatActivity {
     long currentTime;
     SQLiteOpenHelper database;
 
+    // điều khiển countdowntimer
+    boolean isPause;
+    long timeRemaining = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -177,8 +181,9 @@ public class Player extends AppCompatActivity {
                 audienceImbtn.setVisibility(View.INVISIBLE);
                 diemTroGiup -= 5;
                 Intent intent = new Intent(Player.this, AudienceLayout.class);
-                intent.putExtra("idCauHoi", danhSachCauHoi.get(index).getId());
+//                intent.putExtra("idCauHoi", danhSachCauHoi.get(index).getId());
                 startActivity(intent);
+                System.out.println("do after call");
             }
         });
 
@@ -252,8 +257,13 @@ public class Player extends AppCompatActivity {
          */
         cTimer = new CountDownTimer(16000, 1000) {
             public void onTick(long millisUntilFinished) {
-                timerTv.setText(String.valueOf(millisUntilFinished / 1000));
-                currentTime = millisUntilFinished / 1000;
+                if(isPause){
+                    cancel();
+                }else{
+                    timerTv.setText(String.valueOf(millisUntilFinished / 1000));
+                    currentTime = millisUntilFinished / 1000;
+                    timeRemaining = millisUntilFinished;
+                }
             }
             public void onFinish() {
                 LayoutInflater layoutInflater = LayoutInflater.from(Player.this);

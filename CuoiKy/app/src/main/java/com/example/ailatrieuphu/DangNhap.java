@@ -35,6 +35,8 @@ public class DangNhap extends AppCompatActivity {
             // TODO: 6/12/2021 goi main menu
             Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this,MainMenu.class);
+            // đưa user vào intent
+            intent.putExtra("tenDangNhap",tenDangNhap);
             startActivity(intent);
         }
     }
