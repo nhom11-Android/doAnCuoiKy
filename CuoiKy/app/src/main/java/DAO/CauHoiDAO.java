@@ -115,4 +115,40 @@ public class CauHoiDAO {
         }
         return dsCauHoi;
     }
+    public static CauHoi timCauHoiTuID(int id,SQLiteOpenHelper dbHelper){
+        CauHoi cauHoi = null;
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String[] projection = {
+                CauHoi.cotDoKho,
+                CauHoi.cotChuyenNganh,
+                CauHoi.cotNoiDung,
+                CauHoi.cotDapAnA,
+                CauHoi.cotDapAnB,
+                CauHoi.cotDapAnC,
+                CauHoi.cotDapAnD,
+                CauHoi.cotDapAnDung
+        };
+        String selection = CauHoi.cotId + " = ?";
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = db.query(CauHoi.tenBang, projection, selection, selectionArgs, null, null, null);
+        if (cursor.moveToNext()) {
+            String da1,da2,da3,da4,dad,nd,chuyen;
+            int dok;
+            da1 = cursor.getString(cursor.getColumnIndex(CauHoi.cotDapAnA));
+            da2 = cursor.getString(cursor.getColumnIndex(CauHoi.cotDapAnB));
+            da3 = cursor.getString(cursor.getColumnIndex(CauHoi.cotDapAnC));
+            da4 = cursor.getString(cursor.getColumnIndex(CauHoi.cotDapAnD));
+            dad = cursor.getString(cursor.getColumnIndex(CauHoi.cotDapAnDung));
+            nd = cursor.getString(cursor.getColumnIndex(CauHoi.cotNoiDung));
+            dok = cursor.getInt(cursor.getColumnIndex(CauHoi.cotDoKho));
+            chuyen = cursor.getString(cursor.getColumnIndex(CauHoi.cotChuyenNganh));
+            cauHoi = new CauHoi(nd, new String[]{da1, da2, da3, da4},dad,chuyen,dok);
+            cauHoi.setId(id);
+            // TODO: 6/13/2021 check nếu kiểu lưu đáp án đúng khác với dự tính
+
+            cursor.close();
+        }
+        cursor.close();
+        return cauHoi;
+    }
 }
