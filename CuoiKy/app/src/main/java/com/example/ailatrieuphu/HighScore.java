@@ -37,7 +37,6 @@ public class HighScore extends AppCompatActivity {
          * @return arrayList bangXepHang
          */
         ArrayList<BangXepHang> highScore = BangXepHangDAO.layBangXepHang(database, -1);
-        ArrayList<BangXepHang> highScore = BangXepHangDAO.layBangXepHang(database,-1);
         return highScore;
     }
 
