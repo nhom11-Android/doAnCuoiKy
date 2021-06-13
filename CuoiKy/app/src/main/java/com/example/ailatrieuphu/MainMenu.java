@@ -11,14 +11,14 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 public class MainMenu extends AppCompatActivity {
-    ImageButton btn_about, btn_high_score, btn_setting, btn_close, btn_play;
+    ImageButton btn_about, btn_high_score, btn_setting, btn_close, btn_play, btn_luyentap, btn_online;
     Button btn_thoat_dialog, btn_thoat_yes, btn_thoat_no;
     Dialog info_dialog, thoat_dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-        CSDLAilatrieuphu csdlAilatrieuphu = new CSDLAilatrieuphu(this);
+//        CSDLAilatrieuphu csdlAilatrieuphu = new CSDLAilatrieuphu(this);
         setControl();
         dialogInfo();
         dialogExit();
@@ -60,7 +60,7 @@ public class MainMenu extends AppCompatActivity {
     }
 
     private void setEvent() {
-        btn_play.setOnClickListener(new View.OnClickListener() {
+        btn_luyentap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent= new Intent(MainMenu.this, Player.class);
@@ -101,6 +101,8 @@ public class MainMenu extends AppCompatActivity {
         btn_high_score= findViewById(R.id.btn_high_score);
         btn_setting= findViewById(R.id.btn_setting);
         btn_close= findViewById(R.id.btn_close);
-        btn_play= findViewById(R.id.btn_play);
+//        btn_play= findViewById(R.id.btn_play);
+        btn_luyentap=findViewById(R.id.btn_luyentap);
+        btn_online=findViewById(R.id.btn_online);
     }
 }
