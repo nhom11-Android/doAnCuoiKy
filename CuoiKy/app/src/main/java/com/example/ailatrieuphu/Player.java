@@ -40,7 +40,8 @@ public class Player extends AppCompatActivity {
     int index = 0, level = 1, diem = 0, diemTroGiup = 20;
 
     CountDownTimer cTimer = null;
-    AlertDialog dialogA = null;
+    AlertDialog dialog1 = null;
+    AlertDialog dialog2 = null;
     long currentTime;
     SQLiteOpenHelper database;
 
@@ -58,7 +59,8 @@ public class Player extends AppCompatActivity {
             public void run(){
                 setControl();
                 setEvent();
-                MySound.startNhacNen(Player.this, R.raw.piano_loop);
+                if (!MySound.nhacNenIsPlaying())
+                    MySound.startNhacNen(Player.this, R.raw.nhac_nen);
             }
         };
         Handler h = new Handler();
@@ -68,9 +70,13 @@ public class Player extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if(dialogA != null){
-            dialogA.cancel();
-            dialogA = null;
+        if(dialog1 != null){
+            dialog1.cancel();
+            dialog1 = null;
+        }
+        if(dialog2 != null){
+            dialog2.cancel();
+            dialog2 = null;
         }
     }
 
@@ -296,11 +302,13 @@ public class Player extends AppCompatActivity {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         ketThucLuotChoi();
+                                        dialog2 = null;
                                     }
                                 });
 
                 AlertDialog alertDialog = alertDialogBuilder.create(); // tạo dialog từ dialog builder
                 alertDialog.show();//show dialog
+                dialog2 = alertDialog;
             }
         };
         cTimer.start();
@@ -365,7 +373,7 @@ public class Player extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     cancelTimer();
                                     dialog.cancel();
-                                    dialogA = null;
+                                    dialog1 = null;
                                     if (currentTime != 0)
                                         kiemTraDapAn(radioSelected);
                                 }
@@ -375,13 +383,13 @@ public class Player extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.cancel();
-                                    dialogA = null;
+                                    dialog1 = null;
                                 }
                             });
 
             AlertDialog alertDialog = alertDialogBuilder.create(); // tạo dialog từ dialog builder
             alertDialog.show();//show dialog
-            dialogA = alertDialog;
+            dialog1 = alertDialog;
             return 0;
         }
         catch (Exception e){
@@ -465,7 +473,8 @@ public class Player extends AppCompatActivity {
         /**
          * kết thức lượt chơi hiện tại. Hiển thị dialog, thông báo số câu trả lời đúng.
          */
-        MySound.stopNhacNen();
+        if(MySound.nhacNenIsPlaying())
+            MySound.stopNhacNen();
         MySound.amThanhGame(Player.this, R.raw.end);
         try{
             LayoutInflater layoutInflater = LayoutInflater.from(this);

@@ -34,10 +34,14 @@ public class Setting extends AppCompatActivity {
                 if(!nhacNenTgBtn.isChecked()){
                     nhacNenTgBtn.setBackgroundResource(R.drawable.toggle_button_off);
                     MySound.setNhacNen(0);
+                    if(MySound.nhacNenIsPlaying())
+                        MySound.stopNhacNen();
                 }
                 else {
                     nhacNenTgBtn.setBackgroundResource(R.drawable.toggle_button_on);
                     MySound.setNhacNen((float)0.5);
+                    if(!MySound.nhacNenIsPlaying())
+                        MySound.stopNhacNen();
                 }
             }
         });

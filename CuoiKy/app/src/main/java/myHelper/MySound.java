@@ -45,4 +45,14 @@ public class MySound {
     public static void setNhacNen(float nhacNen) {
         MySound.nhacNen = nhacNen;
     }
+
+    public static boolean nhacNenIsPlaying(){
+        try{
+            return mediaPlayerNhacNen.isPlaying();
+        }
+        catch (Exception e){
+            return false;
+        }
+
+    }
 }
