@@ -12,7 +12,11 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -33,9 +37,11 @@ import myHelper.MySound;
 
 public class Player extends AppCompatActivity {
     ImageButton stopImbtn, changeImbtn, namMuoiImbtn, audienceImbtn, callImbtn;
-    TextView timerTv, questionTv, levelTv, diemTv;
+    TextView timerTv, questionTv, levelTv, diemTv, chuanBiTv, batDauTv;
     RadioButton caseARb, caseBRb, caseCRb, caseDRb;
     RadioGroup danhSachDapAn;
+    ImageView loadingIv;
+    LinearLayout loadingLayout, chuanBiLayout, batDauLayout, playLayout;
     ArrayList<CauHoi> danhSachCauHoi;
     int index = 0, level = 1, diem = 0, diemTroGiup = 20;
 
@@ -48,23 +54,15 @@ public class Player extends AppCompatActivity {
     // điều khiển countdowntimer
     boolean isPause;
     long timeRemaining = -1;
+    Animation xoay, fadeOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
+        setControl();
         setSound();
-        Runnable r = new Runnable() {
-            @Override
-            public void run(){
-                setControl();
-                setEvent();
-                if (!MySound.nhacNenIsPlaying())
-                    MySound.startNhacNen(Player.this, R.raw.nhac_nen);
-            }
-        };
-        Handler h = new Handler();
-        h.postDelayed(r, 33000);
+        setAnimation();
     }
 
     @Override
@@ -78,6 +76,48 @@ public class Player extends AppCompatActivity {
             dialog2.cancel();
             dialog2 = null;
         }
+    }
+
+    private void setAnimation(){
+        xoay= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.xoay);
+        loadingIv.startAnimation(xoay);
+        Runnable chuanBi = new Runnable() {
+            @Override
+            public void run(){
+                loadingLayout.setVisibility(View.INVISIBLE);
+                chuanBiLayout.setVisibility(View.VISIBLE);
+                fadeOut= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
+                chuanBiTv.startAnimation(fadeOut);
+            }
+        };
+
+        Runnable batDau = new Runnable() {
+            @Override
+            public void run(){
+                chuanBiLayout.setVisibility(View.INVISIBLE);
+                batDauLayout.setVisibility(View.VISIBLE);
+                fadeOut= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
+                batDauTv.startAnimation(fadeOut);
+            }
+        };
+
+        Runnable playGame = new Runnable() {
+            @Override
+            public void run(){
+                batDauLayout.setVisibility(View.INVISIBLE);
+                playLayout.setVisibility(View.VISIBLE);
+                setEvent();
+                if (!MySound.nhacNenIsPlaying())
+                    MySound.startNhacNen(Player.this, R.raw.nhac_nen);
+            }
+        };
+
+        Handler h1 = new Handler();
+        h1.postDelayed(chuanBi, 18000);
+        Handler h2 = new Handler();
+        h2.postDelayed(batDau, 19500);
+        Handler h3 = new Handler();
+        h3.postDelayed(playGame, 21000);
     }
 
     private void setSound() {
@@ -98,11 +138,18 @@ public class Player extends AppCompatActivity {
         questionTv = findViewById(R.id.tvQuestion_Player);
         levelTv = findViewById(R.id.tvLevel_Player);
         diemTv = findViewById(R.id.tvDiem_Player);
+        chuanBiTv = findViewById(R.id.chuanBiTv_Player);
+        batDauTv = findViewById(R.id.startGameTv_Player);
         caseARb = findViewById(R.id.rbCaseA_Player);
         caseBRb = findViewById(R.id.rbCaseB_Player);
         caseCRb = findViewById(R.id.rbCaseC_Player);
         caseDRb = findViewById(R.id.rbCaseD_Player);
         danhSachDapAn = findViewById(R.id.danhSachDapAnRg_Player);
+        loadingIv = findViewById(R.id.loadingIv_Player);
+        loadingLayout = findViewById(R.id.loadingLayout_Player);
+        chuanBiLayout = findViewById(R.id.chuanBiLayout_Player);
+        batDauLayout = findViewById(R.id.startGameLayout_Player);
+        playLayout = findViewById(R.id.playGameLayout_Player);
 
         danhSachCauHoi = new ArrayList<>();
         database = new CSDLAilatrieuphu(this);
