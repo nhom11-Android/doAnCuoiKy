@@ -30,15 +30,15 @@ public class HighScore extends AppCompatActivity {
     }
 
 
-    private ArrayList<BangXepHang> loadData() {
+//    private ArrayList<BangXepHang> loadData() {
         /**
          * load dữ liệu từ database
          *
          * @return arrayList bangXepHang
          */
-        ArrayList<BangXepHang> highScore = BangXepHangDAO.layBangXepHang(database);
-        return highScore;
-    }
+//        ArrayList<BangXepHang> highScore = BangXepHangDAO.layBangXepHang(database);
+//        return highScore;
+//    }
 
     private void setEvent() {
         // set adapter lên listview
@@ -57,7 +57,7 @@ public class HighScore extends AppCompatActivity {
         actionBar.hide();
         // khai báo csdl
         database = new CSDLAilatrieuphu(this);
-        data = loadData();// load dữ liệu lên arraylist
+//        data = loadData();// load dữ liệu lên arraylist
     }
 
 }
