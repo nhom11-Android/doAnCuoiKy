@@ -1,5 +1,6 @@
 package com.example.ailatrieuphu;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
@@ -10,10 +11,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import myHelper.MySound;
+
 public class MainMenu extends AppCompatActivity {
     ImageButton btn_about, btn_high_score, btn_setting, btn_close, btn_play, btn_luyentap, btn_online;
     Button btn_thoat_dialog, btn_thoat_yes, btn_thoat_no;
     Dialog info_dialog, thoat_dialog;
+    int request_code_for_user_crud = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +52,8 @@ public class MainMenu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MainMenu.this.finishAffinity();
+                if(MySound.nhacNenIsPlaying())
+                    MySound.stopNhacNen();
                 System.exit(0);
             }
         });
@@ -102,7 +108,23 @@ public class MainMenu extends AppCompatActivity {
         btn_setting= findViewById(R.id.btn_setting);
         btn_close= findViewById(R.id.btn_close);
 //        btn_play= findViewById(R.id.btn_play);
-        btn_luyentap=findViewById(R.id.btn_luyentap);
-        btn_online=findViewById(R.id.btn_online);
+        btn_luyentap=findViewById(R.id.luyentapBtn_MM);
+        btn_online=findViewById(R.id.onlineBtn_MM);
+    }
+
+    public void onClickUserInfo(View view) {
+        // TODO: 6/13/2021 xoá sửa thông tin người chơi, gọi userinfoCURD
+        String tenDangNhap = getIntent().getStringExtra("tenDangNhap");
+        Intent intent = new Intent(this,UserInfoCRUD.class);
+        intent.putExtra("tenDangNhap",tenDangNhap);
+        startActivityForResult(intent,request_code_for_user_crud);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==request_code_for_user_crud){
+            if(resultCode==-1) this.finish(); // code for delete user
+        }
     }
 }

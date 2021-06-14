@@ -32,11 +32,11 @@ public class AudienceLayout extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audience_layout);
         getSupportActionBar().hide();
-
-        idCauhoi = Integer.parseInt(getIntent().getStringExtra("idCauHoi"));
+        // TODO: 6/14/2021 check before real demo  
+//        idCauhoi = Integer.parseInt(getIntent().getStringExtra("idCauHoi"));
         setControl();
-        cotDung = getCauHoi();
-//        cotDung = 2; // 1 = A, ... ;4 = D
+//        cotDung = getCauHoi();
+        cotDung = 2; // 1 = A, ... ;4 = D
         veDoThi(cotDung);
     }
 
