@@ -29,6 +29,7 @@ import CSDL_bean.BangXepHang;
 import CSDL_bean.CauHoi;
 import DAO.BangXepHangDAO;
 import DAO.CauHoiDAO;
+import myHelper.MySound;
 
 public class Player extends AppCompatActivity {
     ImageButton stopImbtn, changeImbtn, namMuoiImbtn, audienceImbtn, callImbtn;
@@ -39,7 +40,8 @@ public class Player extends AppCompatActivity {
     int index = 0, level = 1, diem = 0, diemTroGiup = 20;
 
     CountDownTimer cTimer = null;
-    AlertDialog dialogA = null;
+    AlertDialog dialog1 = null;
+    AlertDialog dialog2 = null;
     long currentTime;
     SQLiteOpenHelper database;
 
@@ -51,17 +53,35 @@ public class Player extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
-        setControl();
-        setEvent();
+        setSound();
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+                setControl();
+                setEvent();
+                if (!MySound.nhacNenIsPlaying())
+                    MySound.startNhacNen(Player.this, R.raw.nhac_nen);
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(r, 33000);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if(dialogA != null){
-            dialogA.cancel();
-            dialogA = null;
+        if(dialog1 != null){
+            dialog1.cancel();
+            dialog1 = null;
         }
+        if(dialog2 != null){
+            dialog2.cancel();
+            dialog2 = null;
+        }
+    }
+
+    private void setSound() {
+        MySound.amThanhGame(Player.this, R.raw.start);
     }
 
     private void setControl() {
@@ -225,7 +245,7 @@ public class Player extends AppCompatActivity {
          */
         try {
             if (level <= 15) {
-                levelTv.setText(String.valueOf(level));
+                levelTv.setText("Câu " + String.valueOf(level));
 //                CauHoi c = danhSachCauHoi.get(index);
 //                questionTv.setText(c.getNoiDung());
 //                String[] dapAn = c.getDapAn();
@@ -282,11 +302,13 @@ public class Player extends AppCompatActivity {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         ketThucLuotChoi();
+                                        dialog2 = null;
                                     }
                                 });
 
                 AlertDialog alertDialog = alertDialogBuilder.create(); // tạo dialog từ dialog builder
                 alertDialog.show();//show dialog
+                dialog2 = alertDialog;
             }
         };
         cTimer.start();
@@ -351,7 +373,7 @@ public class Player extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     cancelTimer();
                                     dialog.cancel();
-                                    dialogA = null;
+                                    dialog1 = null;
                                     if (currentTime != 0)
                                         kiemTraDapAn(radioSelected);
                                 }
@@ -361,13 +383,13 @@ public class Player extends AppCompatActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.cancel();
-                                    dialogA = null;
+                                    dialog1 = null;
                                 }
                             });
 
             AlertDialog alertDialog = alertDialogBuilder.create(); // tạo dialog từ dialog builder
             alertDialog.show();//show dialog
-            dialogA = alertDialog;
+            dialog1 = alertDialog;
             return 0;
         }
         catch (Exception e){
@@ -406,8 +428,9 @@ public class Player extends AppCompatActivity {
             RadioButton dapAnDung = caseBRb;
             dapAnDung.setBackgroundResource(R.drawable.player_answer_background_true);
             if(dapAnChon.getId() == dapAnDung.getId()){
+                MySound.amThanhGame(Player.this, R.raw.am_thanh_tra_loi_dung);
 //                diem += c.getDoKho();
-                diemTv.setText(String.valueOf(diem));
+                diemTv.setText(String.valueOf(diem*1000000));
                 level++;
                 if(level == 6){
                     index = 6;
@@ -425,9 +448,10 @@ public class Player extends AppCompatActivity {
                     }
                 };
                 Handler h = new Handler();
-                h.postDelayed(r, 1000);
+                h.postDelayed(r, 7000);
             }
             else{
+                MySound.amThanhGame(Player.this, R.raw.am_thanh_tra_loi_sai);
                 dapAnChon.setBackgroundResource(R.drawable.player_answer_background_wrong);
                 Runnable r = new Runnable() {
                     @Override
@@ -436,7 +460,7 @@ public class Player extends AppCompatActivity {
                     }
                 };
                 Handler h = new Handler();
-                h.postDelayed(r, 1000);
+                h.postDelayed(r, 5000);
             }
             return 0;
         }
@@ -449,6 +473,9 @@ public class Player extends AppCompatActivity {
         /**
          * kết thức lượt chơi hiện tại. Hiển thị dialog, thông báo số câu trả lời đúng.
          */
+        if(MySound.nhacNenIsPlaying())
+            MySound.stopNhacNen();
+        MySound.amThanhGame(Player.this, R.raw.end);
         try{
             LayoutInflater layoutInflater = LayoutInflater.from(this);
             View stopGameDialog = layoutInflater.inflate(R.layout.stop_game_dialog, null); // tìm dialog view layout từ inflater
@@ -460,22 +487,21 @@ public class Player extends AppCompatActivity {
             diem += diemTroGiup;
             if (index <= 10){
                 tenCanhBao.setText("Cố gắng hơn nhé !!");
-                msg += "Bạn trả lời đúng " + (level - 1) +" câu.\n"
-                        + " Điểm " + diem;
+                msg += "Bạn trả lời đúng " + (level - 1) +" câu.\n";
                 noiDungCanhBao.setText(msg);
             }
             else if (index < 15){
                 tenCanhBao.setText("Xuất sắc !!");
-                msg += "Bạn trả lời đúng " + (level - 1) +" câu.\n"
-                        + " Điểm " + diem;
+                msg += "Bạn trả lời đúng " + (level - 1) +" câu.\n";
                 noiDungCanhBao.setText(msg);
             }
-            else{
+            else {
                 tenCanhBao.setText("Tuyệt vời !!!");
-                msg += "Bạn trả lời đúng tất cả 15 câu.\n"
-                        + " Điểm " + diem;
-                noiDungCanhBao.setText(msg);
+                msg += "Bạn trả lời đúng tất cả 15 câu.\n";
             }
+            msg += " Tiền thưởng đạt được " + String.valueOf(diem*1000000);
+            noiDungCanhBao.setText(msg);
+
             alertDialogBuilder
                     .setCancelable(false)
                     .setPositiveButton("OK", // cài đặt nút đồng ý hành động
@@ -489,6 +515,7 @@ public class Player extends AppCompatActivity {
                                     int check = BangXepHangDAO.themKyLuc(bangXepHang, database);
                                     if (check != 0)
                                         Toast.makeText(Player.this, "Thêm kỷ lục thất bại !", Toast.LENGTH_SHORT).show();
+                                    MySound.stopAmThanh();
                                     finish();
                                 }
                             });
