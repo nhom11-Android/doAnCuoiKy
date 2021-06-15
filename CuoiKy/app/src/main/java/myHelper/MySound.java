@@ -5,7 +5,7 @@ import android.media.MediaPlayer;
 
 public class MySound {
     public static float amThanh = 1;
-    public static float nhacNen = (float)0.7;
+    public static float nhacNen = (float)0.5;
 
     public static MediaPlayer mediaPlayerAmThanh;
     public static MediaPlayer mediaPlayerNhacNen;

@@ -8,12 +8,14 @@
     android:orientation="vertical"
     android:background="@drawable/player_background"
     tools:context=".Player">
+
     <LinearLayout
         android:id="@+id/loadingLayout_Player"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:background="#34FFFFFF">
+        android:background="#34FFFFFF"
+        android:visibility="invisible">
         <ImageView
             android:id="@+id/loadingIv_Player"
             android:layout_width="wrap_content"
@@ -26,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:visibility="invisible">
+        android:visibility="visible">
         <TextView
             android:id="@+id/chuanBiTv_Player"
             android:layout_width="wrap_content"

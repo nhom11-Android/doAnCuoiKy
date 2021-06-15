@@ -5,7 +5,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -14,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -27,7 +25,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Random;
 
 import CSDL_bean.BangXepHang;
 import CSDL_bean.CauHoi;
@@ -43,7 +40,7 @@ public class PlayerOnline extends AppCompatActivity {
     ImageView loadingIv;
     LinearLayout loadingLayout, chuanBiLayout, batDauLayout, playLayout;
     ArrayList<CauHoi> danhSachCauHoi;
-    int index = 0, level = 1, diem = 0, diemTroGiup = 20;
+    int index = 0, level = 1, diem = 0;
 
     CountDownTimer cTimer = null;
     AlertDialog dialog1 = null;
@@ -79,14 +76,10 @@ public class PlayerOnline extends AppCompatActivity {
     }
 
     private void setAnimation(){
-//        xoay= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.xoay);
-//        loadingIv.startAnimation(xoay);
         Runnable chuanBi = new Runnable() {
             @Override
             public void run(){
-                loadingLayout.setVisibility(View.INVISIBLE);
-                chuanBiLayout.setVisibility(View.VISIBLE);
-                fadeOut= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
+                fadeOut= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_in);
                 chuanBiTv.startAnimation(fadeOut);
             }
         };
@@ -96,7 +89,7 @@ public class PlayerOnline extends AppCompatActivity {
             public void run(){
                 chuanBiLayout.setVisibility(View.INVISIBLE);
                 batDauLayout.setVisibility(View.VISIBLE);
-                fadeOut= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
+                fadeOut= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_in);
                 batDauTv.startAnimation(fadeOut);
             }
         };
@@ -113,15 +106,15 @@ public class PlayerOnline extends AppCompatActivity {
         };
 
         Handler h1 = new Handler();
-        h1.postDelayed(chuanBi, 1000);
+        h1.postDelayed(chuanBi, 0);
         Handler h2 = new Handler();
-        h2.postDelayed(batDau, 19500);
+        h2.postDelayed(batDau, 2500);
         Handler h3 = new Handler();
-        h3.postDelayed(playGame, 21000);
+        h3.postDelayed(playGame, 6000);
     }
 
     private void setSound() {
-        MySound.amThanhGame(PlayerOnline.this, R.raw.start2);
+        MySound.amThanhGame(PlayerOnline.this, R.raw.start);
     }
 
     private void setControl() {
@@ -133,6 +126,7 @@ public class PlayerOnline extends AppCompatActivity {
         questionTv = findViewById(R.id.tvQuestion_PlayerOnline);
         levelTv = findViewById(R.id.tvLevel_PlayerOnline);
         diemTv = findViewById(R.id.tvDiem_PlayerOnline);
+        loadingIv = findViewById(R.id.loadingIv_PlayerOnline);
         chuanBiTv = findViewById(R.id.chuanBiTv_PlayerOnline);
         batDauTv = findViewById(R.id.startGameTv_PlayerOnline);
         caseARb = findViewById(R.id.rbCaseA_PlayerOnline);
@@ -140,7 +134,6 @@ public class PlayerOnline extends AppCompatActivity {
         caseCRb = findViewById(R.id.rbCaseC_PlayerOnline);
         caseDRb = findViewById(R.id.rbCaseD_PlayerOnline);
         danhSachDapAn = findViewById(R.id.danhSachDapAnRg_PlayerOnline);
-        loadingIv = findViewById(R.id.loadingIv_PlayerOnline);
         loadingLayout = findViewById(R.id.loadingLayout_PlayerOnline);
         chuanBiLayout = findViewById(R.id.chuanBiLayout_PlayerOnline);
         batDauLayout = findViewById(R.id.startGameLayout_PlayerOnline);
@@ -161,7 +154,7 @@ public class PlayerOnline extends AppCompatActivity {
         }
     }
 
-    private void getQuestions() {
+    private void getDanhSachCauHoi() {
         /**
          * Lấy danh sách các câu hỏi cho lượt chơi - 18 câu
          *
@@ -363,7 +356,7 @@ public class PlayerOnline extends AppCompatActivity {
             if(dapAnChon.getId() == dapAnDung.getId()){
                 MySound.amThanhGame(PlayerOnline.this, R.raw.am_thanh_tra_loi_dung);
 //                diem += c.getDoKho();
-                diemTv.setText(String.valueOf(diem*1000000));
+                diemTv.setText(String.valueOf(diem*100000));
                 level++;
                 if(level == 6){
                     index = 6;
@@ -373,15 +366,30 @@ public class PlayerOnline extends AppCompatActivity {
                 }
                 else
                     index++;
-                Runnable r = new Runnable() {
+
+                Runnable loading = new Runnable() {
                     @Override
                     public void run(){
+                        playLayout.setAlpha((float) 0.5);
+                        loadingLayout.setVisibility(View.VISIBLE);
+                        xoay= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.xoay);
+                        loadingIv.startAnimation(xoay);
+                    }
+                };
+
+                Runnable cauHoiMoi = new Runnable() {
+                    @Override
+                    public void run(){
+                        playLayout.setAlpha((float) 1);
+                        loadingLayout.setVisibility(View.INVISIBLE);
                         hienThiCauHoi();
                         dapAnDung.setBackgroundResource(R.drawable.btn_answer);
                     }
                 };
-                Handler h = new Handler();
-                h.postDelayed(r, 7000);
+                Handler h1 = new Handler();
+                h1.postDelayed(loading, 3000);
+                Handler h2 = new Handler();
+                h2.postDelayed(cauHoiMoi, 4000);
             }
             else{
                 MySound.amThanhGame(PlayerOnline.this, R.raw.am_thanh_tra_loi_sai);
@@ -393,7 +401,7 @@ public class PlayerOnline extends AppCompatActivity {
                     }
                 };
                 Handler h = new Handler();
-                h.postDelayed(r, 5000);
+                h.postDelayed(r, 4000);
             }
             return 0;
         }
@@ -417,7 +425,6 @@ public class PlayerOnline extends AppCompatActivity {
             TextView tenCanhBao = stopGameDialog.findViewById(R.id.tieuDeTv_StopGameDialog); // lấy control các trường đã tạo trên dialog
             TextView noiDungCanhBao = stopGameDialog.findViewById(R.id.noiDungTv_StopGameDialog);
             String msg = "";
-            diem += diemTroGiup;
             if (index <= 10){
                 tenCanhBao.setText("Cố gắng hơn nhé !!");
                 msg += "Bạn trả lời đúng " + (level - 1) +" câu.\n";
@@ -432,7 +439,7 @@ public class PlayerOnline extends AppCompatActivity {
                 tenCanhBao.setText("Tuyệt vời !!!");
                 msg += "Bạn trả lời đúng tất cả 15 câu.\n";
             }
-            msg += " Tiền thưởng đạt được " + String.valueOf(diem*1000000);
+            msg += " Tiền thưởng đạt được " + String.valueOf(diem*100000);
             noiDungCanhBao.setText(msg);
 
             alertDialogBuilder
