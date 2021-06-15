@@ -79,14 +79,10 @@ public class Player extends AppCompatActivity {
     }
 
     private void setAnimation(){
-        xoay= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.xoay);
-        loadingIv.startAnimation(xoay);
         Runnable chuanBi = new Runnable() {
             @Override
             public void run(){
-                loadingLayout.setVisibility(View.INVISIBLE);
-                chuanBiLayout.setVisibility(View.VISIBLE);
-                fadeOut= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
+                fadeOut= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_in);
                 chuanBiTv.startAnimation(fadeOut);
             }
         };
@@ -96,7 +92,7 @@ public class Player extends AppCompatActivity {
             public void run(){
                 chuanBiLayout.setVisibility(View.INVISIBLE);
                 batDauLayout.setVisibility(View.VISIBLE);
-                fadeOut= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
+                fadeOut= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom_in);
                 batDauTv.startAnimation(fadeOut);
             }
         };
@@ -113,11 +109,11 @@ public class Player extends AppCompatActivity {
         };
 
         Handler h1 = new Handler();
-        h1.postDelayed(chuanBi, 18000);
+        h1.postDelayed(chuanBi, 0);
         Handler h2 = new Handler();
-        h2.postDelayed(batDau, 19500);
+        h2.postDelayed(batDau, 2500);
         Handler h3 = new Handler();
-        h3.postDelayed(playGame, 21000);
+        h3.postDelayed(playGame, 6000);
     }
 
     private void setSound() {
@@ -275,7 +271,7 @@ public class Player extends AppCompatActivity {
         }
     }
 
-    private void getQuestions() {
+    private void getDanhSachCauHoi() {
         /**
          * Lấy danh sách các câu hỏi cho lượt chơi - 18 câu
          *
@@ -487,15 +483,30 @@ public class Player extends AppCompatActivity {
                 }
                 else
                     index++;
-                Runnable r = new Runnable() {
+
+                Runnable loading = new Runnable() {
                     @Override
                     public void run(){
+                        playLayout.setAlpha((float) 0.5);
+                        loadingLayout.setVisibility(View.VISIBLE);
+                        xoay= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.xoay);
+                        loadingIv.startAnimation(xoay);
+                    }
+                };
+
+                Runnable cauHoiMoi = new Runnable() {
+                    @Override
+                    public void run(){
+                        playLayout.setAlpha((float) 1);
+                        loadingLayout.setVisibility(View.INVISIBLE);
                         hienThiCauHoi();
                         dapAnDung.setBackgroundResource(R.drawable.btn_answer);
                     }
                 };
-                Handler h = new Handler();
-                h.postDelayed(r, 7000);
+                Handler h1 = new Handler();
+                h1.postDelayed(loading, 3000);
+                Handler h2 = new Handler();
+                h2.postDelayed(cauHoiMoi, 4000);
             }
             else{
                 MySound.amThanhGame(Player.this, R.raw.am_thanh_tra_loi_sai);

@@ -8,26 +8,27 @@ android:layout_height="match_parent"
 android:orientation="vertical"
 android:background="@drawable/player_background"
 tools:context=".PlayerOnline">
-<LinearLayout
-    android:id="@+id/loadingLayout_PlayerOnline"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:background="#34FFFFFF"
-    android:visibility="invisible">
-    <ImageView
-        android:id="@+id/loadingIv_PlayerOnline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/loading"/>
-</LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/loadingLayout_PlayerOnline"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="#34FFFFFF"
+        android:visibility="invisible">
+        <ImageView
+            android:id="@+id/loadingIv_PlayerOnline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/loading"/>
+    </LinearLayout>
 
 <LinearLayout
     android:id="@+id/chuanBiLayout_PlayerOnline"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:visibility="invisible">
+    android:visibility="visible">
     <TextView
         android:id="@+id/chuanBiTv_PlayerOnline"
         android:layout_width="wrap_content"
@@ -48,7 +49,7 @@ tools:context=".PlayerOnline">
         android:id="@+id/startGameTv_PlayerOnline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bắt đầu"
+        android:text="Bắt Đầu"
         android:textSize="60dp"
         android:textColor="@color/white"
         android:textStyle="bold"/>
@@ -174,6 +175,7 @@ tools:context=".PlayerOnline">
         android:layout_width="match_parent"
         android:layout_height="230dp"
         android:orientation="vertical"
+        android:layout_marginTop="30dp"
         android:background="@drawable/player_question_background">
 
         <TextView
