@@ -733,4 +733,3 @@ start
 Chuyên môn: Phóng viên
 start
 Độ khó: 1
-start

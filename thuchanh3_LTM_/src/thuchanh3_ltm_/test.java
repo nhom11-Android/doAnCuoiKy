@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package test;
+package thuchanh3_ltm_;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -48,7 +48,8 @@ public class test {
         tmp = sc.nextLine();
         tmp = sc.nextLine();
         doKho = Integer.parseInt(tmp.substring(8));
-        System.out.println(noiDung + "\n" + dapAn[0]
+        System.out.println(noiDung 
+                + "\n" + dapAn[0]
             + "\n" + dapAn[1]
             + "\n" + dapAn[2]
             + "\n" + dapAn[3]
@@ -59,8 +60,25 @@ public class test {
         return cauHoi;
     }
     
-    public static void main(String[] args) throws FileNotFoundException {
-        String fileName = "cauhoi_ALTP.txt";  // tên file hoặc đường dẫn
+//    public static void main(String[] args) throws FileNotFoundException {
+//        String fileName = "D:\\1.School\\noi_chua_project_cho_mon_android\\doAnCuoiKy\\thuchanh3_LTM_\\src\\thuchanh3_ltm_\\cauhoi_ALTP.txt";  // tên file hoặc đường dẫn
+//        File file = new File(fileName);
+//        if(!file.exists()){
+//            System.out.println("Không thể mở file");
+//            System.exit(-1);
+//        }
+//        Scanner sc = new Scanner(file);
+//        ArrayList<CauHoi> danhSach = new ArrayList<>();
+//        CauHoi cauHoi;
+//        while(sc.hasNextLine()){
+//            cauHoi = getCauHoi(sc);
+//            danhSach.add(cauHoi);
+//        }
+//        System.out.println(danhSach.size());
+//        System.exit(0);
+//    }
+    public static ArrayList<CauHoi> getDsCauHoi() throws FileNotFoundException {
+        String fileName = "D:\\1.School\\noi_chua_project_cho_mon_android\\doAnCuoiKy\\thuchanh3_LTM_\\src\\thuchanh3_ltm_\\cauhoi_ALTP.txt";  // tên file hoặc đường dẫn
         File file = new File(fileName);
         if(!file.exists()){
             System.out.println("Không thể mở file");
@@ -73,7 +91,8 @@ public class test {
             cauHoi = getCauHoi(sc);
             danhSach.add(cauHoi);
         }
-        System.out.println(danhSach.size());
-        System.exit(0);
+//        System.out.println(danhSach.size());
+//        System.exit(0);
+        return danhSach;
     }
 }

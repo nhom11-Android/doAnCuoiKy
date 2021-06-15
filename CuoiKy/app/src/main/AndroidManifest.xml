@@ -14,12 +14,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AiLaTrieuPhu">
-        <activity android:name=".OnlineModePre">
+        <activity android:name=".PlayerOnline">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".OnlineModePre">
+
         </activity>
         <activity
             android:name=".UserInfoCRUD"
@@ -39,17 +42,11 @@
         <activity android:name=".HighScore" />
         <activity android:name=".AboutDialog" />
         <activity android:name=".PlayerLayoutMoney" />
-        <activity android:name=".Player" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".Player">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".MainMenu" />
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>

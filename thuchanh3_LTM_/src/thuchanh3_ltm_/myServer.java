@@ -39,14 +39,35 @@ public class myServer {
             writeTo write = new writeTo();
             write.start();
             System.out.println("Mở port kết nối ở: " + port + "\nĐang chờ kết nối từ client");
-            while (true) {
+            Boolean is_accept = true;
+            while (is_accept) {
                 Socket soc = sv.accept();
                 // thêm client vào list
                 listClient.add(soc);
+                if(listClient.size()==2){
+                    is_accept = false;
+                }
                 System.out.println("Kết nối đến client : " + soc);
+                write.write2server("user");
                 write.write2server(String.valueOf(listClient.size()));
                 readFrom read = new readFrom(soc);
                 read.start();
+            }
+
+            // send cau hoi
+            ArrayList<CauHoi> dsCauHoi = test.getDsCauHoi();
+            for(int k=0;k<15;k++){
+                CauHoi i = dsCauHoi.get(k);
+                write.write2server("start"); // command
+                write.write2server(i.getNoiDung());
+                write.write2server(i.getDapAn()[0]);
+                write.write2server(i.getDapAn()[1]);
+                write.write2server(i.getDapAn()[2]);
+                write.write2server(i.getDapAn()[3]);
+                write.write2server(i.getDapAnDung());
+                write.write2server(i.getChuyenNganh());
+                write.write2server(String.valueOf(i.getDoKho()));
+                
             }
         } catch (IOException ex) {
             Logger.getLogger(myServer.class.getName()).log(Level.SEVERE, null, ex);
@@ -115,7 +136,7 @@ class writeTo extends Thread {
             Socket client = it.next();
             try {
                 writeToStream = new DataOutputStream(client.getOutputStream());
-                writeToStream.writeUTF("Server: " + messg);
+                writeToStream.writeUTF(messg);
             } catch (IOException ex) {
                 it.remove();
                 System.out.println(client + " đã ngắt kết nối !");

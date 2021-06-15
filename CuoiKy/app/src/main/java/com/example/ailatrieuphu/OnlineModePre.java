@@ -3,9 +3,13 @@ package com.example.ailatrieuphu;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,13 +23,18 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
+import CSDL_bean.CauHoi;
 import socketConnect.ConnectionHandler;
 
 public class OnlineModePre extends AppCompatActivity {
-    TextView infoRoomTv;
+    TextView infoRoomTv,infoCauhoiTv;
+    ImageView pl1,pl2,pl3,pl4;
+    Button readyBtn;
     String join = "";
-
+    boolean is_full = false;
+    ArrayList<CauHoi> dsCauHoi = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,19 +42,25 @@ public class OnlineModePre extends AppCompatActivity {
         setControl();
         setConnectToServer();
     }
-
+    private void setControl() {
+//        infoRoomTv = findViewById(R.id.inRoomInfo_OMP);
+        infoCauhoiTv = findViewById(R.id.cauHoiInfo_OMP);
+        readyBtn = findViewById(R.id.readyBtn_OMP);
+        pl1 = findViewById(R.id.player1);
+        pl2 = findViewById(R.id.player2);
+    }
     private void setConnectToServer() {
+        readyBtn.setEnabled(false);
         AsyncConnection asyncConnection = new AsyncConnection("192.168.114.63", 1234);
         asyncConnection.execute();
     }
-
-    private void setToView(String info) {
-        infoRoomTv.setText(info+"/2");
-        if(info.equals("Server: 2")) System.out.println("du nguoi roi. load cau hoi");
+    public ArrayList<CauHoi> nhanDanhSachCauHoi(){
+        return null;
     }
 
-    private void setControl() {
-        infoRoomTv = findViewById(R.id.inRoomInfo_OMP);
+    public void onClickReadyPlayOnline(View view) {
+        Intent intent = new Intent(this,PlayerOnline.class);
+        startActivity(intent);
     }
 
 
@@ -75,10 +90,10 @@ public class OnlineModePre extends AppCompatActivity {
         @Override
         protected void onPostExecute(Exception result) {
             super.onPostExecute(result);
+
             Log.d(TAG, "Finished communication with the socket. Result = " + result);
             //TODO If needed move the didDisconnect(error); method call here to implement it on UI thread.
         }
-
         @Override
         protected Exception doInBackground(Void... params) {
             Exception error = null;
@@ -91,17 +106,58 @@ public class OnlineModePre extends AppCompatActivity {
 
 
                 while (!interrupted) {
-                    String line = in1.readUTF();
-                    System.out.println(line);
+                    if(dsCauHoi.size()==15){
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                readyBtn.setEnabled(true);
+                            }
+                        });
+                    }
+                    String command = in1.readUTF();
+//                    System.out.println(line);
 //                    join = line;
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            setToView(line);
-                        }
-                    });
-
-                    //Log.d(TAG, "Received:" + line);
+                    if(command.equals("start")==false) {
+                        String soLuongUser = in1.readUTF();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+//                                infoRoomTv.setText(soLuongUser +"/2");
+                                if(soLuongUser.equals("1")){
+                                    pl1.setImageResource(R.drawable.player_50px);
+                                }
+                                if(soLuongUser.equals("2")){
+                                    pl2.setImageResource(R.drawable.player_50px);
+                                }
+                            }
+                        });
+                    } else{ // nhan cau hoi
+                        String noidung = in1.readUTF();
+                        String dapan1 = in1.readUTF();
+                        String dapan2 = in1.readUTF();
+                        String dapan3 = in1.readUTF();
+                        String dapan4 = in1.readUTF();
+                        String daadung = in1.readUTF();
+                        String chuyennganh = in1.readUTF();
+                        String dokho = in1.readUTF();
+                        Log.d("cauHoi "+String.valueOf(dsCauHoi.size()), "đã nhận: \n" + noidung
+                                + "\n" + dapan1
+                                + "\n" + dapan2
+                                + "\n" + dapan3
+                                + "\n" + dapan4
+                                + "\n" + daadung
+                                + "\n" + chuyennganh
+                                + "\n" + dokho);
+                        CauHoi x = new CauHoi(noidung, new String[]{dapan1, dapan2, dapan3, dapan4},daadung,chuyennganh,Integer.parseInt(dokho));
+                        dsCauHoi.add(x);
+                        Thread.sleep(500);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                infoCauhoiTv.setText(String.valueOf(dsCauHoi.size()));
+                            }
+                        });
+                    }
                 }
             } catch (UnknownHostException ex) {
                 Log.e(TAG, "doInBackground(): " + ex.toString());
