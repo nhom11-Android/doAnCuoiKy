@@ -123,4 +123,11 @@ public class MainMenu extends AppCompatActivity {
             if(resultCode==-1) this.finish(); // code for delete user
         }
     }
+
+    public void onClickOnlinePlayBtn(View view) {
+        // gọi layout chờ người chơi vào
+        // gọi layout load câu hỏi
+        Intent intent = new Intent(this, OnlineModePre.class);
+        startActivity(intent);
+    }
 }
