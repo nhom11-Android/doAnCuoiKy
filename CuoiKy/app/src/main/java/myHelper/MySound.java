@@ -21,6 +21,10 @@ public class MySound {
         mediaPlayerNhacNen.release();
     }
 
+    public static void settingNhacNen(){
+        mediaPlayerNhacNen.setVolume(nhacNen, nhacNen);
+    }
+
     public static void amThanhGame( Context context, int resId){
         mediaPlayerAmThanh = MediaPlayer.create(context, resId);
         mediaPlayerAmThanh.setLooping(false);
