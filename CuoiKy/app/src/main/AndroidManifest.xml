@@ -14,26 +14,39 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AiLaTrieuPhu">
-        <activity android:name=".XacThucTaiKhoan" />
-        <activity android:name=".DangNhap"></activity>
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".TaoTaiKhoan" />
-        <activity android:name=".CallDialog">
+        <activity android:name=".PlayerOnline">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AudienceLayout" />
-        <activity android:name=".Setting"></activity>
-        <activity android:name=".HighScore" />
-        <activity android:name=".AboutDialog" />
-        <activity android:name=".PlayerLayoutMoney"></activity>
-        <activity android:name=".Player" />
-        <activity android:name=".MainMenu">
+        <activity android:name=".OnlineModePre">
 
         </activity>
+        <activity
+            android:name=".UserInfoCRUD"
+            android:noHistory="true" />
+        <activity
+            android:name=".XacThucTaiKhoan"
+            android:noHistory="true" />
+        <activity
+            android:name=".DangNhap"
+            android:noHistory="true" />
+        <activity
+            android:name=".TaoTaiKhoan"
+            android:noHistory="true" />
+        <activity android:name=".CallDialog" />
+        <activity android:name=".AudienceLayout" />
+        <activity android:name=".Setting" />
+        <activity android:name=".HighScore" />
+        <activity android:name=".AboutDialog" />
+        <activity android:name=".PlayerLayoutMoney" />
+        <activity android:name=".Player">
+
+        </activity>
+        <activity android:name=".MainMenu" />
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>

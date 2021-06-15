@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/activity_player"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:background="@drawable/player_background"
+tools:context=".PlayerOnline">
+
+    <LinearLayout
+        android:id="@+id/loadingLayout_PlayerOnline"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="#34FFFFFF"
+        android:visibility="invisible">
+        <ImageView
+            android:id="@+id/loadingIv_PlayerOnline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/loading"/>
+    </LinearLayout>
+
+<LinearLayout
+    android:id="@+id/chuanBiLayout_PlayerOnline"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:visibility="visible">
+    <TextView
+        android:id="@+id/chuanBiTv_PlayerOnline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chuẩn Bị"
+        android:textSize="60dp"
+        android:textColor="@color/white"
+        android:textStyle="bold"/>
+</LinearLayout>
+
+<LinearLayout
+    android:id="@+id/startGameLayout_PlayerOnline"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:visibility="invisible">
+    <TextView
+        android:id="@+id/startGameTv_PlayerOnline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bắt Đầu"
+        android:textSize="60dp"
+        android:textColor="@color/white"
+        android:textStyle="bold"/>
+</LinearLayout>
+
+
+
+<LinearLayout
+    android:id="@+id/playGameLayout_PlayerOnline"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:orientation="vertical"
+    android:visibility="invisible">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.8"
+        android:background="#ff210030"
+        android:gravity="center"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/tvTimer_PlayerOnline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="30"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ProgressBar
+            android:id="@+id/pg_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminateDrawable="@drawable/progressbar_time" />
+
+        <ImageView
+            android:id="@+id/ivDiem_PlayerOnline"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/tvDiem_PlayerOnline"
+            android:src="@drawable/img_money" />
+
+        <TextView
+            android:id="@+id/tvDiem_PlayerOnline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:text="150"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/ivPlayerOnline_PlayerOnline"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_no_avatar"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:visibility="invisible"/>
+    </RelativeLayout>
+
+<!--    <TableRow-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_weight="1.1"-->
+<!--        android:gravity="center">-->
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/imbtnStop_PlayerOnline"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_margin="16dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@drawable/btn_stop_bg"/>-->
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/imbtnChange_PlayerOnline"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_margin="16dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@drawable/btn_change_bg"-->
+<!--            />-->
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/imbtn5050_PlayerOnline"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_margin="16dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@drawable/btn_5050_bg"/>-->
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/imbtnAudience_PlayerOnline"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_margin="16dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@drawable/btn_audience_bg" />-->
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/imbtnCall_PlayerOnline"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_margin="16dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@drawable/btn_call_bg" />-->
+<!--    </TableRow>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:orientation="vertical"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/player_question_background">
+
+        <TextView
+            android:id="@+id/tvLevel_PlayerOnline"
+            android:layout_width="240dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center|top"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/player_order_question"
+            android:gravity="center"
+            android:text="Câu 1"
+            android:textColor="#9C27B0"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="30dp">
+            <TextView
+                android:id="@+id/tvQuestion_PlayerOnline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@android:color/holo_orange_light"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+        </ScrollView>
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/danhSachDapAnRg_PlayerOnline"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_marginTop="30dp"
+        android:paddingBottom="72dp"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp">
+
+        <RadioButton
+            android:id="@+id/rbCaseA_PlayerOnline"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_answer"
+            android:gravity="center_vertical"
+            android:paddingLeft="58dp"
+            android:text="A: Thứ hai"
+            android:textColor="#ffffff"
+            android:button="@null"
+            android:onClick="chonDapAn"/>
+
+        <RadioButton
+            android:id="@+id/rbCaseB_PlayerOnline"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_answer"
+            android:gravity="center_vertical"
+            android:paddingLeft="58dp"
+            android:text="B: Thứ sáu"
+            android:textColor="#ffffff"
+            android:button="@null"
+            android:onClick="chonDapAn" />
+
+        <RadioButton
+            android:id="@+id/rbCaseC_PlayerOnline"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_answer"
+            android:gravity="center_vertical"
+            android:paddingLeft="58dp"
+            android:text="C: Thứ tư"
+            android:textColor="#ffffff"
+            android:button="@null"
+            android:onClick="chonDapAn" />
+
+        <RadioButton
+            android:id="@+id/rbCaseD_PlayerOnline"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_answer"
+            android:gravity="center_vertical"
+            android:paddingLeft="58dp"
+            android:text="D: Thứ ba"
+            android:textColor="#ffffff"
+            android:button="@null"
+            android:onClick="chonDapAn" />
+    </RadioGroup>
+
+</LinearLayout>
+
+
+</FrameLayout>

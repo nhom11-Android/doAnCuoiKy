@@ -5,7 +5,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -14,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -27,7 +25,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Random;
 
 import CSDL_bean.BangXepHang;
 import CSDL_bean.CauHoi;
@@ -35,15 +32,15 @@ import DAO.BangXepHangDAO;
 import DAO.CauHoiDAO;
 import myHelper.MySound;
 
-public class Player extends AppCompatActivity {
-    ImageButton stopImbtn, changeImbtn, namMuoiImbtn, audienceImbtn, callImbtn;
+public class PlayerOnline extends AppCompatActivity {
+
     TextView timerTv, questionTv, levelTv, diemTv, chuanBiTv, batDauTv;
     RadioButton caseARb, caseBRb, caseCRb, caseDRb;
     RadioGroup danhSachDapAn;
     ImageView loadingIv;
     LinearLayout loadingLayout, chuanBiLayout, batDauLayout, playLayout;
     ArrayList<CauHoi> danhSachCauHoi;
-    int index = 0, level = 1, diem = 0, diemTroGiup = 20;
+    int index = 0, level = 1, diem = 0;
 
     CountDownTimer cTimer = null;
     AlertDialog dialog1 = null;
@@ -59,7 +56,7 @@ public class Player extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_player);
+        setContentView(R.layout.activity_player_online);
         setControl();
         setSound();
         setAnimation();
@@ -104,7 +101,7 @@ public class Player extends AppCompatActivity {
                 playLayout.setVisibility(View.VISIBLE);
                 setEvent();
                 if (!MySound.nhacNenIsPlaying())
-                    MySound.startNhacNen(Player.this, R.raw.nhac_nen);
+                    MySound.startNhacNen(PlayerOnline.this, R.raw.nhac_nen);
             }
         };
 
@@ -117,7 +114,7 @@ public class Player extends AppCompatActivity {
     }
 
     private void setSound() {
-        MySound.amThanhGame(Player.this, R.raw.start);
+        MySound.amThanhGame(PlayerOnline.this, R.raw.start);
     }
 
     private void setControl() {
@@ -125,149 +122,28 @@ public class Player extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-        stopImbtn = findViewById(R.id.imbtnStop_Player);
-        changeImbtn = findViewById(R.id.imbtnChange_Player);
-        namMuoiImbtn = findViewById(R.id.imbtn5050_Player);
-        audienceImbtn = findViewById(R.id.imbtnAudience_Player);
-        callImbtn = findViewById(R.id.imbtnCall_Player);
-        timerTv = findViewById(R.id.tvTimer_Player);
-        questionTv = findViewById(R.id.tvQuestion_Player);
-        levelTv = findViewById(R.id.tvLevel_Player);
-        diemTv = findViewById(R.id.tvDiem_Player);
-        chuanBiTv = findViewById(R.id.chuanBiTv_Player);
-        batDauTv = findViewById(R.id.startGameTv_Player);
-        caseARb = findViewById(R.id.rbCaseA_Player);
-        caseBRb = findViewById(R.id.rbCaseB_Player);
-        caseCRb = findViewById(R.id.rbCaseC_Player);
-        caseDRb = findViewById(R.id.rbCaseD_Player);
-        danhSachDapAn = findViewById(R.id.danhSachDapAnRg_Player);
-        loadingIv = findViewById(R.id.loadingIv_Player);
-        loadingLayout = findViewById(R.id.loadingLayout_Player);
-        chuanBiLayout = findViewById(R.id.chuanBiLayout_Player);
-        batDauLayout = findViewById(R.id.startGameLayout_Player);
-        playLayout = findViewById(R.id.playGameLayout_Player);
+        timerTv = findViewById(R.id.tvTimer_PlayerOnline);
+        questionTv = findViewById(R.id.tvQuestion_PlayerOnline);
+        levelTv = findViewById(R.id.tvLevel_PlayerOnline);
+        diemTv = findViewById(R.id.tvDiem_PlayerOnline);
+        loadingIv = findViewById(R.id.loadingIv_PlayerOnline);
+        chuanBiTv = findViewById(R.id.chuanBiTv_PlayerOnline);
+        batDauTv = findViewById(R.id.startGameTv_PlayerOnline);
+        caseARb = findViewById(R.id.rbCaseA_PlayerOnline);
+        caseBRb = findViewById(R.id.rbCaseB_PlayerOnline);
+        caseCRb = findViewById(R.id.rbCaseC_PlayerOnline);
+        caseDRb = findViewById(R.id.rbCaseD_PlayerOnline);
+        danhSachDapAn = findViewById(R.id.danhSachDapAnRg_PlayerOnline);
+        loadingLayout = findViewById(R.id.loadingLayout_PlayerOnline);
+        chuanBiLayout = findViewById(R.id.chuanBiLayout_PlayerOnline);
+        batDauLayout = findViewById(R.id.startGameLayout_PlayerOnline);
+        playLayout = findViewById(R.id.playGameLayout_PlayerOnline);
 
         danhSachCauHoi = new ArrayList<>();
         database = new CSDLAilatrieuphu(this);
     }
 
     private void setEvent() {
-        stopImbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LayoutInflater layoutInflater = LayoutInflater.from(Player.this);
-                View canhBaoDialog = layoutInflater.inflate(R.layout.canh_bao_dialog, null); // tìm dialog view layout từ inflater
-                MaterialAlertDialogBuilder alertDialogBuilder = new MaterialAlertDialogBuilder(Player.this); // tạo dialog builder : lớp hỗ trợ xây dựng dialog
-                alertDialogBuilder.setView(canhBaoDialog); // set view tìm được cho dialog
-                TextView tenCanhBao = canhBaoDialog.findViewById(R.id.tieuDeTv_CanhBaoDialog); // lấy control các trường đã tạo trên dialog
-                TextView noiDungCanhBao = canhBaoDialog.findViewById(R.id.noiDungTv_CanhBaoDialog);
-                tenCanhBao.setText("");
-                noiDungCanhBao.setText("Bạn muốn dừng chơi?");
-                alertDialogBuilder
-                        .setCancelable(false)
-                        .setPositiveButton("Dừng chơi", // cài đặt nút đồng ý hành động
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        cancelTimer();
-                                        ketThucLuotChoi();
-                                    }
-                                })
-                        .setNegativeButton("Huỷ", // cài đặt nút huỷ hành đọng
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.cancel();
-                                    }
-                                });
-
-                AlertDialog alertDialog = alertDialogBuilder.create(); // tạo dialog từ dialog builder
-                alertDialog.show();//show dialog
-            }
-        });
-
-        changeImbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                changeImbtn.setVisibility(View.INVISIBLE);
-                diemTroGiup -= 5;
-                index++;
-                hienThiCauHoi();
-                cancelTimer();
-                startTimer();
-            }
-        });
-
-        namMuoiImbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // lấy đáp án đúng và một câu hỏi bất kỳ
-//                CauHoi c = danhSachCauHoi.get(index);
-//                int dapAnDung = -1;
-                int dapAnDung = 1;
-//                String tmp = c.getDapAnDung();
-//                if (tmp.equals("A")){
-//                    dapAnDung = 0;
-//                }
-//                else if(tmp.equals("B")){
-//                    dapAnDung = 1;
-//                }
-//                else if(tmp.equals("C")){
-//                    dapAnDung = 2;
-//                }
-//                else {
-//                    dapAnDung = 3;
-//                }
-
-                int random = -1;
-                Random rand = new Random();
-                do {
-                    random = rand.nextInt(4);
-
-                }while(random == dapAnDung);
-
-                //Hiển thị đáp án đúng và 1 đáp án ngẫu nhiên.
-                namMuoiImbtn.setVisibility(View.INVISIBLE);
-                diemTroGiup -= 5;
-                caseARb.setVisibility(View.INVISIBLE);
-                caseBRb.setVisibility(View.INVISIBLE);
-                caseCRb.setVisibility(View.INVISIBLE);
-                caseDRb.setVisibility(View.INVISIBLE);
-                troGiupDapAn(dapAnDung);
-                troGiupDapAn(random);
-            }
-        });
-
-        audienceImbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                audienceImbtn.setVisibility(View.INVISIBLE);
-                diemTroGiup -= 5;
-                Intent intent = new Intent(Player.this, AudienceLayout.class);
-//                intent.putExtra("idCauHoi", danhSachCauHoi.get(index).getId());
-                startActivity(intent);
-                System.out.println("do after call");
-            }
-        });
-
-//        callImbtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                callImbtn.setVisibility(View.INVISIBLE);
-//                diemTroGiup -= 5;
-//                Intent intent = new Intent(Player.this, AudienceLayout.class);
-//                intent.putExtra("idCauHoi", danhSachCauHoi.get(index).getId());
-//                startActivity(intent);
-//            }
-//        });
-        callImbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent= new Intent(Player.this, CallDialog.class);
-                startActivity(intent);
-            }
-        });
-
 //        getQuestions();
         try {
             Thread.sleep(1000);
@@ -336,9 +212,9 @@ public class Player extends AppCompatActivity {
                 }
             }
             public void onFinish() {
-                LayoutInflater layoutInflater = LayoutInflater.from(Player.this);
+                LayoutInflater layoutInflater = LayoutInflater.from(PlayerOnline.this);
                 View canhBaoDialog = layoutInflater.inflate(R.layout.canh_bao_dialog, null); // tìm dialog view layout từ inflater
-                MaterialAlertDialogBuilder alertDialogBuilder = new MaterialAlertDialogBuilder(Player.this); // tạo dialog builder : lớp hỗ trợ xây dựng dialog
+                MaterialAlertDialogBuilder alertDialogBuilder = new MaterialAlertDialogBuilder(PlayerOnline.this); // tạo dialog builder : lớp hỗ trợ xây dựng dialog
                 alertDialogBuilder.setView(canhBaoDialog); // set view tìm được cho dialog
                 TextView tenCanhBao = canhBaoDialog.findViewById(R.id.tieuDeTv_CanhBaoDialog); // lấy control các trường đã tạo trên dialog
                 TextView noiDungCanhBao = canhBaoDialog.findViewById(R.id.noiDungTv_CanhBaoDialog);
@@ -407,9 +283,9 @@ public class Player extends AppCompatActivity {
         try{
             int id = view.getId();
             RadioButton radioSelected = findViewById(id);
-            LayoutInflater layoutInflater = LayoutInflater.from(Player.this);
+            LayoutInflater layoutInflater = LayoutInflater.from(PlayerOnline.this);
             View canhBaoDialog = layoutInflater.inflate(R.layout.canh_bao_dialog, null); // tìm dialog view layout từ inflater
-            MaterialAlertDialogBuilder alertDialogBuilder = new MaterialAlertDialogBuilder(Player.this); // tạo dialog builder : lớp hỗ trợ xây dựng dialog
+            MaterialAlertDialogBuilder alertDialogBuilder = new MaterialAlertDialogBuilder(PlayerOnline.this); // tạo dialog builder : lớp hỗ trợ xây dựng dialog
             alertDialogBuilder.setView(canhBaoDialog); // set view tìm được cho dialog
             TextView tenCanhBao = canhBaoDialog.findViewById(R.id.tieuDeTv_CanhBaoDialog); // lấy control các trường đã tạo trên dialog
             TextView noiDungCanhBao = canhBaoDialog.findViewById(R.id.noiDungTv_CanhBaoDialog);
@@ -478,9 +354,9 @@ public class Player extends AppCompatActivity {
             RadioButton dapAnDung = caseBRb;
             dapAnDung.setBackgroundResource(R.drawable.player_answer_background_true);
             if(dapAnChon.getId() == dapAnDung.getId()){
-                MySound.amThanhGame(Player.this, R.raw.am_thanh_tra_loi_dung);
+                MySound.amThanhGame(PlayerOnline.this, R.raw.am_thanh_tra_loi_dung);
 //                diem += c.getDoKho();
-                diemTv.setText(String.valueOf(diem*1000000));
+                diemTv.setText(String.valueOf(diem*100000));
                 level++;
                 if(level == 6){
                     index = 6;
@@ -516,7 +392,7 @@ public class Player extends AppCompatActivity {
                 h2.postDelayed(cauHoiMoi, 4000);
             }
             else{
-                MySound.amThanhGame(Player.this, R.raw.am_thanh_tra_loi_sai);
+                MySound.amThanhGame(PlayerOnline.this, R.raw.am_thanh_tra_loi_sai);
                 dapAnChon.setBackgroundResource(R.drawable.player_answer_background_wrong);
                 Runnable r = new Runnable() {
                     @Override
@@ -525,7 +401,7 @@ public class Player extends AppCompatActivity {
                     }
                 };
                 Handler h = new Handler();
-                h.postDelayed(r, 5000);
+                h.postDelayed(r, 4000);
             }
             return 0;
         }
@@ -540,7 +416,7 @@ public class Player extends AppCompatActivity {
          */
         if(MySound.nhacNenIsPlaying())
             MySound.stopNhacNen();
-        MySound.amThanhGame(Player.this, R.raw.end);
+        MySound.amThanhGame(PlayerOnline.this, R.raw.end);
         try{
             LayoutInflater layoutInflater = LayoutInflater.from(this);
             View stopGameDialog = layoutInflater.inflate(R.layout.stop_game_dialog, null); // tìm dialog view layout từ inflater
@@ -549,7 +425,6 @@ public class Player extends AppCompatActivity {
             TextView tenCanhBao = stopGameDialog.findViewById(R.id.tieuDeTv_StopGameDialog); // lấy control các trường đã tạo trên dialog
             TextView noiDungCanhBao = stopGameDialog.findViewById(R.id.noiDungTv_StopGameDialog);
             String msg = "";
-            diem += diemTroGiup;
             if (index <= 10){
                 tenCanhBao.setText("Cố gắng hơn nhé !!");
                 msg += "Bạn trả lời đúng " + (level - 1) +" câu.\n";
@@ -564,7 +439,7 @@ public class Player extends AppCompatActivity {
                 tenCanhBao.setText("Tuyệt vời !!!");
                 msg += "Bạn trả lời đúng tất cả 15 câu.\n";
             }
-            msg += " Tiền thưởng đạt được " + String.valueOf(diem*1000000);
+            msg += " Tiền thưởng đạt được " + String.valueOf(diem*100000);
             noiDungCanhBao.setText(msg);
 
             alertDialogBuilder
@@ -579,7 +454,7 @@ public class Player extends AppCompatActivity {
                                     BangXepHang bangXepHang = new BangXepHang(ngay, diem);
                                     int check = BangXepHangDAO.themKyLuc(bangXepHang, database);
                                     if (check != 0)
-                                        Toast.makeText(Player.this, "Thêm kỷ lục thất bại !", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(PlayerOnline.this, "Thêm kỷ lục thất bại !", Toast.LENGTH_SHORT).show();
                                     MySound.stopAmThanh();
                                     finish();
                                 }
