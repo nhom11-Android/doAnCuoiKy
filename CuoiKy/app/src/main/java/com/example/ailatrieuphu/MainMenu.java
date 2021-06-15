@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import myHelper.MySound;
+
 public class MainMenu extends AppCompatActivity {
     ImageButton btn_about, btn_high_score, btn_setting, btn_close, btn_play, btn_luyentap, btn_online;
     Button btn_thoat_dialog, btn_thoat_yes, btn_thoat_no;
@@ -50,6 +52,8 @@ public class MainMenu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MainMenu.this.finishAffinity();
+                if(MySound.nhacNenIsPlaying())
+                    MySound.stopNhacNen();
                 System.exit(0);
             }
         });

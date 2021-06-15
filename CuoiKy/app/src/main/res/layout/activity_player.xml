@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_player"
@@ -8,14 +8,61 @@
     android:orientation="vertical"
     android:background="@drawable/player_background"
     tools:context=".Player">
+    <LinearLayout
+        android:id="@+id/loadingLayout_Player"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="#34FFFFFF">
+        <ImageView
+            android:id="@+id/loadingIv_Player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/loading"/>
+    </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ln_play"
+        android:id="@+id/chuanBiLayout_Player"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="invisible">
+        <TextView
+            android:id="@+id/chuanBiTv_Player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chuẩn Bị"
+            android:textSize="60dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/startGameLayout_Player"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="invisible">
+        <TextView
+            android:id="@+id/startGameTv_Player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bắt đầu"
+            android:textSize="60dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/playGameLayout_Player"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="invisible">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -225,9 +272,6 @@
         </RadioGroup>
 
     </LinearLayout>
-    <include layout="@layout/activity_player_layout_money"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"/>
 
-</LinearLayout>
+
+</FrameLayout>
