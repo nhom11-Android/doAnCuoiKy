@@ -2,8 +2,14 @@ package myHelper;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -136,7 +142,6 @@ class RandomString {
     }
 
 }
-
 class SortMap{
     private static Map<String, Integer> unsortMap;
     public SortMap(Map<String,Integer> map){
@@ -166,5 +171,3 @@ class SortMap{
         return sortedMap;
     }
 }
-
-
