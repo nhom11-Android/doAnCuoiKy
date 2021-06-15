@@ -1,10 +1,15 @@
 package com.example.ailatrieuphu;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import myHelper.MySound;
@@ -20,11 +25,26 @@ public class Setting extends AppCompatActivity {
         setContentView(R.layout.activity_setting);
         setControl();
         setEvent();
+        MySound.startNhacNen(Setting.this, R.raw.nhac_nen);
     }
 
     private void setControl() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         nhacNenTgBtn = findViewById(R.id.togMusic_Setting);
         amThanhTgBtn = findViewById(R.id.togSound_Setting);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setEvent() {
@@ -35,13 +55,13 @@ public class Setting extends AppCompatActivity {
                     nhacNenTgBtn.setBackgroundResource(R.drawable.toggle_button_off);
                     MySound.setNhacNen(0);
                     if(MySound.nhacNenIsPlaying())
-                        MySound.stopNhacNen();
+                        MySound.settingNhacNen();
                 }
                 else {
                     nhacNenTgBtn.setBackgroundResource(R.drawable.toggle_button_on);
                     MySound.setNhacNen((float)0.5);
-                    if(!MySound.nhacNenIsPlaying())
-                        MySound.stopNhacNen();
+                    if(MySound.nhacNenIsPlaying())
+                        MySound.settingNhacNen();
                 }
             }
         });
