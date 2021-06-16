@@ -240,15 +240,24 @@ public class Player extends AppCompatActivity {
                 audienceImbtn.setVisibility(View.INVISIBLE);
                 diemTroGiup -= 1;
                 Intent intent = new Intent(Player.this, AudienceLayout.class);
-                intent.putExtra("idCauHoi", danhSachCauHoi.get(index).getId());
+                intent.putExtra("idCauHoi", String.valueOf(danhSachCauHoi.get(index).getId()));
                 startActivity(intent);
-                System.out.println("do after call");
             }
         });
 
+//        callImbtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                callImbtn.setVisibility(View.INVISIBLE);
+//                diemTroGiup -= 5;
+//                Intent intent = new Intent(Player.this, AudienceLayout.class);
+//                intent.putExtra("idCauHoi", danhSachCauHoi.get(index).getId());
+//                startActivity(intent);
+//            }
+//        });
         callImbtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 callImbtn.setVisibility(View.INVISIBLE);
                 cancelTimer();
                 startTimer((currentTime + 30)*1000);
