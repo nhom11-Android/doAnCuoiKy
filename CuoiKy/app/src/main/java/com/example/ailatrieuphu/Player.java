@@ -249,9 +249,11 @@ public class Player extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 callImbtn.setVisibility(View.INVISIBLE);
-                diemTroGiup -= 5;
-                Intent intent= new Intent(Player.this, CallDialog.class);
-                intent.putExtra("idCauHoi", String.valueOf(danhSachCauHoi.get(index).getId()));
+                diemTroGiup -= 1;
+                cancelTimer();
+                startTimer((currentTime+30)*1000);
+                Intent intent = new Intent(Player.this, AudienceLayout.class);
+                intent.putExtra("idCauHoi", danhSachCauHoi.get(index).getId());
                 startActivity(intent);
             }
         });
@@ -454,7 +456,6 @@ public class Player extends AppCompatActivity {
          *
          */
         cancelTimer();
-//        int diem = Integer.parseInt(diemTv.getText().toString());
         try {
             CauHoi c = danhSachCauHoi.get(index);
             RadioButton dapAnDung = getDapAnDung(c.getDapAnDung());
