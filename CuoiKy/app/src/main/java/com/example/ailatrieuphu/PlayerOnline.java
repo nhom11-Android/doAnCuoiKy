@@ -441,12 +441,12 @@ public class PlayerOnline extends AppCompatActivity {
             TextView tenCanhBao = stopGameDialog.findViewById(R.id.tieuDeTv_StopGameDialog); // lấy control các trường đã tạo trên dialog
             TextView noiDungCanhBao = stopGameDialog.findViewById(R.id.noiDungTv_StopGameDialog);
             String msg = "";
-            if (index <= 10){
+            if (level - 1 <= 10){
                 tenCanhBao.setText("Cố gắng hơn nhé !!");
                 msg += "Bạn trả lời đúng " + (level - 1) +" câu.\n";
                 noiDungCanhBao.setText(msg);
             }
-            else if (index < 15){
+            else if (level - 1 < 15){
                 tenCanhBao.setText("Xuất sắc !!");
                 msg += "Bạn trả lời đúng " + (level - 1) +" câu.\n";
                 noiDungCanhBao.setText(msg);
