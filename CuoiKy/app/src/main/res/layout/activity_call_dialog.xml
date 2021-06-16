@@ -42,7 +42,9 @@
                 android:text="Đóng"
                 android:textColor="#ffffff"
                 android:textAllCaps="false"
-                android:background="@drawable/dialog_confirm_background_button"/>
+                android:background="@drawable/dialog_confirm_background_button"
+                android:onClick="onClickCloseCallHelp"
+                />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ln_call_01"

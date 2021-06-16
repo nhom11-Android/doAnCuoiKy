@@ -248,22 +248,13 @@ public class Player extends AppCompatActivity {
             }
         });
 
-//        callImbtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                callImbtn.setVisibility(View.INVISIBLE);
-//                diemTroGiup -= 5;
-//                Intent intent = new Intent(Player.this, AudienceLayout.class);
-//                intent.putExtra("idCauHoi", danhSachCauHoi.get(index).getId());
-//                startActivity(intent);
-//            }
-//        });
         callImbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 callImbtn.setVisibility(View.INVISIBLE);
                 diemTroGiup -= 5;
                 Intent intent= new Intent(Player.this, CallDialog.class);
+                intent.putExtra("idCauHoi", String.valueOf(danhSachCauHoi.get(index).getId()));
                 startActivity(intent);
             }
         });
@@ -471,7 +462,7 @@ public class Player extends AppCompatActivity {
          *
          */
         cancelTimer();
-        int diem = Integer.parseInt(diemTv.getText().toString());
+//        int diem = Integer.parseInt(diemTv.getText().toString());
         try {
             CauHoi c = danhSachCauHoi.get(index);
             RadioButton dapAnDung = getDapAnDung(c.getDapAnDung());

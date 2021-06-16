@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -33,7 +34,8 @@ public class CallDialog extends AppCompatActivity {
     }
 
     private void setEvent() {
-//        CauHoi cauHoi = CauHoiDAO.timCauHoiTuID(idCauhoi, new CSDLAilatrieuphu(this));
+        idCauhoi = Integer.parseInt(getIntent().getStringExtra("idCauHoi"));
+        CauHoi cauHoi = CauHoiDAO.timCauHoiTuID(idCauhoi, new CSDLAilatrieuphu(this));
 //        String da1,da2,da3,da4,dad;
 //        da1 = cauHoi.getDapAn()[0];
 //        da2 = cauHoi.getDapAn()[1];
@@ -41,14 +43,14 @@ public class CallDialog extends AppCompatActivity {
 //        da4 = cauHoi.getDapAn()[3];
 //        dad = cauHoi.getDapAnDung();
 
-        String cauHoi = "Hôm nay là thứ mấy";
-        String chuyenNganh ="Giáo sư";
+        String chuyenNganh =cauHoi.getChuyenNganh();
+        Log.d("call_help", ""+chuyenNganh);
         String da1,da2,da3,da4,dad;
         da1 = "A";
         da2 = "B";
         da3 = "C";
         da4 = "D";
-        dad = "B";
+        dad = cauHoi.getDapAnDung();
         if(da1.equals(dad)){
             trueAnswer = "A";
         }
@@ -68,7 +70,7 @@ public class CallDialog extends AppCompatActivity {
                 callsLayout.addView(answerLayout);
                 answerLayout.setVisibility(View.VISIBLE);
                 answerLayout.addView(callLayout_1, 0);
-                if(chuyenNganh=="Bác Sĩ"){
+                if(chuyenNganh.equals("Bác Sĩ")){
                     tvAnswer.setText("Theo tôi đáp án đúng là " + trueAnswer);
                 }else{
                     Random rand = new Random();
@@ -95,7 +97,7 @@ public class CallDialog extends AppCompatActivity {
                 callsLayout.addView(answerLayout);
                 answerLayout.setVisibility(View.VISIBLE);
                 answerLayout.addView(callLayout_2, 0);
-                if(chuyenNganh=="Giáo sư"){
+                if(chuyenNganh.equals("Giáo sư")){
                     tvAnswer.setText("Theo tôi đáp án đúng là " + trueAnswer);
                 }else{
                     Random rand = new Random();
@@ -122,7 +124,7 @@ public class CallDialog extends AppCompatActivity {
                 callsLayout.addView(answerLayout);
                 answerLayout.setVisibility(View.VISIBLE);
                 answerLayout.addView(callLayout_3, 0);
-                if(chuyenNganh=="Kĩ sư"){
+                if(chuyenNganh.equals("Kĩ sư")){
                     tvAnswer.setText("Theo tôi đáp án đúng là " + trueAnswer);
                 }else{
                     Random rand = new Random();
@@ -149,7 +151,7 @@ public class CallDialog extends AppCompatActivity {
                 callsLayout.addView(answerLayout);
                 answerLayout.setVisibility(View.VISIBLE);
                 answerLayout.addView(callLayout_4, 0);
-                if(chuyenNganh=="Phóng viên"){
+                if(chuyenNganh.equals("Phóng viên")){
                     tvAnswer.setText("Theo tôi đáp án đúng là " + trueAnswer);
                 }else{
                     Random rand = new Random();
@@ -167,13 +169,6 @@ public class CallDialog extends AppCompatActivity {
                         tvAnswer.setText("Theo tôi đáp án đúng là D");
                     }
                 }
-            }
-        });
-        btn_close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CallDialog.this.finish();
-                //CallDialog.this.finishAffinity();
             }
         });
     }
@@ -194,5 +189,9 @@ public class CallDialog extends AppCompatActivity {
         callLayout_4 = findViewById(R.id.ln_call_04);
         tvAnswer = findViewById(R.id.tv_answer);
         btn_close = findViewById(R.id.btn_close);
+    }
+
+    public void onClickCloseCallHelp(View view) {
+        this.finish();
     }
 }
