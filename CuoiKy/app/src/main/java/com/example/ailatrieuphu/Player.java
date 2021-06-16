@@ -249,13 +249,22 @@ public class Player extends AppCompatActivity {
             }
         });
 
+//        callImbtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                callImbtn.setVisibility(View.INVISIBLE);
+//                diemTroGiup -= 5;
+//                Intent intent = new Intent(Player.this, AudienceLayout.class);
+//                intent.putExtra("idCauHoi", danhSachCauHoi.get(index).getId());
+//                startActivity(intent);
+//            }
+//        });
         callImbtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 callImbtn.setVisibility(View.INVISIBLE);
                 diemTroGiup -= 5;
-                Intent intent = new Intent(Player.this, AudienceLayout.class);
-                intent.putExtra("idCauHoi", danhSachCauHoi.get(index).getId());
+                Intent intent= new Intent(Player.this, CallDialog.class);
                 startActivity(intent);
             }
         });

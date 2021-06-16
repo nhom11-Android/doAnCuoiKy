@@ -38,13 +38,12 @@
             <Button
                 android:id="@+id/btn_close"
                 android:layout_width="102dp"
-                android:layout_height="28dp"
+                android:layout_height="wrap_content"
                 android:text="Đóng"
                 android:textColor="#ffffff"
                 android:textAllCaps="false"
                 android:background="@drawable/dialog_confirm_background_button"/>
         </LinearLayout>
-
         <LinearLayout
             android:id="@+id/ln_call_01"
             android:layout_alignParentLeft="true"
