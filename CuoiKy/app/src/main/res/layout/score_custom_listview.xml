@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
+    <TextView
+        android:id="@+id/ngayTv_ScoreListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:text="hdhdhd"
+        android:layout_weight="1"
+        android:textColor="@color/white"
+        android:textStyle="italic"
+        android:gravity="center_horizontal" />
     <TextView
         android:id="@+id/diemTv_ScoreListView"
         android:layout_width="match_parent"
@@ -10,14 +23,11 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:textAllCaps="true"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
+        android:text="bdbdba"
+        android:layout_weight="1"
+        android:textAlignment="center"
+        android:gravity="center_horizontal"
         />
-    <TextView
-        android:id="@+id/ngayTv_ScoreListView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textAllCaps="true"
-        android:textColor="@color/black"
-        android:textStyle="italic"/>
+
 </LinearLayout>

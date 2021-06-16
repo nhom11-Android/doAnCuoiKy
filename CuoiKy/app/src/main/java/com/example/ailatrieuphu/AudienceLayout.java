@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -33,10 +34,11 @@ public class AudienceLayout extends AppCompatActivity {
         setContentView(R.layout.activity_audience_layout);
         getSupportActionBar().hide();
         // TODO: 6/14/2021 check before real demo  
-//        idCauhoi = Integer.parseInt(getIntent().getStringExtra("idCauHoi"));
+        idCauhoi = Integer.parseInt(getIntent().getStringExtra("idCauHoi"));
         setControl();
-//        cotDung = getCauHoi();
-        cotDung = 2; // 1 = A, ... ;4 = D
+        cotDung = getCotDung();
+        Log.d("call_audian", ""+cotDung);
+//        cotDung = 2; // 1 = A, ... ;4 = D
         veDoThi(cotDung);
     }
 
@@ -88,18 +90,14 @@ public class AudienceLayout extends AppCompatActivity {
         return data;
     }
 
-    private int getCauHoi() {
+    private int getCotDung() {
         CauHoi cauHoi = CauHoiDAO.timCauHoiTuID(idCauhoi, new CSDLAilatrieuphu(this));
-        String da1,da2,da3,da4,dad;
-        da1 = cauHoi.getDapAn()[0];
-        da2 = cauHoi.getDapAn()[1];
-        da3 = cauHoi.getDapAn()[2];
-        da4 = cauHoi.getDapAn()[3];
+        String dad;
         dad = cauHoi.getDapAnDung();
-        if(da1.equals(dad)) return 1;
-        if(da2.equals(dad)) return 2;
-        if(da3.equals(dad)) return 3;
-        if(da4.equals(dad)) return 4;
+        if(dad.equals("A")) return 1;
+        if(dad.equals("B")) return 2;
+        if(dad.equals("C")) return 3;
+        if(dad.equals("D")) return 4;
         return 0;
     }
 

@@ -1,14 +1,19 @@
 package com.example.ailatrieuphu;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +36,7 @@ import socketConnect.ConnectionHandler;
 public class OnlineModePre extends AppCompatActivity {
     TextView infoRoomTv,infoCauhoiTv;
     ImageView pl1,pl2,pl3,pl4;
-    Button readyBtn;
+    ImageButton readyBtn;
     String join = "";
     boolean is_full = false;
     ArrayList<CauHoi> dsCauHoi = new ArrayList<>();
@@ -40,8 +45,29 @@ public class OnlineModePre extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_online_mode_pre);
         setControl();
+        configActionBar();
         setConnectToServer();
     }
+
+    private void configActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Trở lại");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            actionBar.setBackgroundDrawable(getDrawable(R.drawable.home_background));
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void setControl() {
 //        infoRoomTv = findViewById(R.id.inRoomInfo_OMP);
         infoCauhoiTv = findViewById(R.id.cauHoiInfo_OMP);
@@ -124,6 +150,7 @@ public class OnlineModePre extends AppCompatActivity {
                             @Override
                             public void run() {
                                 readyBtn.setEnabled(true);
+                                readyBtn.setImageResource(R.drawable.launchpad_50px);
                             }
                         });
                     }

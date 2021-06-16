@@ -6,8 +6,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".OnlineModePre"
-    android:background="@drawable/home_background">
+    android:background="@drawable/home_background"
+    android:paddingHorizontal="20dp">
     <TextView
+        android:layout_marginVertical="50dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30sp"
@@ -21,6 +23,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
+        android:layout_marginBottom="50dp"
         >
         <ImageView
             android:id="@+id/player1"
@@ -63,7 +66,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="50sp"
+        android:textSize="30sp"
         android:layout_gravity="center"
         android:gravity="center"
         android:text="Số lượng câu hỏi được load"
@@ -79,14 +82,17 @@
         android:text="0"
         android:textColor="@color/white"
         />
-    <Button
+
+    <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/readyBtn_OMP"
+        android:layout_width="106dp"
+        android:layout_height="95dp"
         android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Vào game"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/launchpad_150px"
         android:onClick="onClickReadyPlayOnline"
-        />
+        android:scaleType="fitXY"
+        android:text="Vào game" />
 
 
 </LinearLayout>

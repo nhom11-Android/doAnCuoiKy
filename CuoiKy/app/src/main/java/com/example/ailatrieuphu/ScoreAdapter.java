@@ -55,7 +55,7 @@ public class ScoreAdapter extends ArrayAdapter<BangXepHang> {
 
         // gán data lên view
         BangXepHang bangXepHang = data.get(position);
-        diemTv.setText(bangXepHang.getDiem());
+        diemTv.setText(String.valueOf(bangXepHang.getDiem()));
         ngayTv.setText(bangXepHang.getNgay());
         return convertView;
     }
