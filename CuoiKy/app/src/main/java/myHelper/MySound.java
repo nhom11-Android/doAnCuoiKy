@@ -39,7 +39,9 @@ public class MySound {
     }
 
     public static void stopAmThanh(){
+        mediaPlayerAmThanh.reset();
         mediaPlayerAmThanh.release();
+        mediaPlayerAmThanh = null;
     }
 
     public static void setAmThanh(float amThanh) {

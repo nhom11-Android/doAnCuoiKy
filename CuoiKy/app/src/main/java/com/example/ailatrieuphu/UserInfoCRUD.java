@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -68,8 +69,10 @@ public class UserInfoCRUD extends AppCompatActivity {
         matKhauEdt.setText(loadUser.getMatKhau());
     }
 
+    /**
+     * @param view setResul = -2 để trả về result code cho activity cha
+     */
     public void onClickxoaTaiKhoan(View view) {
-        final boolean[] is_deleted = {false};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle("Chú ý");
@@ -80,17 +83,19 @@ public class UserInfoCRUD extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 // Do nothing but close the dialog
                 // TODO: 6/13/2021 xoá  user
-                if(UserDAO.deleteUserByMail(loadUser.getEmail(),database)==1){
+                if(UserDAO.deleteUserByMail(loadUser.getEmail(),tenDangNhap,database)==1){
                     Toast.makeText(UserInfoCRUD.this, "Đã xoá người chơi thành công !", Toast.LENGTH_SHORT).show();
-                    is_deleted[0] = true;
-                    setResult(-1);
+                    setResult(-2);
+                    // xoá login ra khỏi sharedReference, xoá cờ login, xoá info
+                    SharedPreferences.Editor editor = getSharedPreferences(MainActivity.mySettingRef, MODE_PRIVATE).edit();
+                    editor.clear(); // xoá tất cả references đã lưu
+                    editor.apply();
+                    // finish activity
                     UserInfoCRUD.this.finish();
                 }
                 else{
                     Toast.makeText(UserInfoCRUD.this, "Đã có lỗi xảy ra. Liên hệ nhà sản xuất để biết thêm chi tiết !", Toast.LENGTH_SHORT).show();
                 }
-//                is_deleted[0] = true;
-
             }
         });
 
@@ -137,6 +142,45 @@ public class UserInfoCRUD extends AppCompatActivity {
             }
         }
     }
+
+    /**
+     * @param view setResult = -1 để xác định là logout mà ko xoá tài khoản
+     */
+    public void onClickDangXuatTaiKhoan(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Chú ý");
+        builder.setMessage("Bạn có chắc muốn đăng xuất tài khoản ?");
+
+        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing but close the dialog
+                // TODO: 6/13/2021 thoát user
+                // xoá login ra khỏi sharedReference, xoá cờ login, xoá info
+                SharedPreferences.Editor editor = getSharedPreferences(MainActivity.mySettingRef, MODE_PRIVATE).edit();
+                editor.clear(); // xoá tất cả references đã lưu
+                editor.apply();
+                setResult(-1);
+                UserInfoCRUD.this.finish();
+            }
+        });
+
+        builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                setResult(0);
+                // Do nothing
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+
+    }
+
     private int kiemTraThongTin() {
         int ret = 1;
         String tenDangNhap = tenDangNhapEdt.getText().toString().trim();
@@ -154,4 +198,6 @@ public class UserInfoCRUD extends AppCompatActivity {
         }
         return ret;
     }
+
+
 }

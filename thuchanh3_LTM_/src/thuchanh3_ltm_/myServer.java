@@ -23,8 +23,9 @@ import java.util.logging.Logger;
  * @author thanh
  */
 public class myServer {
+    public static String injoin = "";
     int count_part = 0;
-
+    public static ArrayList<String> whojoin = new ArrayList<>();
     int port;
     public static ArrayList<Socket> listClient;
 
@@ -47,7 +48,7 @@ public class myServer {
                 if(listClient.size()==2){
                     is_accept = false;
                 }
-                System.out.println("Kết nối đến client : " + soc);
+                System.out.println("Kết nối đến client : " + soc + " người chơi "+injoin);
                 write.write2server("user");
                 write.write2server(String.valueOf(listClient.size()));
                 readFrom read = new readFrom(soc);
@@ -67,7 +68,6 @@ public class myServer {
                 write.write2server(i.getDapAnDung());
                 write.write2server(i.getChuyenNganh());
                 write.write2server(String.valueOf(i.getDoKho()));
-                
             }
         } catch (IOException ex) {
             Logger.getLogger(myServer.class.getName()).log(Level.SEVERE, null, ex);
@@ -86,28 +86,26 @@ public class myServer {
 class readFrom extends Thread {
 
     Socket svSoc;
-
+    
     public readFrom(Socket svSoc) {
         this.svSoc = svSoc;
     }
-
     @Override
     public void run() {
 
         DataInputStream recvStream = null;
         try {
-                recvStream = new DataInputStream(svSoc.getInputStream());
+            recvStream = new DataInputStream(svSoc.getInputStream());
             while (true) {
-
-                String messg = recvStream.readUTF(); // đọc từ client về
+                String messg = recvStream.readUTF(); // đọc từ client về tên user
+                if(messg.equals("diem")) System.err.println("Nhan diem");
                 for (Socket item : myServer.listClient) {
                     if (item.getPort() != svSoc.getPort()) {
                         DataOutputStream dos = new DataOutputStream(item.getOutputStream());
-                        dos.writeUTF(messg);
+                        dos.writeUTF(messg); // ghi ra tất cả các user khác
                     }
                 }
                 System.out.println(messg); // ghi ra màn hình
-                
             }
         } catch (Exception e) {
             try {

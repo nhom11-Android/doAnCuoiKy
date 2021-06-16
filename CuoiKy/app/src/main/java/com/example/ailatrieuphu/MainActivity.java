@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,13 +15,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import CSDL_bean.CauHoi;
+import CSDL_bean.User;
+import DAO.BangXepHangDAO;
 import DAO.CauHoiDAO;
+import DAO.UserDAO;
 import myHelper.HttpWorking;
 import myHelper.MySound;
 import myHelper.MySuperFunc;
 
 public class MainActivity extends AppCompatActivity {
-
+    public static final String mySettingRef = "SettingRef";
+    CSDLAilatrieuphu database = new CSDLAilatrieuphu(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,11 +33,35 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         Log.d("test", "create");
-//        cauhoi2Database();
+//        chiGoiMotLanDeKhoiTaoDatabase(); // chỉ 1 lần
+//        BangXepHangDAO.xoaTatCaBanGhi(database);
+        boolean checkLogon = checkingIsLoginBefore();
+        if(checkLogon){ // nếu đúng thì bỏ qua khỏi đăng nhập
+            String tenDangNhap = getSharedPreferences(mySettingRef,MODE_PRIVATE).getString("tenDangNhap","no_user");
+            Intent intent = new Intent(this,MainMenu.class);
+            intent.putExtra("tenDangNhap",tenDangNhap);
+            startActivity(intent);
+        }
+    }
+
+    private void chiGoiMotLanDeKhoiTaoDatabase() {
+        cauhoi2Database();
+//        User a = new User("letuan123","12345","thanhtuan9906@gmail.com");
+        User b = new User("user2","12345","n17dcat061@student.ptithcm.edu.vn");
+//        UserDAO.themUser(a,database);
+        UserDAO.themUser(b,database);
+    }
+
+    private boolean checkingIsLoginBefore() {
+        SharedPreferences pref = getSharedPreferences(mySettingRef,MODE_PRIVATE);
+        String is_login = pref.getString("is_login","not_login");
+        if(is_login.equals("not_login")) return false;
+        return true;
+
     }
 
     private void cauhoi2Database() {
-        CSDLAilatrieuphu database = new CSDLAilatrieuphu(this);
+
         InputStream inputStream = this.getResources().openRawResource(R.raw.cauhoi);
 
         InputStreamReader inputreader = new InputStreamReader(inputStream);

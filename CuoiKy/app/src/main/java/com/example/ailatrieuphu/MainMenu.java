@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import DAO.UserDAO;
 import myHelper.MySound;
 
 public class MainMenu extends AppCompatActivity {
@@ -18,6 +19,7 @@ public class MainMenu extends AppCompatActivity {
     Button btn_thoat_dialog, btn_thoat_yes, btn_thoat_no;
     Dialog info_dialog, thoat_dialog;
     int request_code_for_user_crud = 1;
+    String tenDangNhap; // lấy trong intent
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,9 +115,13 @@ public class MainMenu extends AppCompatActivity {
         btn_online=findViewById(R.id.onlineBtn_MM);
     }
 
+    /**
+     * @param view gọi 1 activity để nhận về kết quả với hàm
+     *             nếu result = -1 thì exit về màn hình đăng nhập
+     */
     public void onClickUserInfo(View view) {
         // TODO: 6/13/2021 xoá sửa thông tin người chơi, gọi userinfoCURD
-        String tenDangNhap = getIntent().getStringExtra("tenDangNhap");
+        tenDangNhap = getIntent().getStringExtra("tenDangNhap");
         Intent intent = new Intent(this,UserInfoCRUD.class);
         intent.putExtra("tenDangNhap",tenDangNhap);
         startActivityForResult(intent,request_code_for_user_crud);
@@ -125,7 +131,10 @@ public class MainMenu extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==request_code_for_user_crud){
-            if(resultCode==-1) this.finish(); // code for delete user
+            if(resultCode==-1) this.finish(); // code for logout user
+            if(resultCode==-2){
+                this.finish(); // code for delete account user
+            }
         }
     }
 

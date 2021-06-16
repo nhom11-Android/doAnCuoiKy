@@ -103,4 +103,15 @@
         android:padding="10dp"
         android:text="Sửa tài khoản"
         android:textSize="20sp" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:tag="sua"
+        android:id="@+id/dangXuatTaiKhoanBtn_UIC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/main_activity_function_btn"
+        android:onClick="onClickDangXuatTaiKhoan"
+        android:padding="10dp"
+        android:text="Đăng xuất tài khoản"
+        android:textSize="20sp" />
 </LinearLayout>

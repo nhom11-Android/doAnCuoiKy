@@ -1,12 +1,14 @@
 package DAO;
 
 import android.content.ContentValues;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.ailatrieuphu.CSDLAilatrieuphu;
 
+import CSDL_bean.BangXepHang;
 import CSDL_bean.CauHoi;
 import CSDL_bean.User;
 
@@ -90,11 +92,13 @@ public class UserDAO {
         cursor.close();
         return leakUser;
     }
-    public static int deleteUserByMail(String mail, CSDLAilatrieuphu dbHelper){
+    public static int deleteUserByMail(String mail,String tenDangNhap, CSDLAilatrieuphu dbHelper){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String selection = User.cotEmail + "LIKE ?";
         String[] selectionArgs = {mail};
-        int rows = db.delete(User.tenBang, selection, selectionArgs);
+        int rows = db.delete(User.tenBang, selection, selectionArgs); // xoá user
+        // xoá các bảng record của user
+        db.execSQL("delete from "+ BangXepHang.tenBang +" where user=" + tenDangNhap);
         return rows;
     }
 

@@ -81,6 +81,8 @@ class WriteClient extends Thread {
         Scanner sc = null;
         try {
             writeTo = new DataOutputStream(client.getOutputStream());
+            writeTo.writeUTF("Injoin");
+            writeTo.writeUTF("Fake player");
             sc = new Scanner(System.in);
             boolean logout = false;
             while (!logout) {

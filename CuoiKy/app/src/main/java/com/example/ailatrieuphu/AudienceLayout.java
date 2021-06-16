@@ -33,8 +33,9 @@ public class AudienceLayout extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audience_layout);
         getSupportActionBar().hide();
-        // TODO: 6/14/2021 check before real demo  
-        idCauhoi = Integer.parseInt(getIntent().getStringExtra("idCauHoi"));
+        // TODO: 6/14/2021 check before real demo
+        String id = getIntent().getStringExtra("idCauHoi");
+        idCauhoi = Integer.parseInt(id);
         setControl();
         cotDung = getCotDung();
         Log.d("call_audian", ""+cotDung);
