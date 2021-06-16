@@ -51,15 +51,28 @@ public class OnlineModePre extends AppCompatActivity {
     }
     private void setConnectToServer() {
         readyBtn.setEnabled(false);
-        AsyncConnection asyncConnection = new AsyncConnection("192.168.114.63", 1234);
+        AsyncConnection asyncConnection = new AsyncConnection("192.168.1.5", 1234);
         asyncConnection.execute();
     }
-    public ArrayList<CauHoi> nhanDanhSachCauHoi(){
-        return null;
+    public ArrayList<String> cauHoi2String(ArrayList<CauHoi> dsCauHoi){
+        ArrayList<String> ret = new ArrayList<>();
+        for(CauHoi i:dsCauHoi){
+            ret.add(i.getNoiDung());
+            ret.add(i.getDapAn()[0]);
+            ret.add(i.getDapAn()[1]);
+            ret.add(i.getDapAn()[2]);
+            ret.add(i.getDapAn()[3]);
+            ret.add(i.getDapAnDung());
+            ret.add(i.getChuyenNganh());
+            ret.add(String.valueOf(i.getDoKho()));
+        }
+        return  ret;
     }
 
     public void onClickReadyPlayOnline(View view) {
+        ArrayList<String> strings = cauHoi2String(dsCauHoi);
         Intent intent = new Intent(this,PlayerOnline.class);
+        intent.putStringArrayListExtra("danhSachCauHoi",strings);
         startActivity(intent);
     }
 

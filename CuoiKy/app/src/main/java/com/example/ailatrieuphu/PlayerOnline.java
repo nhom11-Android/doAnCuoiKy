@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -60,6 +61,7 @@ public class PlayerOnline extends AppCompatActivity {
         setControl();
         setSound();
         setAnimation();
+        getDanhSachCauHoi();
     }
 
     @Override
@@ -144,7 +146,6 @@ public class PlayerOnline extends AppCompatActivity {
     }
 
     private void setEvent() {
-//        getQuestions();
         try {
             Thread.sleep(1000);
             diemTv.setText(String.valueOf(diem));
@@ -160,7 +161,22 @@ public class PlayerOnline extends AppCompatActivity {
          *
          * @return 0 nếu không có lỗi.
          */
-        danhSachCauHoi = CauHoiDAO.layBoCauHoi(database);
+//        danhSachCauHoi = CauHoiDAO.layBoCauHoi(database);
+        Intent intent = getIntent();
+        ArrayList<String> cauhoiStrings = intent.getStringArrayListExtra("danhSachCauHoi");
+        int j = 0;
+        while(j<cauhoiStrings.size()){
+            String noidung = cauhoiStrings.get(j++);
+            String dapan1 = cauhoiStrings.get(j++);
+            String dapan2 = cauhoiStrings.get(j++);
+            String dapan3 = cauhoiStrings.get(j++);
+            String dapan4 = cauhoiStrings.get(j++);
+            String daadung = cauhoiStrings.get(j++);
+            String chuyennganh = cauhoiStrings.get(j++);
+            String dokho = cauhoiStrings.get(j++);
+            CauHoi x = new CauHoi(noidung, new String[]{dapan1, dapan2, dapan3, dapan4},daadung,chuyennganh,Integer.parseInt(dokho));
+            danhSachCauHoi.add(x);
+        }
     }
 
     private int hienThiCauHoi() {
@@ -172,13 +188,13 @@ public class PlayerOnline extends AppCompatActivity {
         try {
             if (level <= 15) {
                 levelTv.setText("Câu " + String.valueOf(level));
-//                CauHoi c = danhSachCauHoi.get(index);
-//                questionTv.setText(c.getNoiDung());
-//                String[] dapAn = c.getDapAn();
-//                caseATv.setText(dapAn[0]);
-//                caseBTv.setText(dapAn[1]);
-//                caseCTv.setText(dapAn[2]);
-//                caseDTv.setText(dapAn[3]);
+                CauHoi c = danhSachCauHoi.get(index);
+                questionTv.setText(c.getNoiDung());
+                String[] dapAn = c.getDapAn();
+                caseARb.setText(dapAn[0]);
+                caseBRb.setText(dapAn[1]);
+                caseCRb.setText(dapAn[2]);
+                caseDRb.setText(dapAn[3]);
                 caseARb.setVisibility(View.VISIBLE);
                 caseBRb.setVisibility(View.VISIBLE);
                 caseCRb.setVisibility(View.VISIBLE);
@@ -349,9 +365,9 @@ public class PlayerOnline extends AppCompatActivity {
         cancelTimer();
         int diem = Integer.parseInt(diemTv.getText().toString());
         try {
-//            CauHoi c = danhSachCauHoi.get(index);
-//            RadioButton dapAnDung = getDapAnDung(c.getDapAnDung());
-            RadioButton dapAnDung = caseBRb;
+            CauHoi c = danhSachCauHoi.get(index);
+            RadioButton dapAnDung = getDapAnDung(c.getDapAnDung());
+//            RadioButton dapAnDung = caseBRb;
             dapAnDung.setBackgroundResource(R.drawable.player_answer_background_true);
             if(dapAnChon.getId() == dapAnDung.getId()){
                 MySound.amThanhGame(PlayerOnline.this, R.raw.am_thanh_tra_loi_dung);

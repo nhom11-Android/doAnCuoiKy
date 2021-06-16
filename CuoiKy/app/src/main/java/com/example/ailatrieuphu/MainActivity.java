@@ -8,7 +8,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import CSDL_bean.CauHoi;
+import DAO.CauHoiDAO;
+import myHelper.HttpWorking;
 import myHelper.MySound;
+import myHelper.MySuperFunc;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +28,65 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         Log.d("test", "create");
+//        cauhoi2Database();
+    }
+
+    private void cauhoi2Database() {
+        CSDLAilatrieuphu database = new CSDLAilatrieuphu(this);
+        InputStream inputStream = this.getResources().openRawResource(R.raw.cauhoi);
+
+        InputStreamReader inputreader = new InputStreamReader(inputStream);
+        BufferedReader buffreader = new BufferedReader(inputreader);
+        String line;
+        StringBuilder text = new StringBuilder();
+
+        try {
+            while (( line = buffreader.readLine()) != null) {
+                String noiDung;
+                String[] dapAn = new String[4];
+                String dapAnDung;
+                String chuyenNganh;
+                int doKho;
+                if(line.equalsIgnoreCase("start")){
+                    line = buffreader.readLine();
+                }
+                noiDung = line;
+                line = buffreader.readLine();
+                line = buffreader.readLine();
+                dapAn[0] = line;
+                line = buffreader.readLine();
+                line = buffreader.readLine();
+                dapAn[1] = line;
+                line = buffreader.readLine();
+                line = buffreader.readLine();
+                dapAn[2] = line;
+                line = buffreader.readLine();
+                line = buffreader.readLine();
+                dapAn[3] = line;
+                line = buffreader.readLine();
+                line = buffreader.readLine();
+                dapAnDung = line.substring(13, 14);
+                line = buffreader.readLine();
+                line = buffreader.readLine();
+                chuyenNganh = line.substring(12);
+                line = buffreader.readLine();
+                line = buffreader.readLine();
+                doKho = Integer.parseInt(line.substring(8));
+                System.out.println(noiDung
+                        + "\n" + dapAn[0]
+                        + "\n" + dapAn[1]
+                        + "\n" + dapAn[2]
+                        + "\n" + dapAn[3]
+                        + "\n" + dapAnDung
+                        + "\n" + chuyenNganh
+                        + "\n" + doKho + "\n=============================================\n");
+                CauHoi cauHoi = new CauHoi(noiDung, dapAn, dapAnDung, chuyenNganh, doKho);
+                CauHoiDAO.themCauHoi(cauHoi,database);
+//                return cauHoi;
+            }
+        } catch (IOException e) {
+            return ;
+        }
     }
 
     @Override

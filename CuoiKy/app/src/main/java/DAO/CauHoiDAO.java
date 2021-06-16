@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -29,6 +30,7 @@ public class CauHoiDAO {
         values.put(CauHoi.cotDoKho, cauHoi.getDoKho());
         long newRowId = db.insert(CauHoi.tenBang, null, values);
         if (newRowId == -1) return -1;
+        Log.d("thêm vào câu hỏi", "thành công");
         return 0;
     }
 

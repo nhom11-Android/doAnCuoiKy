@@ -202,22 +202,21 @@ public class Player extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // lấy đáp án đúng và một câu hỏi bất kỳ
-//                CauHoi c = danhSachCauHoi.get(index);
-//                int dapAnDung = -1;
-                int dapAnDung = 1;
-//                String tmp = c.getDapAnDung();
-//                if (tmp.equals("A")){
-//                    dapAnDung = 0;
-//                }
-//                else if(tmp.equals("B")){
-//                    dapAnDung = 1;
-//                }
-//                else if(tmp.equals("C")){
-//                    dapAnDung = 2;
-//                }
-//                else {
-//                    dapAnDung = 3;
-//                }
+                CauHoi c = danhSachCauHoi.get(index);
+                int dapAnDung = -1;
+                String tmp = c.getDapAnDung();
+                if (tmp.equals("A")){
+                    dapAnDung = 0;
+                }
+                else if(tmp.equals("B")){
+                    dapAnDung = 1;
+                }
+                else if(tmp.equals("C")){
+                    dapAnDung = 2;
+                }
+                else {
+                    dapAnDung = 3;
+                }
 
                 int random = -1;
                 Random rand = new Random();
@@ -244,7 +243,7 @@ public class Player extends AppCompatActivity {
                 audienceImbtn.setVisibility(View.INVISIBLE);
                 diemTroGiup -= 5;
                 Intent intent = new Intent(Player.this, AudienceLayout.class);
-//                intent.putExtra("idCauHoi", danhSachCauHoi.get(index).getId());
+                intent.putExtra("idCauHoi", danhSachCauHoi.get(index).getId());
                 startActivity(intent);
                 System.out.println("do after call");
             }
@@ -270,7 +269,7 @@ public class Player extends AppCompatActivity {
             }
         });
 
-//        getQuestions();
+        getDanhSachCauHoi();
         try {
             Thread.sleep(1000);
             diemTv.setText(String.valueOf(diem));
@@ -298,13 +297,13 @@ public class Player extends AppCompatActivity {
         try {
             if (level <= 15) {
                 levelTv.setText("Câu " + String.valueOf(level));
-//                CauHoi c = danhSachCauHoi.get(index);
-//                questionTv.setText(c.getNoiDung());
-//                String[] dapAn = c.getDapAn();
-//                caseATv.setText(dapAn[0]);
-//                caseBTv.setText(dapAn[1]);
-//                caseCTv.setText(dapAn[2]);
-//                caseDTv.setText(dapAn[3]);
+                CauHoi c = danhSachCauHoi.get(index);
+                questionTv.setText(c.getNoiDung());
+                String[] dapAn = c.getDapAn();
+                caseARb.setText(dapAn[0]);
+                caseBRb.setText(dapAn[1]);
+                caseCRb.setText(dapAn[2]);
+                caseDRb.setText(dapAn[3]);
                 caseARb.setVisibility(View.VISIBLE);
                 caseBRb.setVisibility(View.VISIBLE);
                 caseCRb.setVisibility(View.VISIBLE);
@@ -475,13 +474,13 @@ public class Player extends AppCompatActivity {
         cancelTimer();
         int diem = Integer.parseInt(diemTv.getText().toString());
         try {
-//            CauHoi c = danhSachCauHoi.get(index);
-//            RadioButton dapAnDung = getDapAnDung(c.getDapAnDung());
-            RadioButton dapAnDung = caseBRb;
+            CauHoi c = danhSachCauHoi.get(index);
+            RadioButton dapAnDung = getDapAnDung(c.getDapAnDung());
+//            RadioButton dapAnDung = caseBRb;
             dapAnDung.setBackgroundResource(R.drawable.player_answer_background_true);
             if(dapAnChon.getId() == dapAnDung.getId()){
                 MySound.amThanhGame(Player.this, R.raw.am_thanh_tra_loi_dung);
-//                diem += c.getDoKho();
+                diem += c.getDoKho();
                 diemTv.setText(String.valueOf(diem*1000000));
                 level++;
                 if(level == 6){
