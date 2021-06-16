@@ -46,10 +46,11 @@ public class CSDLAilatrieuphu extends SQLiteOpenHelper {
                 CauHoi.cotChuyenNganh,
                 CauHoi.cotDoKho
                 );
-        String bxh = String.format("CREATE TABLE %s(%s TEXT, %s TEXT);",
+        String bxh = String.format("CREATE TABLE %s(%s TEXT, %s TEXT,%s TEXT);",
                 BangXepHang.tenBang,
                 BangXepHang.cotNgay,
-                BangXepHang.cotDiem);
+                BangXepHang.cotDiem,
+                BangXepHang.cotUser);
         db.execSQL(user);
         db.execSQL(cauhoi);
         db.execSQL(bxh);

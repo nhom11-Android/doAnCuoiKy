@@ -1,11 +1,14 @@
 package com.example.ailatrieuphu;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,12 +37,16 @@ import CSDL_bean.CauHoi;
 import socketConnect.ConnectionHandler;
 
 public class OnlineModePre extends AppCompatActivity {
-    TextView infoRoomTv,infoCauhoiTv;
-    ImageView pl1,pl2,pl3,pl4;
+    TextView infoCauhoiTv,infoDiemTv,infoDiemLableTv;
+    ImageView pl1, pl2, pl3, pl4;
     ImageButton readyBtn;
-    String join = "";
-    boolean is_full = false;
+    String diem="";
+    public boolean is_done = false;
+    public int diemCuaToi;
+    String tenDangNhap;
+    AsyncConnection asyncConnection;
     ArrayList<CauHoi> dsCauHoi = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +54,8 @@ public class OnlineModePre extends AppCompatActivity {
         setControl();
         configActionBar();
         setConnectToServer();
+        SharedPreferences prefs = getSharedPreferences(MainActivity.mySettingRef, MODE_PRIVATE);
+        tenDangNhap = prefs.getString("tenDangNhap", "None");
     }
 
     private void configActionBar() {
@@ -62,6 +71,7 @@ public class OnlineModePre extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                if(asyncConnection.isCancelled()==false) asyncConnection.cancel(true);
                 this.finish();
                 break;
         }
@@ -74,15 +84,19 @@ public class OnlineModePre extends AppCompatActivity {
         readyBtn = findViewById(R.id.readyBtn_OMP);
         pl1 = findViewById(R.id.player1);
         pl2 = findViewById(R.id.player2);
+         infoDiemTv = findViewById(R.id.infoDiemHidden_OMP);
+        infoDiemLableTv = findViewById(R.id.hiddenLabel_OMP);
     }
+
     private void setConnectToServer() {
         readyBtn.setEnabled(false);
-        AsyncConnection asyncConnection = new AsyncConnection("192.168.1.5", 1234);
+        asyncConnection = new AsyncConnection("192.168.1.5", 1234,this);
         asyncConnection.execute();
     }
-    public ArrayList<String> cauHoi2String(ArrayList<CauHoi> dsCauHoi){
+
+    public ArrayList<String> cauHoi2String(ArrayList<CauHoi> dsCauHoi) {
         ArrayList<String> ret = new ArrayList<>();
-        for(CauHoi i:dsCauHoi){
+        for (CauHoi i : dsCauHoi) {
             ret.add(i.getNoiDung());
             ret.add(i.getDapAn()[0]);
             ret.add(i.getDapAn()[1]);
@@ -92,21 +106,38 @@ public class OnlineModePre extends AppCompatActivity {
             ret.add(i.getChuyenNganh());
             ret.add(String.valueOf(i.getDoKho()));
         }
-        return  ret;
+        return ret;
     }
 
+    /**
+     * @param view hàm gọi player online chơi trò chơi
+     */
     public void onClickReadyPlayOnline(View view) {
         ArrayList<String> strings = cauHoi2String(dsCauHoi);
-        Intent intent = new Intent(this,PlayerOnline.class);
-        intent.putStringArrayListExtra("danhSachCauHoi",strings);
-        startActivity(intent);
+        Intent intent = new Intent(this, PlayerOnline.class);
+        intent.putStringArrayListExtra("danhSachCauHoi", strings);
+        startActivityForResult(intent,2);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==2 && resultCode== Activity.RESULT_OK){
+            infoDiemTv.setVisibility(View.VISIBLE);
+            readyBtn.setVisibility(View.INVISIBLE);
+            infoDiemLableTv.setVisibility(View.VISIBLE);
+            diemCuaToi = data.getIntExtra("diemCuaToi", 0);
+            String remain = infoDiemTv.getText().toString();
+            remain = (remain + "\n" + tenDangNhap + " : " + diemCuaToi);
+            infoDiemTv.setText(remain);
+            is_done = true;
+            if(asyncConnection.isCancelled()==false) asyncConnection.cancel(true);
+        }
+    }
 
     class AsyncConnection extends android.os.AsyncTask<Void, String, Exception> {
         private String url;
         private int port;
-        private int timeout;
 
         private BufferedReader in;
         private BufferedWriter out;
@@ -115,10 +146,11 @@ public class OnlineModePre extends AppCompatActivity {
         private Socket socket;
         private boolean interrupted = false;
         private String TAG = getClass().getName();
-
-        public AsyncConnection(String url, int port) {
+        Context parent;
+        public AsyncConnection(String url, int port,Context parent) {
             this.url = url;
             this.port = port;
+            this.parent = parent;
         }
 
         @Override
@@ -133,6 +165,7 @@ public class OnlineModePre extends AppCompatActivity {
             Log.d(TAG, "Finished communication with the socket. Result = " + result);
             //TODO If needed move the didDisconnect(error); method call here to implement it on UI thread.
         }
+
         @Override
         protected Exception doInBackground(Void... params) {
             Exception error = null;
@@ -143,9 +176,14 @@ public class OnlineModePre extends AppCompatActivity {
                 in1 = new DataInputStream(socket.getInputStream());
                 out1 = new DataOutputStream(socket.getOutputStream());
 
-
                 while (!interrupted) {
-                    if(dsCauHoi.size()==15){
+                    if(is_done==true){
+                        write("diem");
+                        write(tenDangNhap);
+                        write(String.valueOf(diemCuaToi));
+                        interrupted = true;
+                    }
+                    if (dsCauHoi.size() == 15) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -155,49 +193,121 @@ public class OnlineModePre extends AppCompatActivity {
                         });
                     }
                     String command = in1.readUTF();
+                    Log.d("socket tell", command);
+                    switch (command) {
+                        case "start":
+                            String noidung = in1.readUTF();
+                            String dapan1 = in1.readUTF();
+                            String dapan2 = in1.readUTF();
+                            String dapan3 = in1.readUTF();
+                            String dapan4 = in1.readUTF();
+                            String daadung = in1.readUTF();
+                            String chuyennganh = in1.readUTF();
+                            String dokho = in1.readUTF();
+                            Log.d("cauHoi " + String.valueOf(dsCauHoi.size()), "đã nhận: \n" + noidung
+                                    + "\n" + dapan1
+                                    + "\n" + dapan2
+                                    + "\n" + dapan3
+                                    + "\n" + dapan4
+                                    + "\n" + daadung
+                                    + "\n" + chuyennganh
+                                    + "\n" + dokho);
+                            CauHoi x = new CauHoi(noidung, new String[]{dapan1, dapan2, dapan3, dapan4}, daadung, chuyennganh, Integer.parseInt(dokho));
+                            dsCauHoi.add(x);
+                            Thread.sleep(500);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    infoCauhoiTv.setText(String.valueOf(dsCauHoi.size()));
+                                }
+                            });
+                            break;
+                        case "Injoin":
+                            String whojoin = in1.readUTF();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    pl2.setTag(whojoin);
+                                    Toast.makeText(OnlineModePre.this, whojoin + " đã tham gia !", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            break;
+                        case "user":
+                            String soLuongUser = in1.readUTF();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (soLuongUser.equals("1")) {
+                                        pl1.setImageResource(R.drawable.player_50px);
+                                    }
+                                    if (soLuongUser.equals("2")) {
+                                        pl2.setImageResource(R.drawable.player_50px);
+                                        pl1.setImageResource(R.drawable.player_50px);
+                                    }
+                                }
+                            });
+                            break;
+                        case "diem":
+                            String ten = in1.readUTF(); // nhanaj ten
+                            String diem = in1.readUTF(); // nhanaj diem
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    String remain = infoDiemTv.getText().toString();
+                                    remain = remain + "\n" + ten + " : " + diem;
+                                    infoDiemTv.setText(remain);
+                                }
+                            });
+                            break;
+                    }
+
 //                    System.out.println(line);
 //                    join = line;
-                    if(command.equals("start")==false) {
-                        String soLuongUser = in1.readUTF();
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-//                                infoRoomTv.setText(soLuongUser +"/2");
-                                if(soLuongUser.equals("1")){
-                                    pl1.setImageResource(R.drawable.player_50px);
-                                }
-                                if(soLuongUser.equals("2")){
-                                    pl2.setImageResource(R.drawable.player_50px);
-                                }
-                            }
-                        });
-                    } else{ // nhan cau hoi
-                        String noidung = in1.readUTF();
-                        String dapan1 = in1.readUTF();
-                        String dapan2 = in1.readUTF();
-                        String dapan3 = in1.readUTF();
-                        String dapan4 = in1.readUTF();
-                        String daadung = in1.readUTF();
-                        String chuyennganh = in1.readUTF();
-                        String dokho = in1.readUTF();
-                        Log.d("cauHoi "+String.valueOf(dsCauHoi.size()), "đã nhận: \n" + noidung
-                                + "\n" + dapan1
-                                + "\n" + dapan2
-                                + "\n" + dapan3
-                                + "\n" + dapan4
-                                + "\n" + daadung
-                                + "\n" + chuyennganh
-                                + "\n" + dokho);
-                        CauHoi x = new CauHoi(noidung, new String[]{dapan1, dapan2, dapan3, dapan4},daadung,chuyennganh,Integer.parseInt(dokho));
-                        dsCauHoi.add(x);
-                        Thread.sleep(500);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                infoCauhoiTv.setText(String.valueOf(dsCauHoi.size()));
-                            }
-                        });
-                    }
+//                    if(!command.equals("start")) {
+//                        String soLuongUser = in1.readUTF();
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+////                                infoRoomTv.setText(soLuongUser +"/2");
+//                                if(soLuongUser.equals("1")){
+//                                    pl1.setImageResource(R.drawable.player_50px);
+//                                }
+//                                if(soLuongUser.equals("2")){
+//                                    pl2.setImageResource(R.drawable.player_50px);
+//                                }
+//                            }
+//                        });
+//                    } else if(command.equals("Injoin")) {
+//                        String whojoin = in1.readUTF();
+//                        Toast.makeText(OnlineModePre.this, whojoin+" đã tham gia !", Toast.LENGTH_SHORT).show();
+//                    }
+//                    else{ // nhan cau hoi
+//                        String noidung = in1.readUTF();
+//                        String dapan1 = in1.readUTF();
+//                        String dapan2 = in1.readUTF();
+//                        String dapan3 = in1.readUTF();
+//                        String dapan4 = in1.readUTF();
+//                        String daadung = in1.readUTF();
+//                        String chuyennganh = in1.readUTF();
+//                        String dokho = in1.readUTF();
+//                        Log.d("cauHoi "+String.valueOf(dsCauHoi.size()), "đã nhận: \n" + noidung
+//                                + "\n" + dapan1
+//                                + "\n" + dapan2
+//                                + "\n" + dapan3
+//                                + "\n" + dapan4
+//                                + "\n" + daadung
+//                                + "\n" + chuyennganh
+//                                + "\n" + dokho);
+//                        CauHoi x = new CauHoi(noidung, new String[]{dapan1, dapan2, dapan3, dapan4},daadung,chuyennganh,Integer.parseInt(dokho));
+//                        dsCauHoi.add(x);
+//                        Thread.sleep(500);
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                infoCauhoiTv.setText(String.valueOf(dsCauHoi.size()));
+//                            }
+//                        });
+//                    }
                 }
             } catch (UnknownHostException ex) {
                 Log.e(TAG, "doInBackground(): " + ex.toString());

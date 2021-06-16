@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -54,6 +55,12 @@ public class DangNhap extends AppCompatActivity {
         if(check_result==1){
             // TODO: 6/12/2021 goi main menu
             Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+            // lưu người chơi vào shared references
+            SharedPreferences.Editor editor = getSharedPreferences(MainActivity.mySettingRef,MODE_PRIVATE).edit();
+            editor.putString("tenDangNhap",tenDangNhap); // lưu lại thông tin login
+            editor.putString("is_login","yes"); // lưu lại cờ login
+            editor.apply();
+            //gọi mainmenu
             Intent intent = new Intent(this,MainMenu.class);
             // đưa user vào intent
             intent.putExtra("tenDangNhap",tenDangNhap);

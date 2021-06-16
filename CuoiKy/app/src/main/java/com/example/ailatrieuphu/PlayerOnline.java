@@ -4,8 +4,10 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -32,6 +34,7 @@ import CSDL_bean.CauHoi;
 import DAO.BangXepHangDAO;
 import DAO.CauHoiDAO;
 import myHelper.MySound;
+import myHelper.MySuperFunc;
 
 public class PlayerOnline extends AppCompatActivity {
 
@@ -60,13 +63,14 @@ public class PlayerOnline extends AppCompatActivity {
         setContentView(R.layout.activity_player_online);
         setControl();
         setSound();
-        setAnimation();
         getDanhSachCauHoi();
+        setAnimation();
+        playGame();
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         if(dialog1 != null){
             dialog1.cancel();
             dialog1 = null;
@@ -95,7 +99,13 @@ public class PlayerOnline extends AppCompatActivity {
                 batDauTv.startAnimation(fadeOut);
             }
         };
+        Handler h1 = new Handler();
+        h1.postDelayed(chuanBi, 0);
+        Handler h2 = new Handler();
+        h2.postDelayed(batDau, 2500);
+    }
 
+    public void playGame(){
         Runnable playGame = new Runnable() {
             @Override
             public void run(){
@@ -106,11 +116,6 @@ public class PlayerOnline extends AppCompatActivity {
                     MySound.startNhacNen(PlayerOnline.this, R.raw.nhac_nen);
             }
         };
-
-        Handler h1 = new Handler();
-        h1.postDelayed(chuanBi, 0);
-        Handler h2 = new Handler();
-        h2.postDelayed(batDau, 2500);
         Handler h3 = new Handler();
         h3.postDelayed(playGame, 6000);
     }
@@ -253,6 +258,7 @@ public class PlayerOnline extends AppCompatActivity {
                 dialog2 = alertDialog;
             }
         };
+
         cTimer.start();
     }
 
@@ -292,6 +298,10 @@ public class PlayerOnline extends AppCompatActivity {
         }
     }
 
+    /**
+     * @param view hàm được gọi khi bấm vào radio button chọn đáp án
+     * @return
+     */
     public int chonDapAn(View view) {
         /**
          *  Chọn đáp án. Hiển thị Dialog, xác nhận đáp án đã chọn.
@@ -363,7 +373,6 @@ public class PlayerOnline extends AppCompatActivity {
          *
          */
         cancelTimer();
-        int diem = Integer.parseInt(diemTv.getText().toString());
         try {
             CauHoi c = danhSachCauHoi.get(index);
             RadioButton dapAnDung = getDapAnDung(c.getDapAnDung());
@@ -372,7 +381,8 @@ public class PlayerOnline extends AppCompatActivity {
             if(dapAnChon.getId() == dapAnDung.getId()){
                 MySound.amThanhGame(PlayerOnline.this, R.raw.am_thanh_tra_loi_dung);
 //                diem += c.getDoKho();
-                diemTv.setText(String.valueOf(diem*100000));
+                diem += (int)timeRemaining/1000;
+                diemTv.setText(MySuperFunc.printCurrency(Double.parseDouble(String.valueOf(diem*100000))));
                 level++;
                 if(level == 6){
                     index = 6;
@@ -403,9 +413,9 @@ public class PlayerOnline extends AppCompatActivity {
                     }
                 };
                 Handler h1 = new Handler();
-                h1.postDelayed(loading, 3000);
+                h1.postDelayed(loading, 1500);
                 Handler h2 = new Handler();
-                h2.postDelayed(cauHoiMoi, 4000);
+                h2.postDelayed(cauHoiMoi, 2500);
             }
             else{
                 MySound.amThanhGame(PlayerOnline.this, R.raw.am_thanh_tra_loi_sai);
@@ -436,10 +446,13 @@ public class PlayerOnline extends AppCompatActivity {
         try{
             LayoutInflater layoutInflater = LayoutInflater.from(this);
             View stopGameDialog = layoutInflater.inflate(R.layout.stop_game_dialog, null); // tìm dialog view layout từ inflater
+
             MaterialAlertDialogBuilder alertDialogBuilder = new MaterialAlertDialogBuilder(this); // tạo dialog builder : lớp hỗ trợ xây dựng dialog
             alertDialogBuilder.setView(stopGameDialog); // set view tìm được cho dialog
+
             TextView tenCanhBao = stopGameDialog.findViewById(R.id.tieuDeTv_StopGameDialog); // lấy control các trường đã tạo trên dialog
             TextView noiDungCanhBao = stopGameDialog.findViewById(R.id.noiDungTv_StopGameDialog);
+
             String msg = "";
             if (level - 1 <= 10){
                 tenCanhBao.setText("Cố gắng hơn nhé !!");
@@ -455,33 +468,34 @@ public class PlayerOnline extends AppCompatActivity {
                 tenCanhBao.setText("Tuyệt vời !!!");
                 msg += "Bạn trả lời đúng tất cả 15 câu.\n";
             }
-            msg += " Tiền thưởng đạt được " + String.valueOf(diem*100000);
+            msg += " Tiền thưởng đạt được " + MySuperFunc.printCurrency(Double.parseDouble(String.valueOf(diem*100000)));
             noiDungCanhBao.setText(msg);
 
             alertDialogBuilder
-                    .setCancelable(false)
+                    .setCancelable(true)
                     .setPositiveButton("OK", // cài đặt nút đồng ý hành động
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    SimpleDateFormat simpleDate =  new SimpleDateFormat("dd/MM/yyyy");
-                                    Date date = new Date();
-                                    String ngay = simpleDate.format(date);
-                                    BangXepHang bangXepHang = new BangXepHang(ngay, diem);
-                                    int check = BangXepHangDAO.themKyLuc(bangXepHang, database);
-                                    if (check != 0)
-                                        Toast.makeText(PlayerOnline.this, "Thêm kỷ lục thất bại !", Toast.LENGTH_SHORT).show();
                                     MySound.stopAmThanh();
-                                    finish();
+//                                    dialog.dismiss();
+                                    exitOut();
                                 }
                             });
-
+            alertDialogBuilder.show();
             AlertDialog alertDialog = alertDialogBuilder.create(); // tạo dialog từ dialog builder
             alertDialog.show();//show dialog
+
             return 0;
         }
         catch (Exception e){
             return -1;
         }
+    }
+    public void exitOut(){
+        Intent data = new Intent();
+        data.putExtra("diemCuaToi",diem);
+        setResult(Activity.RESULT_OK,data);
+        finish();
     }
 }

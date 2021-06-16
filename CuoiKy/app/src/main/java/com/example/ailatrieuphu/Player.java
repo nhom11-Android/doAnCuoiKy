@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -34,6 +35,7 @@ import CSDL_bean.CauHoi;
 import DAO.BangXepHangDAO;
 import DAO.CauHoiDAO;
 import myHelper.MySound;
+import myHelper.MySuperFunc;
 
 public class Player extends AppCompatActivity {
     ImageButton stopImbtn, changeImbtn, namMuoiImbtn, audienceImbtn, callImbtn;
@@ -252,8 +254,8 @@ public class Player extends AppCompatActivity {
                 diemTroGiup -= 1;
                 cancelTimer();
                 startTimer((currentTime+30)*1000);
-                Intent intent = new Intent(Player.this, AudienceLayout.class);
-                intent.putExtra("idCauHoi", danhSachCauHoi.get(index).getId());
+                Intent intent = new Intent(Player.this, CallDialog.class);
+                intent.putExtra("idCauHoi", String.valueOf(danhSachCauHoi.get(index).getId()));
                 startActivity(intent);
             }
         });
@@ -464,7 +466,7 @@ public class Player extends AppCompatActivity {
             if(dapAnChon.getId() == dapAnDung.getId()){
                 MySound.amThanhGame(Player.this, R.raw.am_thanh_tra_loi_dung);
                 diem += c.getDoKho();
-                diemTv.setText(String.valueOf(diem*100000));
+                diemTv.setText(MySuperFunc.printCurrency(Double.parseDouble(String.valueOf(diem*100000))));
                 level++;
                 if(level == 6){
                     index = 6;
@@ -496,9 +498,9 @@ public class Player extends AppCompatActivity {
                     }
                 };
                 Handler h1 = new Handler();
-                h1.postDelayed(loading, 3000);
+                h1.postDelayed(loading, 1500);
                 Handler h2 = new Handler();
-                h2.postDelayed(cauHoiMoi, 4000);
+                h2.postDelayed(cauHoiMoi, 2500);
             }
             else{
                 MySound.amThanhGame(Player.this, R.raw.am_thanh_tra_loi_sai);
@@ -510,7 +512,7 @@ public class Player extends AppCompatActivity {
                     }
                 };
                 Handler h = new Handler();
-                h.postDelayed(r, 5000);
+                h.postDelayed(r, 3000);
             }
             return 0;
         }
@@ -563,7 +565,11 @@ public class Player extends AppCompatActivity {
                                     SimpleDateFormat simpleDate =  new SimpleDateFormat("dd/MM/yyyy");
                                     Date date = new Date();
                                     String ngay = simpleDate.format(date);
-                                    BangXepHang bangXepHang = new BangXepHang(ngay, diem);
+                                    // lấy user hiện tại
+                                    SharedPreferences prefs = getSharedPreferences(MainActivity.mySettingRef, MODE_PRIVATE);
+                                    String tenDangNhap = prefs.getString("tenDangNhap", "None");//"No name defined" is the default value.
+
+                                    BangXepHang bangXepHang = new BangXepHang(ngay, diem,tenDangNhap);
                                     int check = BangXepHangDAO.themKyLuc(bangXepHang, database);
                                     if (check != 0)
                                         Toast.makeText(Player.this, "Thêm kỷ lục thất bại !", Toast.LENGTH_SHORT).show();

@@ -11,10 +11,12 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.SecureRandom;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -59,6 +61,15 @@ public class MySuperFunc {
     public static Bitmap getByteArrayAsBitmap(byte[] data){
         Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
         return bitmap;
+    }
+
+    public static String printCurrency(double currencyAmount) {
+        Locale locale;
+        locale = new Locale("vn", "VN");
+        Currency currency = Currency.getInstance(locale);
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
+
+        return numberFormat.format(currencyAmount);
     }
 }
 class RandomString {

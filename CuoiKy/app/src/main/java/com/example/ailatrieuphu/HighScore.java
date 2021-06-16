@@ -3,6 +3,7 @@ package com.example.ailatrieuphu;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,15 +31,19 @@ public class HighScore extends AppCompatActivity {
     }
 
 
-//    private ArrayList<BangXepHang> loadData() {
+    private ArrayList<BangXepHang> loadData() {
         /**
          * load dữ liệu từ database
          *
          * @return arrayList bangXepHang
          */
-//        ArrayList<BangXepHang> highScore = BangXepHangDAO.layBangXepHang(database, -1);
-//        return highScore;
-//    }
+        // lấy user đang đăng nhập
+        SharedPreferences prefs = getSharedPreferences(MainActivity.mySettingRef, MODE_PRIVATE);
+        // lấy user hiện tại
+        String tenDangNhap = prefs.getString("tenDangNhap", "None");
+        ArrayList<BangXepHang> highScore = BangXepHangDAO.layBangXepHang(database, -1,tenDangNhap);
+        return highScore;
+    }
 
     private void setEvent() {
         // set adapter lên listview
@@ -57,7 +62,7 @@ public class HighScore extends AppCompatActivity {
         actionBar.hide();
         // khai báo csdl
         database = new CSDLAilatrieuphu(this);
-//        data = loadData();// load dữ liệu lên arraylist
+        data = loadData();// load dữ liệu lên arraylist
     }
 
 }

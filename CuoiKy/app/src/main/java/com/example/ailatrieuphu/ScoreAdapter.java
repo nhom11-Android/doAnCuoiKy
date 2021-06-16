@@ -20,6 +20,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.ArrayList;
 
 import CSDL_bean.BangXepHang;
+import myHelper.MySuperFunc;
 
 public class ScoreAdapter extends ArrayAdapter<BangXepHang> {
     Context parentContext;
@@ -55,7 +56,7 @@ public class ScoreAdapter extends ArrayAdapter<BangXepHang> {
 
         // gán data lên view
         BangXepHang bangXepHang = data.get(position);
-        diemTv.setText(String.valueOf(bangXepHang.getDiem()));
+        diemTv.setText(MySuperFunc.printCurrency(Double.parseDouble(String.valueOf(bangXepHang.getDiem()*100000))));
         ngayTv.setText(bangXepHang.getNgay());
         return convertView;
     }
