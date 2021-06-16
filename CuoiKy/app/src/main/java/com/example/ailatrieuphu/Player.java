@@ -263,6 +263,8 @@ public class Player extends AppCompatActivity {
         callImbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                callImbtn.setVisibility(View.INVISIBLE);
+                diemTroGiup -= 5;
                 Intent intent= new Intent(Player.this, CallDialog.class);
                 startActivity(intent);
             }

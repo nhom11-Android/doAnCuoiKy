@@ -33,16 +33,22 @@ public class CallDialog extends AppCompatActivity {
     }
 
     private void setEvent() {
-        getWindow().setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//        CauHoi cauHoi = CauHoiDAO.timCauHoiTuID(idCauhoi, new CSDLAilatrieuphu(this));
+//        String da1,da2,da3,da4,dad;
+//        da1 = cauHoi.getDapAn()[0];
+//        da2 = cauHoi.getDapAn()[1];
+//        da3 = cauHoi.getDapAn()[2];
+//        da4 = cauHoi.getDapAn()[3];
+//        dad = cauHoi.getDapAnDung();
 
-        CauHoi cauHoi = CauHoiDAO.timCauHoiTuID(idCauhoi, new CSDLAilatrieuphu(this));
+        String cauHoi = "Hôm nay là thứ mấy";
+        String chuyenNganh ="Giáo sư";
         String da1,da2,da3,da4,dad;
-        da1 = cauHoi.getDapAn()[0];
-        da2 = cauHoi.getDapAn()[1];
-        da3 = cauHoi.getDapAn()[2];
-        da4 = cauHoi.getDapAn()[3];
-        dad = cauHoi.getDapAnDung();
+        da1 = "A";
+        da2 = "B";
+        da3 = "C";
+        da4 = "D";
+        dad = "B";
         if(da1.equals(dad)){
             trueAnswer = "A";
         }
@@ -62,7 +68,7 @@ public class CallDialog extends AppCompatActivity {
                 callsLayout.addView(answerLayout);
                 answerLayout.setVisibility(View.VISIBLE);
                 answerLayout.addView(callLayout_1, 0);
-                if(cauHoi.getChuyenNganh()=="Bác Sĩ"){
+                if(chuyenNganh=="Bác Sĩ"){
                     tvAnswer.setText("Theo tôi đáp án đúng là " + trueAnswer);
                 }else{
                     Random rand = new Random();
@@ -89,6 +95,24 @@ public class CallDialog extends AppCompatActivity {
                 callsLayout.addView(answerLayout);
                 answerLayout.setVisibility(View.VISIBLE);
                 answerLayout.addView(callLayout_2, 0);
+                if(chuyenNganh=="Giáo sư"){
+                    tvAnswer.setText("Theo tôi đáp án đúng là " + trueAnswer);
+                }else{
+                    Random rand = new Random();
+                    int random = rand.nextInt(4);
+                    if(random==0){
+                        tvAnswer.setText("Theo tôi đáp án đúng là A");
+                    }
+                    if(random==1){
+                        tvAnswer.setText("Theo tôi đáp án đúng là B");
+                    }
+                    if(random==2){
+                        tvAnswer.setText("Theo tôi đáp án đúng là C");
+                    }
+                    if(random==3){
+                        tvAnswer.setText("Theo tôi đáp án đúng là D");
+                    }
+                }
             }
         });
         btn_help_call_03.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +122,24 @@ public class CallDialog extends AppCompatActivity {
                 callsLayout.addView(answerLayout);
                 answerLayout.setVisibility(View.VISIBLE);
                 answerLayout.addView(callLayout_3, 0);
+                if(chuyenNganh=="Kĩ sư"){
+                    tvAnswer.setText("Theo tôi đáp án đúng là " + trueAnswer);
+                }else{
+                    Random rand = new Random();
+                    int random = rand.nextInt(4);
+                    if(random==0){
+                        tvAnswer.setText("Theo tôi đáp án đúng là A");
+                    }
+                    if(random==1){
+                        tvAnswer.setText("Theo tôi đáp án đúng là B");
+                    }
+                    if(random==2){
+                        tvAnswer.setText("Theo tôi đáp án đúng là C");
+                    }
+                    if(random==3){
+                        tvAnswer.setText("Theo tôi đáp án đúng là D");
+                    }
+                }
             }
         });
         btn_help_call_04.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +149,24 @@ public class CallDialog extends AppCompatActivity {
                 callsLayout.addView(answerLayout);
                 answerLayout.setVisibility(View.VISIBLE);
                 answerLayout.addView(callLayout_4, 0);
+                if(chuyenNganh=="Phóng viên"){
+                    tvAnswer.setText("Theo tôi đáp án đúng là " + trueAnswer);
+                }else{
+                    Random rand = new Random();
+                    int random = rand.nextInt(4);
+                    if(random==0){
+                        tvAnswer.setText("Theo tôi đáp án đúng là A");
+                    }
+                    if(random==1){
+                        tvAnswer.setText("Theo tôi đáp án đúng là B");
+                    }
+                    if(random==2){
+                        tvAnswer.setText("Theo tôi đáp án đúng là C");
+                    }
+                    if(random==3){
+                        tvAnswer.setText("Theo tôi đáp án đúng là D");
+                    }
+                }
             }
         });
         btn_close.setOnClickListener(new View.OnClickListener() {
