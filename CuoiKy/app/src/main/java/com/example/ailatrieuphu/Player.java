@@ -243,9 +243,8 @@ public class Player extends AppCompatActivity {
                 audienceImbtn.setVisibility(View.INVISIBLE);
                 diemTroGiup -= 5;
                 Intent intent = new Intent(Player.this, AudienceLayout.class);
-                intent.putExtra("idCauHoi", danhSachCauHoi.get(index).getId());
+                intent.putExtra("idCauHoi", String.valueOf(danhSachCauHoi.get(index).getId()));
                 startActivity(intent);
-                System.out.println("do after call");
             }
         });
 
