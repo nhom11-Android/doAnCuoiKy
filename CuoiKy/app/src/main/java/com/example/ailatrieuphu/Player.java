@@ -43,7 +43,7 @@ public class Player extends AppCompatActivity {
     ImageView loadingIv;
     LinearLayout loadingLayout, chuanBiLayout, batDauLayout, playLayout;
     ArrayList<CauHoi> danhSachCauHoi;
-    int index = 0, level = 1, diem = 0, diemTroGiup = 20;
+    int index = 0, level = 1, diem = 0, diemTroGiup = 4;
 
     CountDownTimer cTimer = null;
     AlertDialog dialog1 = null;
@@ -190,18 +190,16 @@ public class Player extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 changeImbtn.setVisibility(View.INVISIBLE);
-                diemTroGiup -= 5;
+                diemTroGiup -= 1;
                 index++;
                 hienThiCauHoi();
-                cancelTimer();
-                startTimer();
             }
         });
 
         namMuoiImbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // lấy đáp án đúng và một câu hỏi bất kỳ
+                // lấy đáp án đúng và một đáp án bất kỳ
                 CauHoi c = danhSachCauHoi.get(index);
                 int dapAnDung = -1;
                 String tmp = c.getDapAnDung();
@@ -222,12 +220,11 @@ public class Player extends AppCompatActivity {
                 Random rand = new Random();
                 do {
                     random = rand.nextInt(4);
-
                 }while(random == dapAnDung);
 
                 //Hiển thị đáp án đúng và 1 đáp án ngẫu nhiên.
                 namMuoiImbtn.setVisibility(View.INVISIBLE);
-                diemTroGiup -= 5;
+                diemTroGiup -= 1;
                 caseARb.setVisibility(View.INVISIBLE);
                 caseBRb.setVisibility(View.INVISIBLE);
                 caseCRb.setVisibility(View.INVISIBLE);
@@ -241,7 +238,7 @@ public class Player extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 audienceImbtn.setVisibility(View.INVISIBLE);
-                diemTroGiup -= 5;
+                diemTroGiup -= 1;
                 Intent intent = new Intent(Player.this, AudienceLayout.class);
                 intent.putExtra("idCauHoi", String.valueOf(danhSachCauHoi.get(index).getId()));
                 startActivity(intent);
@@ -260,13 +257,9 @@ public class Player extends AppCompatActivity {
         });
 
         getDanhSachCauHoi();
-        try {
-            Thread.sleep(1000);
-            diemTv.setText(String.valueOf(diem));
-            hienThiCauHoi();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        diemTv.setText(String.valueOf(diem));
+        hienThiCauHoi();
+        startTimer(16000);
     }
 
     private void getDanhSachCauHoi() {
@@ -300,7 +293,6 @@ public class Player extends AppCompatActivity {
                 caseDRb.setVisibility(View.VISIBLE);
 
                 danhSachDapAn.clearCheck();
-                startTimer();
             }
             else{
                 ketThucLuotChoi();
@@ -312,11 +304,11 @@ public class Player extends AppCompatActivity {
         }
     }
 
-    void startTimer() {
+    void startTimer(long time) {
         /**
          * Tạo bộ đếm thời gian
          */
-        cTimer = new CountDownTimer(16000, 1000) {
+        cTimer = new CountDownTimer(time, 1000) {
             public void onTick(long millisUntilFinished) {
                 if(isPause){
                     cancel();
@@ -471,7 +463,7 @@ public class Player extends AppCompatActivity {
             if(dapAnChon.getId() == dapAnDung.getId()){
                 MySound.amThanhGame(Player.this, R.raw.am_thanh_tra_loi_dung);
                 diem += c.getDoKho();
-                diemTv.setText(String.valueOf(diem*1000000));
+                diemTv.setText(String.valueOf(diem*100000));
                 level++;
                 if(level == 6){
                     index = 6;
@@ -499,6 +491,7 @@ public class Player extends AppCompatActivity {
                         loadingLayout.setVisibility(View.INVISIBLE);
                         hienThiCauHoi();
                         dapAnDung.setBackgroundResource(R.drawable.btn_answer);
+                        startTimer(16000);
                     }
                 };
                 Handler h1 = new Handler();
@@ -540,13 +533,15 @@ public class Player extends AppCompatActivity {
             TextView tenCanhBao = stopGameDialog.findViewById(R.id.tieuDeTv_StopGameDialog); // lấy control các trường đã tạo trên dialog
             TextView noiDungCanhBao = stopGameDialog.findViewById(R.id.noiDungTv_StopGameDialog);
             String msg = "";
-            diem += diemTroGiup;
-            if (index <= 10){
+            if (level -1 > 5){
+                diem += diemTroGiup;
+            }
+            if (level - 1 <= 10){
                 tenCanhBao.setText("Cố gắng hơn nhé !!");
                 msg += "Bạn trả lời đúng " + (level - 1) +" câu.\n";
                 noiDungCanhBao.setText(msg);
             }
-            else if (index < 15){
+            else if (level - 1 < 15){
                 tenCanhBao.setText("Xuất sắc !!");
                 msg += "Bạn trả lời đúng " + (level - 1) +" câu.\n";
                 noiDungCanhBao.setText(msg);
@@ -555,7 +550,7 @@ public class Player extends AppCompatActivity {
                 tenCanhBao.setText("Tuyệt vời !!!");
                 msg += "Bạn trả lời đúng tất cả 15 câu.\n";
             }
-            msg += " Tiền thưởng đạt được " + String.valueOf(diem*1000000);
+            msg += " Tiền thưởng đạt được " + String.valueOf(diem*100000);
             noiDungCanhBao.setText(msg);
 
             alertDialogBuilder
