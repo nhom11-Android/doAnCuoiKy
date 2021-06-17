@@ -271,33 +271,6 @@ public class PlayerOnline extends AppCompatActivity {
             cTimer.cancel();
     }
 
-    private int troGiupDapAn(int pos){
-        /**
-         *  Hiển thị đáp án A,B,C, D tương ứng với giá trị 0, 1, 2, 3
-         *
-         */
-        try{
-            switch (pos){
-                case 0:
-                    caseARb.setVisibility(View.VISIBLE);
-                    break;
-                case 1:
-                    caseBRb.setVisibility(View.VISIBLE);
-                    break;
-                case 2:
-                    caseCRb.setVisibility(View.VISIBLE);
-                    break;
-                case 3:
-                    caseDRb.setVisibility(View.VISIBLE);
-                    break;
-            }
-            return  0;
-        }
-        catch (Exception e){
-            return -1;
-        }
-    }
-
     /**
      * @param view hàm được gọi khi bấm vào radio button chọn đáp án
      * @return

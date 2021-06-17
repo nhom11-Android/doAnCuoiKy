@@ -30,6 +30,7 @@ public class Setting extends AppCompatActivity {
     private void setControl() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Cài Đặt");
         nhacNenTgBtn = findViewById(R.id.togMusic_Setting);
         amThanhTgBtn = findViewById(R.id.togSound_Setting);
     }
