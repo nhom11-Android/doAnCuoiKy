@@ -25,7 +25,6 @@ public class Setting extends AppCompatActivity {
         setContentView(R.layout.activity_setting);
         setControl();
         setEvent();
-        MySound.startNhacNen(Setting.this, R.raw.nhac_nen);
     }
 
     private void setControl() {
