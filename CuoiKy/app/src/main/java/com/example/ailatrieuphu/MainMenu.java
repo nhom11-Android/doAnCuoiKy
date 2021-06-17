@@ -32,6 +32,13 @@ public class MainMenu extends AppCompatActivity {
         setEvent();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(!MySound.nhacNenIsPlaying())
+            MySound.startNhacNen(MainMenu.this, R.raw.nhac_nen);
+    }
+
     public void dialogInfo() {
         info_dialog = new Dialog(this); // Context, this, etc.
         info_dialog.setContentView(R.layout.activity_about_dialog);
