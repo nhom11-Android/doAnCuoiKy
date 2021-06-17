@@ -1,10 +1,12 @@
 package com.example.ailatrieuphu;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -56,13 +58,25 @@ public class HighScore extends AppCompatActivity {
     }
 
     private void setControl() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("Bảng Xếp Hạng");
         bangXepHangLv = findViewById(R.id.bangXepHangLv_HighScore);
         // cài đặt cho action bar
-        ActionBar actionBar = (ActionBar) getSupportActionBar();
-        actionBar.hide();
         // khai báo csdl
         database = new CSDLAilatrieuphu(this);
         data = loadData();// load dữ liệu lên arraylist
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

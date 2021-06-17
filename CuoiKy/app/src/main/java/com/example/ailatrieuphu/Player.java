@@ -297,6 +297,14 @@ public class Player extends AppCompatActivity {
                 caseDRb.setVisibility(View.VISIBLE);
 
                 danhSachDapAn.clearCheck();
+                System.out.println(c.getNoiDung()
+                        + "\n" + c.getDapAn()[0]
+                        + "\n" + c.getDapAn()[1]
+                        + "\n" + c.getDapAn()[2]
+                        + "\n" + c.getDapAn()[3]
+                        + "\n" + c.getDapAnDung()
+                        + "\n" + c.getChuyenNganh()
+                        + "\n" + c.getDoKho() + "\n=============================================\n");
             }
             else{
                 ketThucLuotChoi();

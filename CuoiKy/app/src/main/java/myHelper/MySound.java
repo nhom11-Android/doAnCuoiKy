@@ -18,7 +18,9 @@ public class MySound {
     }
 
     public static void stopNhacNen(){
+        mediaPlayerNhacNen.reset();
         mediaPlayerNhacNen.release();
+        mediaPlayerNhacNen = null;
     }
 
     public static void settingNhacNen(){
@@ -33,15 +35,23 @@ public class MySound {
         mediaPlayerAmThanh.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mediaPlayer) {
-                mediaPlayer.release();
+                mediaPlayerAmThanh.reset();
+                mediaPlayerAmThanh.release();
+                mediaPlayerAmThanh = null;
             }
         });
     }
 
     public static void stopAmThanh(){
-        mediaPlayerAmThanh.reset();
-        mediaPlayerAmThanh.release();
-        mediaPlayerAmThanh = null;
+        try {
+            if (mediaPlayerAmThanh.isPlaying()) {
+                mediaPlayerAmThanh.reset();
+                mediaPlayerAmThanh.release();
+                mediaPlayerAmThanh = null;
+            }
+        }catch (Exception e){
+
+        }
     }
 
     public static void setAmThanh(float amThanh) {
