@@ -115,12 +115,12 @@ public class TaoTaiKhoan extends AppCompatActivity {
             tenDangNhapEdt.setError("Không được để trống !");
             ret = 0;
         } else {
-            String mailPattern = "[a-zA-Z0-9._-]+@gmail.com";
+            String mailPattern = "[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+.com";
             if (mail.matches(mailPattern) == false) {
-                mailEdt.setError("Sai định dạng gmail !");
+                mailEdt.setError("Sai định dạng mail !");
                 ret = 0;
             } else if (UserDAO.kiemTraTonTaiMail(mail, database) == 1) {
-                mailEdt.setError("Tên đăng nhập đã được sử dụng !");
+                mailEdt.setError("Mail đã được sử dụng !");
                 ret = 0;
             }
         }
@@ -138,7 +138,7 @@ public class TaoTaiKhoan extends AppCompatActivity {
             String output = null;
             try {
                 System.out.println("try connect to serrver");
-                Socket cl = new Socket(ip, 8888);//ket noi server
+                Socket cl = new Socket(ip, 32323);//ket noi server
                 System.out.println("try connect to serrver");
                 PrintWriter pw = new PrintWriter(cl.getOutputStream(), true);//tao luong gui du lieu
                 pw.println("" + a);// Gửi dữ liệu đi

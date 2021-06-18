@@ -16,7 +16,7 @@
         android:layout_marginVertical="60dp"
         android:text="Chào mừng người chơi mới !"
         android:textColor="@color/white"
-        android:textSize="50sp"
+        android:textSize="40sp"
         android:textStyle="bold" />
 
     <LinearLayout

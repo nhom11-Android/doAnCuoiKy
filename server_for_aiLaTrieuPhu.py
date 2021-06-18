@@ -36,13 +36,10 @@ gọi socket() method để lấy về 1 socket object
 socket object có vai trò lắng nghe và bắt các connection đến port
 '''
 host = "192.168.1.5"  #địa chỉ localhost
-port = 8888  #port để lắng nghe
-socketObject.bind(
-    (host, port))  # bắt đầu lắng nghe ở localhost vơi port là 1234
+port = 32323  #port để lắng nghe
+socketObject.bind((host, port))  # bắt đầu lắng nghe ở localhost vơi port là 1234
 
-socketObject.listen(
-    5
-)  # mở kết nối trên server, parameter là số lượng kết nối (client) được phép kết nối đến
+socketObject.listen(5)  # mở kết nối trên server, parameter là số lượng kết nối (client) được phép kết nối đến
 
 c, addr = socketObject.accept()  # chấp nhận 1 kết nối, trả về (conn,address)
 # conn: object đại diện cho kết nối giữa 2 bên (server-client)

@@ -94,11 +94,11 @@ public class UserDAO {
     }
     public static int deleteUserByMail(String mail,String tenDangNhap, CSDLAilatrieuphu dbHelper){
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String selection = User.cotEmail + "LIKE ?";
+        String selection = User.cotEmail + " LIKE ?";
         String[] selectionArgs = {mail};
         int rows = db.delete(User.tenBang, selection, selectionArgs); // xoá user
         // xoá các bảng record của user
-        db.execSQL("delete from "+ BangXepHang.tenBang +" where user=" + tenDangNhap);
+        db.execSQL("delete from "+ BangXepHang.tenBang +" where " + BangXepHang.cotUser+ " = '" + tenDangNhap +"'");
         return rows;
     }
 

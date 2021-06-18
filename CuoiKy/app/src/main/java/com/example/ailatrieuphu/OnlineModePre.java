@@ -34,6 +34,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import CSDL_bean.CauHoi;
+import myHelper.MySuperFunc;
 import socketConnect.ConnectionHandler;
 
 public class OnlineModePre extends AppCompatActivity {
@@ -128,7 +129,7 @@ public class OnlineModePre extends AppCompatActivity {
             infoDiemLableTv.setVisibility(View.VISIBLE);
             diemCuaToi = data.getIntExtra("diemCuaToi", 0);
             String remain = infoDiemTv.getText().toString();
-            remain = (remain + "\n" + tenDangNhap + " : " + diemCuaToi);
+            remain = (remain + "\n" + tenDangNhap + " : " + MySuperFunc.printCurrency(diemCuaToi));
             infoDiemTv.setText(remain);
             is_done = true;
             if(asyncConnection.isCancelled()==false) asyncConnection.cancel(true);
@@ -254,7 +255,7 @@ public class OnlineModePre extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     String remain = infoDiemTv.getText().toString();
-                                    remain = remain + "\n" + ten + " : " + diem;
+                                    remain = remain + "\n" + ten + " : " + MySuperFunc.printCurrency(Double.parseDouble(diem));
                                     infoDiemTv.setText(remain);
                                 }
                             });
