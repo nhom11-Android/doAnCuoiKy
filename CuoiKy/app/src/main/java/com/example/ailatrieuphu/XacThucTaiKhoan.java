@@ -16,6 +16,7 @@ public class XacThucTaiKhoan extends AppCompatActivity {
     String maXacThuc,tenDangNhap,matKhau,mail;
     EditText nhapMaEdt;
     Button submitBtn;
+    String defaultUserImg = ""
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
