@@ -19,7 +19,7 @@ public class CSDLAilatrieuphu extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String user = String.format("CREATE TABLE %s(%s integer primary key autoincrement,%s TEXT, %s TEXT,%s TEXT, %s TEXT);",
+        String user = String.format("CREATE TABLE %s(%s integer primary key autoincrement,%s TEXT, %s TEXT, %s TEXT, %s TEXT);",
                 User.tenBang,
                 User.cotId, //autoincre integer
                 User.cotEmail, // text

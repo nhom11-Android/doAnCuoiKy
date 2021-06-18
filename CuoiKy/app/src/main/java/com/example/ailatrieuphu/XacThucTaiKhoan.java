@@ -16,7 +16,7 @@ public class XacThucTaiKhoan extends AppCompatActivity {
     String maXacThuc,tenDangNhap,matKhau,mail;
     EditText nhapMaEdt;
     Button submitBtn;
-    String defaultUserImg = ""
+    String defaultUserImg = "https://github.com/nhom11-Android/doAnCuoiKy/blob/main/icon.jpg";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class XacThucTaiKhoan extends AppCompatActivity {
             // thông báo
             Toast.makeText(this, "Bạn đã tạo tài khoản thành công, xin hãy đăng nhập !", Toast.LENGTH_SHORT).show();
             // ghi tài khoản vào database
-            User user = new User(tenDangNhap,matKhau,mail);
+            User user = new User(tenDangNhap,matKhau,mail,defaultUserImg);
             CSDLAilatrieuphu database = new CSDLAilatrieuphu(this);
             UserDAO.themUser(user,database);
             database.close();

@@ -46,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void chiGoiMotLanDeKhoiTaoDatabase() {
         cauhoi2Database();
-//        User a = new User("letuan123","12345","thanhtuan9906@gmail.com");
-        User b = new User("user2","12345","n17dcat061@student.ptithcm.edu.vn");
+//        User a = new User("letuan123","12345","thanhtuan9906@gmail.com","https://github.com/nhom11-Android/doAnCuoiKy/blob/main/icon.jpg");
+        User b = new User("user2","12345","n17dcat061@student.ptithcm.edu.vn","https://github.com/nhom11-Android/doAnCuoiKy/blob/main/icon.jpg");
 //        UserDAO.themUser(a,database);
         UserDAO.themUser(b,database);
     }
