@@ -19,6 +19,7 @@ public class UserDAO {
         values.put(User.cotEmail, newUser.getEmail());
         values.put(User.cotMatKhau, newUser.getMatKhau());
         values.put(User.cotTenDangNhap, newUser.getTenDangNhap());
+        values.put(User.cotUrlImage, newUser.getUrlImage());
         long newRowId = db.insert(User.tenBang, null, values);
         if (newRowId == -1) return -1;
         return 0;
@@ -77,7 +78,8 @@ public class UserDAO {
         String[] projection = {
                 User.cotTenDangNhap,
                 User.cotEmail,
-                User.cotMatKhau
+                User.cotMatKhau,
+                User.cotUrlImage
         };
         String selection = User.cotTenDangNhap + " = ?";
         String[] selectionArgs = {tenDangNhap};
@@ -86,7 +88,8 @@ public class UserDAO {
             leakUser = new User(
                     cursor.getString(cursor.getColumnIndex(User.cotTenDangNhap)),
                     cursor.getString(cursor.getColumnIndex(User.cotMatKhau)),
-                    cursor.getString(cursor.getColumnIndex(User.cotEmail))
+                    cursor.getString(cursor.getColumnIndex(User.cotEmail)),
+                    cursor.getString(cursor.getColumnIndex(User.cotUrlImage))
             );
         }
         cursor.close();
@@ -109,6 +112,16 @@ public class UserDAO {
         String seletion = User.cotTenDangNhap + " LIKE ?";
         String[] selectionArgs = {old};
         int count = dbHelper.getWritableDatabase().update(User.tenBang,values,seletion,selectionArgs);
+        return count;
+    }
+
+    public static int updateUserImage(User loadUser, String m_text, CSDLAilatrieuphu database) {
+        ContentValues values = new ContentValues();
+        values.put(User.cotUrlImage,m_text);
+//        values.put(User.cotMatKhau,matKhau);
+        String seletion = User.cotTenDangNhap + " LIKE ?";
+        String[] selectionArgs = {loadUser.getTenDangNhap()};
+        int count = database.getWritableDatabase().update(User.tenBang,values,seletion,selectionArgs);
         return count;
     }
 }

@@ -10,14 +10,28 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Optional;
+
+import CSDL_bean.BangXepHang;
 import CSDL_bean.User;
+import DAO.BangXepHangDAO;
 import DAO.UserDAO;
+import myHelper.MySuperFunc;
 
 public class UserInfoCRUD extends AppCompatActivity {
     String tenDangNhap;
@@ -26,7 +40,8 @@ public class UserInfoCRUD extends AppCompatActivity {
 
     EditText mailEdt,tenDangNhapEdt,matKhauEdt;
     Button suaBtn, xoaBtn;
-
+    ImageView userImageIv;
+    TextView highScoreTv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +50,33 @@ public class UserInfoCRUD extends AppCompatActivity {
         loadUser = UserDAO.getUserByTenDangNhap(tenDangNhap,database);
         setControl();
         configActionBar();
+        setData();
+        setEvent();
+    }
 
+    private void setEvent() {
+
+    }
+
+    /**
+     *  cài đặt ảnh đại diện và điểm cao cho người chơi
+     */
+    private void setData() {
+        // set ảnh
+        String imageUri = loadUser.getUrlImage();
+        Picasso.with(this).load(imageUri).into(userImageIv);
+
+        // set điểm cao
+        ArrayList<BangXepHang> bangXepHangs = BangXepHangDAO.layBangXepHang(database, -1, tenDangNhap);
+        int max =0;
+        for (BangXepHang i: bangXepHangs) {
+            if(i.getDiem()>max) max = i.getDiem();
+        }
+        highScoreTv.setText(MySuperFunc.printCurrency(max));
+//        if(userImageIv.getDrawable()==null){
+//            Toast.makeText(this, "Không thể load ảnh từ url", Toast.LENGTH_SHORT).show();
+//            userImageIv.setImageResource(R.drawable.icon_logo_app);
+//        }
     }
 
     private void configActionBar() {
@@ -67,6 +108,9 @@ public class UserInfoCRUD extends AppCompatActivity {
         mailEdt.setText(loadUser.getEmail());
         tenDangNhapEdt.setText(loadUser.getTenDangNhap());
         matKhauEdt.setText(loadUser.getMatKhau());
+
+        highScoreTv = findViewById(R.id.highScore_UIC);
+        userImageIv = findViewById(R.id.userImage_UIC);
     }
 
     /**
@@ -200,4 +244,40 @@ public class UserInfoCRUD extends AppCompatActivity {
     }
 
 
+    public void onClickChangeUserImage(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+// I'm using fragment here so I'm using getView() to provide ViewGroup
+// but you can provide here any other instance of ViewGroup from your Fragment / Activity
+        View viewInflated = LayoutInflater.from(this).inflate(R.layout.text_inpu_password, null);
+// Set up the input
+        final EditText input = (EditText) viewInflated.findViewById(R.id.inputNewUrl);
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        builder.setView(viewInflated);
+
+// Set up the buttons
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                String m_Text = input.getText().toString();
+                int ret = UserDAO.updateUserImage(loadUser,m_Text,database);
+                if(ret == 1){
+                    Toast.makeText(UserInfoCRUD.this, "Cập nhật xong !", Toast.LENGTH_SHORT).show();
+                    loadUser.setUrlImage(m_Text);
+                    String imageUri = loadUser.getUrlImage();
+                    Picasso.with(UserInfoCRUD.this).load(imageUri).into(userImageIv);
+                } else Toast.makeText(UserInfoCRUD.this, "Cập nhật thất bại !", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+
+    }
 }

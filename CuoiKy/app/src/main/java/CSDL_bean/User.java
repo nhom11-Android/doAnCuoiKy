@@ -64,9 +64,10 @@ public class User {
 
     }
 
-    public User(String tenDangNhap, String matKhau, String email) {
+    public User(String tenDangNhap, String matKhau, String email, String urlImage) {
         this.tenDangNhap = tenDangNhap;
         this.matKhau = matKhau;
         this.email = email;
+        this.urlImage = urlImage;
     }
 }
