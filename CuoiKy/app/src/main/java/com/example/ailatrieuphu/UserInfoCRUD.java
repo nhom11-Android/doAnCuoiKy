@@ -258,7 +258,7 @@ public class UserInfoCRUD extends AppCompatActivity {
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+//                dialog.dismiss();
                 String m_Text = input.getText().toString();
                 int ret = UserDAO.updateUserImage(loadUser,m_Text,database);
                 if(ret == 1){

@@ -67,7 +67,7 @@ public class BangXepHangDAO {
         ArrayList<BangXepHang> dsBxh = new ArrayList<>();
         while (cursor.moveToNext()){
             String ngay = cursor.getString(cursor.getColumnIndex(BangXepHang.cotNgay));
-            int diem = cursor.getInt(cursor.getColumnIndex(BangXepHang.cotDiem));
+            int diem = Integer.parseInt(cursor.getString(cursor.getColumnIndex(BangXepHang.cotDiem)));
             dsBxh.add(new BangXepHang(ngay,diem,tenDangNhap));
         }
         return dsBxh;
