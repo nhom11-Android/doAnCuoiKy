@@ -48,6 +48,10 @@ public class HighScore extends AppCompatActivity {
         String tenDangNhap = prefs.getString("tenDangNhap", "None");
         ArrayList<BangXepHang> highScore = BangXepHangDAO.layBangXepHang(database, -1,tenDangNhap);
         // sort data
+        Comparator<BangXepHang> comparator = (f1,f2)-> {
+            return f1.compareTo(f2);
+        };
+        Collections.sort(highScore,comparator);
         return highScore;
     }
 

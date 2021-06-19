@@ -72,7 +72,7 @@ public class UserInfoCRUD extends AppCompatActivity {
         for (BangXepHang i: bangXepHangs) {
             if(i.getDiem()>max) max = i.getDiem();
         }
-        highScoreTv.setText(MySuperFunc.printCurrency(max));
+        highScoreTv.setText(MySuperFunc.printCurrency(max*100000));
 //        if(userImageIv.getDrawable()==null){
 //            Toast.makeText(this, "Không thể load ảnh từ url", Toast.LENGTH_SHORT).show();
 //            userImageIv.setImageResource(R.drawable.icon_logo_app);
