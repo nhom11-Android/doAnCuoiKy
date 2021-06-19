@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import CSDL_bean.BangXepHang;
 import DAO.BangXepHangDAO;
@@ -44,6 +47,11 @@ public class HighScore extends AppCompatActivity {
         // lấy user hiện tại
         String tenDangNhap = prefs.getString("tenDangNhap", "None");
         ArrayList<BangXepHang> highScore = BangXepHangDAO.layBangXepHang(database, -1,tenDangNhap);
+        // sort data
+        Comparator<BangXepHang> comparator = (f1,f2)-> {
+            return f1.compareTo(f2);
+        };
+        Collections.sort(highScore,comparator);
         return highScore;
     }
 

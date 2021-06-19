@@ -14,16 +14,17 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginVertical="30dp"
         android:orientation="horizontal"
-        android:weightSum="2">
+        android:weightSum="2"
+        >
 
         <ImageView
             android:id="@+id/userImage_UIC"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
             android:layout_weight="1"
-            android:onClick="onClickChangeUserImage"/>
+            android:background="@drawable/user_img_bg"
+            android:onClick="onClickChangeUserImage" />
 
         <LinearLayout
             android:layout_width="match_parent"

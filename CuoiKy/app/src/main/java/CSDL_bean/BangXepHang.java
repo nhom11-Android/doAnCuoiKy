@@ -1,6 +1,8 @@
 package CSDL_bean;
 
-public class BangXepHang {
+import java.util.Comparator;
+
+public class BangXepHang implements Comparable<BangXepHang> {
     public static final String tenBang = "BANGXEPHANG";
     public static final String cotNgay = "ngay";
     public static final String cotDiem = "diem";
@@ -38,5 +40,15 @@ public class BangXepHang {
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    /**
+     * @param o
+     * @return
+     */
+    @Override
+    public int compareTo(BangXepHang o) {
+        if(this.getDiem()<o.getDiem()) return 1;
+        else return -1;
     }
 }
